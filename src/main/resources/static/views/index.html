@@ -6,7 +6,12 @@
 </head>
 <body ng-app="MyApp">
 <h1 ng-controller="HelloWorldCtrl">{{message}}</h1>
-<script src="https://code.angularjs.org/1.6.9/angular.js"></script>
+<script src="js/lib/angular.js"></script><!--angular version 1.6.9-->
+<script src="js/lib/bootstrap.js"></script><!--bootstrap 3.3.7-->
+<script src="js/lib/jquery-3.3.1.js"></script>
+<script src="js/app/app.js"></script>
+<link rel="stylesheet" href="css/lib/bootstrap.css"/>
+<link rel="stylesheet" href="css/app/app.css"/>
 <script>
     angular.module("MyApp", []).controller("HelloWorldCtrl", function($scope) {
     $scope.message="Hello World"
