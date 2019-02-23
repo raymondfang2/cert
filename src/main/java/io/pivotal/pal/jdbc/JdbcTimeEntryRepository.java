@@ -22,12 +22,12 @@ public class JdbcTimeEntryRepository {
     }
 
     private final RowMapper<TimeEntry> mapper = (rs, rowNum) ->
-         new TimeEntry(
-                            rs.getLong("id"),
-                            rs.getLong("project_id"),
-                            rs.getLong("user_id"),
-                            rs.getDate("date"),
-                            rs.getInt("hours")
-                    );
+       new TimeEntry(
+                    rs.getLong("id"),
+                    rs.getLong("project_id"),
+                    rs.getLong("user_id"),
+                    rs.getDate("date"),
+                    rs.getInt("hours")
+            );
 
 }
