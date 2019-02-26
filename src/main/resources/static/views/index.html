@@ -10,6 +10,12 @@
 
 <p>{{response}}</p>
 
+<ul>
+    <li ng-repeat="x in response">
+        {{ x.id + ', ' + x.hours }}
+    </li>
+</ul>
+
 
 </body>
 </html>
