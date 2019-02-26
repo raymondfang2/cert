@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
 public class JdbcTimeEntryRepository {
@@ -19,6 +20,11 @@ public class JdbcTimeEntryRepository {
     public TimeEntry find(Long id) {
         return jdbcTemplate.queryForObject("SELECT id, project_id, user_id, date, hours FROM time_entries WHERE id = ?",
                 new Object[]{id}, mapper);
+    }
+
+    public List<TimeEntry> list() {
+        return jdbcTemplate.query("SELECT id, project_id, user_id, date, hours FROM time_entries",
+                 mapper);
     }
 
     private final RowMapper<TimeEntry> mapper = (rs, rowNum) ->

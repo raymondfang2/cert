@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 @RestController
 @RequestMapping("/time-entries")
@@ -26,5 +27,18 @@ public class TimeEntryController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("list")
+    public List<TimeEntry> list() {
+        List<TimeEntry> entries = timeEntriesRepo.list();
+        return entries;
+    }
+
+    @GetMapping("test")
+    public ResponseEntity<String> test() {
+
+            return new ResponseEntity<>("Hello", HttpStatus.OK);
+
     }
 }
