@@ -1,8 +1,22 @@
 <html ng-app="testApp">
+<style>
+table, th , td  {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+</style>
 <head>
     <title>AngularJS $Http service tutorial example</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="js/app/app.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body ng-controller="testController">
 
@@ -15,6 +29,14 @@
         {{ x.id + ', ' + x.hours }}
     </li>
 </ul>
+
+<table>
+    <tr ng-repeat="x in response">
+        <td>{{ $index + 1 }}</td>
+        <td>{{ x.id }}</td>
+        <td>{{ x.hours }}</td>
+    </tr>
+</table>
 
 
 </body>
