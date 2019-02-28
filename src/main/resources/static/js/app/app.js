@@ -1,17 +1,14 @@
-var testApp = angular.module('testApp', []);
+var myApp = angular.module('certApp', []);
 
-testApp.controller('testController' , function ($scope, $http) {
-    //$scope.home = "This is the homepage";
-
-
-        console.log("I've been pressed!");
-        $http.get("time-entries/list")
+myApp.controller('certController' , function ($scope, $http) {
+     console.log("I've been pressed3!");
+        $http.get("cert/getCertSummary/2012/2018")
             .then(function successCallback(response){
                 $scope.response = response.data;
                 console.log($scope.response);
             }, function errorCallback(response){
-                             console.log("Unable to perform get request");
-                         });
+                console.log("Unable to perform get request");
+            });
 
 
 });

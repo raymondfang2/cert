@@ -1,4 +1,4 @@
-<html ng-app="testApp">
+<html ng-app="certApp">
 <style>
 table, th , td  {
   border: 1px solid grey;
@@ -13,28 +13,36 @@ table tr:nth-child(even) {
 }
 </style>
 <head>
-    <title>AngularJS $Http service tutorial example</title>
+    <title>Pivotal Certification Dashboard</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="js/app/app.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
-<body ng-controller="testController">
+<body ng-controller="certController">
 
-<h2>$http Service Tutorial</h2>
+<h2>Pivotal Certification Dashboard 2</h2>
 
-<p>{{response}}</p>
-
-<ul>
-    <li ng-repeat="x in response">
-        {{ x.id + ', ' + x.hours }}
-    </li>
-</ul>
 
 <table>
+    <tr>
+        <th>No.</th>
+        <th>Region</th>
+        <th>Exam</th>
+        <th>Pass</th>
+        <th>Fail</th>
+        <th>Refused</th>
+        <th>Total</th>
+        <th>Pass Rate</th>
+    </tr>
     <tr ng-repeat="x in response">
         <td>{{ $index + 1 }}</td>
-        <td>{{ x.id }}</td>
-        <td>{{ x.hours }}</td>
+        <td>{{ x.region }}</td>
+        <td>{{ x.pivotalExamCode }}</td>
+        <td>{{ x.passCount }}</td>
+        <td>{{ x.failCount }}</td>
+        <td>{{ x.refusedCount }}</td>
+        <td>{{ x.total }}</td>
+        <td>{{ x.passCount*100/x.total }}%</td>
     </tr>
 </table>
 

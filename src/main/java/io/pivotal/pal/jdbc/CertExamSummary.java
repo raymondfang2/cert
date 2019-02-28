@@ -9,7 +9,7 @@ public class CertExamSummary implements Serializable {
     private int passCount;
     private int failCount;
     private int refusedCount;
-    private int total = passCount + failCount + refusedCount;
+    //private int total;
 
     public CertExamSummary(String region, String pivotalExamCode, int passCount, int failCount, int refusedCount) {
         this.region = region;
@@ -20,7 +20,7 @@ public class CertExamSummary implements Serializable {
     }
 
     public int getTotal() {
-        return total;
+        return getPassCount()+getFailCount()+getRefusedCount();
     }
 
     public String getRegion() {
