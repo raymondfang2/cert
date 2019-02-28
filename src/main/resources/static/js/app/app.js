@@ -34,7 +34,8 @@ myApp.controller('certController' , function ($scope, $http) {
         };
 
         //Initial Method - to be merged with Search method later
-        $http.get("cert/getCertSummary/2012/2018")
+        var path4All = "cert/getCertSummary/"+ $scope.startYear + "/" + $scope.endYear;
+        $http.get(path4All)
             .then(function successCallback(response){
                 $scope.response = response.data;
                 console.log($scope.response);
