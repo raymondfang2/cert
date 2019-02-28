@@ -27,7 +27,7 @@ public class CertExamRepository {
             "      count(case when grade='fail' then grade end) fail, " +
             "      count(case when grade='refused' then grade end) refused " +
             "from cert_exam_result r, exam_code_map m " +
-            "where r.data_source = m.data_source " +
+            "where r.data_source = m.data_source  and r.exam_code = m.exam_code " +
             "and r.exam_date>=? and r.exam_date<=?  and substr(r.site_region,5)=? " +
             "group by site_region, pivotal_code " +
             "order by site_region, pivotal_code ";

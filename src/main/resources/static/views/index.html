@@ -11,18 +11,43 @@ table tr:nth-child(odd) {
 table tr:nth-child(even) {
   background-color: #ffffff;
 }
+body {margin-left:30px}
 </style>
 <head>
     <title>Pivotal Certification Dashboard</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="js/app/app.js"></script>
+<!--
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+-->
 </head>
-<body ng-controller="certController">
+<body ng-controller="certController" >
 
-<h2>Pivotal Certification Dashboard 2</h2>
+<h2>Pivotal Certification Dashboard</h2>
 
 
+<!-- table for search filter-->
+<table>
+    <tr>
+        <td>Start: <select ng-model="startYear" ng-options="x for x in years">
+                    </select>
+        </td>
+        <td>End: <select ng-model="endYear" ng-options="x for x in years">
+                </select>
+        </td>
+        <td>Region: <select ng-model="region" ng-options="x for x in regions">
+                    </select>
+        </td>
+        <td><button ng-click="searchCertSummary()">
+            Search
+            </button>
+        </td>
+    </tr>
+</table>
+
+<br>
+
+<!-- table for display the cert summary -->
 <table>
     <tr>
         <th>No.</th>
@@ -42,7 +67,7 @@ table tr:nth-child(even) {
         <td>{{ x.failCount }}</td>
         <td>{{ x.refusedCount }}</td>
         <td>{{ x.total }}</td>
-        <td>{{ x.passCount*100/x.total }}%</td>
+        <td>{{ x.passCount*100/x.total | number : 2}}%</td>
     </tr>
 </table>
 
