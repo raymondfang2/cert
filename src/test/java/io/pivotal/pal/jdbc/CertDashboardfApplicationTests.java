@@ -17,7 +17,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class JdbcApplicationTests {
+public class CertDashboardfApplicationTests {
 
 	@LocalServerPort
 	private int port;
