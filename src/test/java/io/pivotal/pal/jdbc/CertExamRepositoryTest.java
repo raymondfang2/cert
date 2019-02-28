@@ -33,7 +33,7 @@ public class CertExamRepositoryTest {
 
      @Test
     public void getRegionCertExamSummary() {
-        List<CertExamSummary> en = repo.getCertExamSummaryByRegion("2012-01-01","2018-12-31","VUE EMEA");
+        List<CertExamSummary> en = repo.getCertExamSummaryByRegion("2012-01-01","2018-12-31","EMEA");
         System.out.println(en.size());
         assertThat(en).size().isGreaterThan(1);
     }
