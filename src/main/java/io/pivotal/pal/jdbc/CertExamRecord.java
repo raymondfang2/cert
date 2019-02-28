@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class CertExam implements Serializable {
+public class CertExamRecord implements Serializable {
     private long ID;
     private String dataSource;
     private Date createDate;
@@ -34,7 +34,7 @@ public class CertExam implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CertExam certExam = (CertExam) o;
+        CertExamRecord certExam = (CertExamRecord) o;
         return ID == certExam.ID || (
                 Objects.equals(dataSource, certExam.dataSource) &&
                 Objects.equals(candidateEmail, certExam.candidateEmail) &&

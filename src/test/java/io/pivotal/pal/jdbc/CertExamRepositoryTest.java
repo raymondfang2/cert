@@ -17,25 +17,24 @@ import static org.assertj.core.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@JdbcTest
+//@JdbcTest  TODO: find a way to use JdbcTest instead of SpringBootTest
 //@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
-public class JdbcTimeEntryRepositoryTest {
+public class CertExamRepositoryTest {
 
     @Autowired
-    private JdbcTimeEntryRepository repo;
+    private CertExamRepository repo;
 
     @Test
-    public void findByID() {
-        TimeEntry te = repo.find((long) 1);
-        assertThat(te).isNotNull();
-        assertThat(te.getId()).isEqualTo(1);
-    }
-
-    @Test
-    public void list() {
-        List<TimeEntry> en = repo.list();
+    public void getCertExamSummary() {
+        List<CertExamSummary> en = repo.getCertExamSummary("2012-01-01","2018-12-31");
         System.out.println(en.size());
-        assertThat(en).size().isEqualTo(1);
+        assertThat(en).size().isGreaterThan(1);
      }
 
+     @Test
+    public void getRegionCertExamSummary() {
+        List<CertExamSummary> en = repo.getCertExamSummaryByRegion("2012-01-01","2018-12-31","VUE EMEA");
+        System.out.println(en.size());
+        assertThat(en).size().isGreaterThan(1);
+    }
 }

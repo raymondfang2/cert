@@ -12,37 +12,48 @@ import java.util.List;
 public class CertExamRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    /*---2. final query
-select m.pivotal_code,  r.site_region, r.site_country,  r.grade, count(*) as candidates
-from cert_exam_result r, exam_code_map m
-where r.data_source = m.data_source and r.exam_code = m.exam_code
-and r.exam_date>'2012-01-01'  and r.site_region='VUE EMEA'
-group by pivotal_code, site_region, site_country,  grade
-order by pivotal_code, site_region, site_country, grade*/
+    private final String ALL_SUMMARY = "select 'ALL' as region, m.pivotal_code, " +
+            "      count(case when grade='pass' then grade end) pass, " +
+            "      count(case when grade='fail' then grade end) fail, " +
+            "      count(case when grade='refused' then grade end) refused " +
+            "from cert_exam_result r, exam_code_map m " +
+            "where r.data_source = m.data_source and r.exam_code = m.exam_code " +
+            "and r.exam_date>=?  AND r.exam_date<=? " +
+            "group by pivotal_code " +
+            "order by pivotal_code ";
 
+    private final String REGION_SUMMARY = "select r.site_region as region, m.pivotal_code, " +
+            "      count(case when grade='pass' then grade end) pass, " +
+            "      count(case when grade='fail' then grade end) fail, " +
+            "      count(case when grade='refused' then grade end) refused " +
+            "from cert_exam_result r, exam_code_map m " +
+            "where r.data_source = m.data_source " +
+            "and r.exam_date>=? and r.exam_date<=?  and r.site_region=? " +
+            "group by site_region, pivotal_code " +
+            "order by site_region, pivotal_code ";
 
     @Autowired
     public CertExamRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public TimeEntry find(Long id) {
-        return jdbcTemplate.queryForObject("SELECT id, project_id, user_id, date, hours FROM time_entries WHERE id = ?",
-                new Object[]{id}, mapper);
-    }
-
-    public List<TimeEntry> list() {
-        return jdbcTemplate.query("SELECT id, project_id, user_id, date, hours FROM time_entries",
+    public List<CertExamSummary> getCertExamSummary(String startDate, String endDate) {
+        return jdbcTemplate.query(ALL_SUMMARY, new Object[]{startDate, endDate},
                  mapper);
     }
 
-    private final RowMapper<TimeEntry> mapper = (rs, rowNum) ->
-       new TimeEntry(
-                    rs.getLong("id"),
-                    rs.getLong("project_id"),
-                    rs.getLong("user_id"),
-                    rs.getDate("date"),
-                    rs.getInt("hours")
+    public List<CertExamSummary> getCertExamSummaryByRegion(String startDate, String endDate, String region) {
+        return jdbcTemplate.query(REGION_SUMMARY, new Object[]{startDate, endDate, region},
+                mapper);
+    }
+
+    private final RowMapper<CertExamSummary> mapper = (rs, rowNum) ->
+       new CertExamSummary(
+                    rs.getString("region"),
+                    rs.getString("pivotal_code"),
+                    rs.getInt("pass"),
+                    rs.getInt("fail"),
+                    rs.getInt("refused")
             );
 
 }
