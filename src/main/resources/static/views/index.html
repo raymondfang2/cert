@@ -11,18 +11,19 @@ table tr:nth-child(odd) {
 table tr:nth-child(even) {
   background-color: #ffffff;
 }
-body {margin-left:30px}
+table tr#Overall {
+  background-color: #F3FF33;
+}
 </style>
 <head>
     <title>Pivotal Certification Dashboard</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="js/lib/angular.min.js"></script>
     <script src="js/app/app.js"></script>
     <script src="js/lib/Chart.min.js"></script>
     <script src="js/lib/angular-chart.js"></script>
 
-<!--
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
--->
+
+    <link rel="stylesheet" href="css/app/mystyle.css">
 </head>
 <body ng-controller="certController" >
 
@@ -76,7 +77,7 @@ body {margin-left:30px}
                 <td>{{ x.total }}</td>
                 <td>{{ x.passCount*100/x.total | number : 2}}%</td>
             </tr>
-            <tr>
+            <tr id="Overall">
                 <td>Overall</td>
                 <td>All courses</td>
                 <td>{{ overallPass }}</td>

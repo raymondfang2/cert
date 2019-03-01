@@ -31,7 +31,7 @@ myApp.controller('certController' , function ($scope, $http) {
                    .then(function successCallback(response){
                         $scope.response = response.data;
                         $scope.getTotal();
-                        $scope.getPieData();
+                        $scope.getPieData("Overall");
                         console.log($scope.response);
                    }, function errorCallback(response){
                         console.log("Unable to perform get request");
@@ -57,12 +57,18 @@ myApp.controller('certController' , function ($scope, $http) {
         }
 
         //4. Chart method
-        $scope.getPieData = function () {
+        $scope.getPieData = function (flag) {
                     $scope.labels = ["Pass", "Fail", "Refused"];
-                    $scope.data = [$scope.overallPass, $scope.overallFail, $scope.overallRefused];
                     $scope.options = {
                             legend: { display: true },
                             responsive: true
+                    }
+                    if (flag==='Overall') {
+                        $scope.data = [$scope.overallPass, $scope.overallFail, $scope.overallRefused];
+                    }
+                    else {
+                        $scope.data = [100,100,100]
+                        //TODO: onMouseOver or on click on the row to show different
                     }
         }
 
@@ -72,12 +78,12 @@ myApp.controller('certController' , function ($scope, $http) {
             .then(function successCallback(response){
                 $scope.response = response.data;
                 $scope.getTotal();
-                $scope.getPieData();
+                $scope.getPieData("Overall");
                 //console.log($scope.response);
             }, function errorCallback(response){
                 console.log("Unable to perform get request");
             });
 
-
+        //6. MouseOver
 
 });
