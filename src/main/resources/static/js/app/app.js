@@ -31,6 +31,7 @@ myApp.controller('certController' , function ($scope, $http) {
                    .then(function successCallback(response){
                         $scope.response = response.data;
                         $scope.getTotal();
+                        $scope.getPieData();
                         console.log($scope.response);
                    }, function errorCallback(response){
                         console.log("Unable to perform get request");
@@ -55,21 +56,28 @@ myApp.controller('certController' , function ($scope, $http) {
 
         }
 
+        //4. Chart method
+        $scope.getPieData = function () {
+                    $scope.labels = ["Pass", "Fail", "Refused"];
+                    $scope.data = [$scope.overallPass, $scope.overallFail, $scope.overallRefused];
+                    $scope.options = {
+                            legend: { display: true },
+                            responsive: true
+                    }
+        }
 
-        //4. Initial Function - to be merged with Search method later
-        //4.1 Ajax to fetch the matrix
+        //5. Initial Function - to be merged with Search method later
         var path4All = "cert/getCertSummary/"+ $scope.startYear + "/" + $scope.endYear;
         $http.get(path4All)
             .then(function successCallback(response){
                 $scope.response = response.data;
                 $scope.getTotal();
+                $scope.getPieData();
                 //console.log($scope.response);
             }, function errorCallback(response){
                 console.log("Unable to perform get request");
             });
-        //4.2 PieChart
-        $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
-        $scope.data = [300, 500, 100];
+
 
 
 });
