@@ -14,9 +14,12 @@ myApp.controller('certController' , function ($scope, $http) {
         $scope.regions = ['ALL','Americas','EMEA','Japan','Pacific'];
         $scope.region = 'ALL';
 
+
+
         //Search Button Click
         $scope.searchCertSummary = function () {
               console.log("I've been pressed1!");
+
               var path = "cert/getCertSummaryByRegion/";
               if ($scope.region==='ALL') {
                 path = "cert/getCertSummary/"+ $scope.startYear + "/" + $scope.endYear;
@@ -27,18 +30,39 @@ myApp.controller('certController' , function ($scope, $http) {
               $http.get(path)
                    .then(function successCallback(response){
                         $scope.response = response.data;
+                        $scope.getTotal();
                         console.log($scope.response);
                    }, function errorCallback(response){
                         console.log("Unable to perform get request");
                    });
         };
 
+        //Calculation of total
+        $scope.getTotal = function () {
+            //The last row in table --> overall information
+                    //console.log("getTotal");
+                    $scope.overallPass = 0;
+                    $scope.overallFail = 0;
+                    $scope.overallRefused = 0;
+
+                    console.log($scope.response);
+                    $scope.response.forEach((element) => {
+                        $scope.overallPass += element.passCount;
+                        $scope.overallFail += element.failCount;
+                        $scope.overallRefused += element.refusedCount;
+                    });
+
+
+        }
+
+
         //Initial Method - to be merged with Search method later
         var path4All = "cert/getCertSummary/"+ $scope.startYear + "/" + $scope.endYear;
         $http.get(path4All)
             .then(function successCallback(response){
                 $scope.response = response.data;
-                console.log($scope.response);
+                $scope.getTotal();
+                //console.log($scope.response);
             }, function errorCallback(response){
                 console.log("Unable to perform get request");
             });

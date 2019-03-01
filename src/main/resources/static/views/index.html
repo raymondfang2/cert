@@ -50,7 +50,7 @@ body {margin-left:30px}
 <!-- table for display the cert summary -->
 <table>
     <tr>
-        <th>No.</th>
+        <!--<th>No.</th>-->
         <th>Region</th>
         <th>Exam</th>
         <th>Pass</th>
@@ -60,7 +60,7 @@ body {margin-left:30px}
         <th>Pass Rate</th>
     </tr>
     <tr ng-repeat="x in response">
-        <td>{{ $index + 1 }}</td>
+        <!--<td>{{ $index + 1 }}</td>-->
         <td>{{ x.region }}</td>
         <td>{{ x.pivotalExamCode }}</td>
         <td>{{ x.passCount }}</td>
@@ -68,6 +68,15 @@ body {margin-left:30px}
         <td>{{ x.refusedCount }}</td>
         <td>{{ x.total }}</td>
         <td>{{ x.passCount*100/x.total | number : 2}}%</td>
+    </tr>
+    <tr>
+        <td>Overall</td>
+        <td>All courses</td>
+        <td>{{ overallPass }}</td>
+        <td>{{ overallFail }}</td>
+        <td>{{ overallRefused}}</td>
+        <td>{{ overallPass + overallFail + overallRefused }}</td>
+        <td>{{ overallPass*100/(overallPass + overallFail + overallRefused) | number : 2}}%</td>
     </tr>
 </table>
 
