@@ -17,6 +17,9 @@ body {margin-left:30px}
     <title>Pivotal Certification Dashboard</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="js/app/app.js"></script>
+    <script src="js/lib/Chart.min.js"></script>
+    <script src="js/lib/angular-chart.js"></script>
+
 <!--
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 -->
@@ -47,39 +50,51 @@ body {margin-left:30px}
 
 <br>
 
-<!-- table for display the cert summary -->
+<!-- table for layout the left and right -->
 <table>
-    <tr>
-        <!--<th>No.</th>-->
-        <th>Region</th>
-        <th>Exam</th>
-        <th>Pass</th>
-        <th>Fail</th>
-        <th>Refused</th>
-        <th>Total</th>
-        <th>Pass Rate</th>
-    </tr>
-    <tr ng-repeat="x in response">
-        <!--<td>{{ $index + 1 }}</td>-->
-        <td>{{ x.region }}</td>
-        <td>{{ x.pivotalExamCode }}</td>
-        <td>{{ x.passCount }}</td>
-        <td>{{ x.failCount }}</td>
-        <td>{{ x.refusedCount }}</td>
-        <td>{{ x.total }}</td>
-        <td>{{ x.passCount*100/x.total | number : 2}}%</td>
-    </tr>
-    <tr>
-        <td>Overall</td>
-        <td>All courses</td>
-        <td>{{ overallPass }}</td>
-        <td>{{ overallFail }}</td>
-        <td>{{ overallRefused}}</td>
-        <td>{{ overallPass + overallFail + overallRefused }}</td>
-        <td>{{ overallPass*100/(overallPass + overallFail + overallRefused) | number : 2}}%</td>
-    </tr>
-</table>
+  <tr>
+      <td>
+<!-- table for display the cert summary -->
+        <table>
+            <tr>
+                <!--<th>No.</th>-->
+                <th>Region</th>
+                <th>Exam</th>
+                <th>Pass</th>
+                <th>Fail</th>
+                <th>Refused</th>
+                <th>Total</th>
+                <th>Pass Rate</th>
+            </tr>
+            <tr ng-repeat="x in response">
+                <!--<td>{{ $index + 1 }}</td>-->
+                <td>{{ x.region }}</td>
+                <td>{{ x.pivotalExamCode }}</td>
+                <td>{{ x.passCount }}</td>
+                <td>{{ x.failCount }}</td>
+                <td>{{ x.refusedCount }}</td>
+                <td>{{ x.total }}</td>
+                <td>{{ x.passCount*100/x.total | number : 2}}%</td>
+            </tr>
+            <tr>
+                <td>Overall</td>
+                <td>All courses</td>
+                <td>{{ overallPass }}</td>
+                <td>{{ overallFail }}</td>
+                <td>{{ overallRefused}}</td>
+                <td>{{ overallPass + overallFail + overallRefused }}</td>
+                <td>{{ overallPass*100/(overallPass + overallFail + overallRefused) | number : 2}}%</td>
+            </tr>
+        </table>
+      </td>
+      <td>
+          <canvas id="pie" class="chart chart-pie"
+                  chart-data="data" chart-labels="labels" chart-options="options">
+          </canvas>
+      </td>
+  </tr>
 
+</table>
 
 </body>
 </html>

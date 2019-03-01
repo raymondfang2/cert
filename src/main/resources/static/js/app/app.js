@@ -1,9 +1,9 @@
-var myApp = angular.module('certApp', []);
+var myApp = angular.module('certApp', ["chart.js"]);
 
 myApp.controller('certController' , function ($scope, $http) {
         console.log("I've been pressed3!");
 
-        //Data for drop down
+        //1. Data initialisation for drop down
         $scope.years = [];
         $scope.startYear = 2010;
         var current_year = new Date().getFullYear();
@@ -16,7 +16,7 @@ myApp.controller('certController' , function ($scope, $http) {
 
 
 
-        //Search Button Click
+        //2. Search Button Click method
         $scope.searchCertSummary = function () {
               console.log("I've been pressed1!");
 
@@ -37,7 +37,7 @@ myApp.controller('certController' , function ($scope, $http) {
                    });
         };
 
-        //Calculation of total
+        //3. Calculation of total method
         $scope.getTotal = function () {
             //The last row in table --> overall information
                     //console.log("getTotal");
@@ -56,7 +56,8 @@ myApp.controller('certController' , function ($scope, $http) {
         }
 
 
-        //Initial Method - to be merged with Search method later
+        //4. Initial Function - to be merged with Search method later
+        //4.1 Ajax to fetch the matrix
         var path4All = "cert/getCertSummary/"+ $scope.startYear + "/" + $scope.endYear;
         $http.get(path4All)
             .then(function successCallback(response){
@@ -66,7 +67,9 @@ myApp.controller('certController' , function ($scope, $http) {
             }, function errorCallback(response){
                 console.log("Unable to perform get request");
             });
-
+        //4.2 PieChart
+        $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+        $scope.data = [300, 500, 100];
 
 
 });
