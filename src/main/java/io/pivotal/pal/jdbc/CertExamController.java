@@ -1,5 +1,7 @@
 package io.pivotal.pal.jdbc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,18 +15,22 @@ import java.util.List;
 @RestController
 @RequestMapping("/cert")
 public class CertExamController {
-    private CertExamRepository certRepo;
+    Logger logger = LoggerFactory.getLogger(CertExamController.class);
+
+    private CertExamService examService;
 
     @Autowired
-    public CertExamController(CertExamRepository certRepo) {
-        this.certRepo = certRepo;
+    public CertExamController(CertExamService examService) {
+        this.examService = examService;
     }
 
     @GetMapping("getCertSummary/{startYear}/{endYear}")
     public List<CertExamSummary> getCertSummary(@PathVariable String startYear, @PathVariable String endYear) {
+
         String start = startYear + "-01-01"; //The MySQL default date format
         String end = endYear + "-12-31";
-        List<CertExamSummary> summaryList= certRepo.getCertExamSummary(start, end);
+        logger.info("=====>getCertSummary-"+start+"--"+end);
+        List<CertExamSummary> summaryList= examService.getCertSummary(start, end);
         return summaryList;
     }
 
@@ -32,7 +38,7 @@ public class CertExamController {
     public List<CertExamSummary> getCertSummaryByRegion(@PathVariable String startYear, @PathVariable String endYear, @PathVariable String region) {
         String start = startYear + "-01-01"; //The MySQL default date format
         String end = endYear + "-12-31";
-        List<CertExamSummary> summaryList= certRepo.getCertExamSummaryByRegion(start, end, region);
+        List<CertExamSummary> summaryList= examService.getCertSummaryByRegion(start, end, region);
         return summaryList;
     }
 

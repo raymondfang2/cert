@@ -4,23 +4,30 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.fasterxml.jackson.dataformat.csv.CsvSchema.ColumnType.NUMBER;
 
+import com.google.common.collect.Iterators; //batch processing
+import org.springframework.stereotype.Component;
 
-public class CsvLoaderUtil {
+@Component
+public class CsvLoader {
+    Logger logger = LoggerFactory.getLogger(CsvLoader.class);
 
-    public static void loadCsv(String path) throws Exception {
-        System.out.println("read csv");
+    public  void loadCsv(String path, CertExamRepository certRepo) throws Exception {
+        logger.info("reading csv...");
 
         // load file from resource
-        ClassLoader classLoader = CsvLoaderUtil.class.getClassLoader();
+        ClassLoader classLoader = CsvLoader.class.getClassLoader();
         File file = new File(classLoader.getResource(path).getFile());
 
         /*
@@ -49,16 +56,25 @@ public class CsvLoaderUtil {
         // read from file
         try (Reader reader = new FileReader(file)) {
             MappingIterator<CertExamRecord> mi = oReader.readValues(reader);
-            CertExamRecord re;
-            while (mi.hasNext()) {
-                re = mi.next();
-                System.out.println(re.getFirstName() + " - "+ re.getEmail() + " - "+ re.getExamDate() );
+            //Use Guava Iterator to simplify code - to do batch processing
+            Iterator<List<CertExamRecord>> partitionResult = Iterators.partition(mi,500);
+            while (partitionResult.hasNext()) {
+                List<CertExamRecord> subset = partitionResult.next();
+                logger.info("=====>subset size: "+subset.size());
+                /*
+                CertExamRecord record;
+                for (int i=0; i<subset.size(); i++) {
+                    record = subset.get(i);
+                    //logger.info(record.getFirstName()+ " " +record.getEmail());
+                    if ((record.getEmail()==null) ||(record.getEmail().isEmpty())) {
+                        logger.error("+++email empty!!!");
+                    }
+                }
+                */
+                certRepo.insertBatch(subset);
+
             }
         }
-    }
-
-    public static void main (String[] argv) throws  Exception {
-        loadCsv("PearsonVUE.csv");
     }
 
 }

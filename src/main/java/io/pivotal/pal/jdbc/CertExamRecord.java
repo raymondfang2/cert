@@ -3,13 +3,13 @@ package io.pivotal.pal.jdbc;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Objects;
 
 public class CertExamRecord implements Serializable {
     private long ID;
-    private String dataSource;
-    private Date createDate;
+    private String dataSource="Pearson VUE";//TODO: to be refactored (using subclass?), at present only support this one
+    private Date createDate = new Date(new java.util.Date().getTime()); //default is today
     private Date updateDate;
     private String email;
     private String firstName;
