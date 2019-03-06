@@ -1,5 +1,5 @@
-
-<table class="fixed">
+<div>
+<table>
     <tr>
         <td>Start: <select ng-model="startYear" ng-options="x for x in years">
                     </select>
@@ -10,14 +10,13 @@
         <td>Region: <select ng-model="region" ng-options="x for x in regions">
                     </select>
         </td>
-        <td><button id="blueButton" ng-click="searchCertSummary()">
+        <td><button ng-click="searchCertSummary()">
             Search
             </button>
         </td>
     </tr>
 </table>
-
-<br>
+</div>
 
 <!-- table for layout the left and right -->
 <div style="display:table">

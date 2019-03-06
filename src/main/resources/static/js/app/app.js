@@ -23,7 +23,10 @@ myApp.config(function($routeProvider) {
 //For tab control
 myApp.controller('tabController' , function ($scope,$location, $http) {
        console.log("tabController start..");
+       //Initial the active tab
+       document.getElementById("summaryTab").className += " active";
 
+       //method for changing tab
        $scope.changeTab = function (evt, pageName) {
             console.log("changeTab start.."+pageName);
             var i, tabcontent, tablinks;

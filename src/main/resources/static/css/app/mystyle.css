@@ -1,8 +1,26 @@
-﻿table tr#Overall td {
+﻿/* for summary page, the overall row*/
+table tr#Overall td {
   background-color: E5FEFC;
 }
+/*for the pieChartTitle*/
 th#pieChartTitle {
     text-align: center;
+}
+
+/* For the search filter*/
+table.fixed td:nth-of-type(1) {width:250px;}/*Setting the width of column 1.*/
+table.fixed td:nth-of-type(2) {width:250px;}/*Setting the width of column 2.*/
+table.fixed td:nth-of-type(3) {width:250px;}/*Setting the width of column 3.*/
+
+button#blueButton {
+  background-color: #339CFF;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14;
 }
 
 /*The following is for Tab */
