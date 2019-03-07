@@ -8,9 +8,13 @@ import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Date;
@@ -18,13 +22,15 @@ import java.sql.Date;
 import static org.assertj.core.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@JdbcTest  TODO: find a way to use JdbcTest instead of SpringBootTest
-//@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+@DataJdbcTest
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+@Import(CertExamRepository.class) //Somehow @DataJdbcTest not able to load @Repository, Import to force it happen
+@Transactional //This will cause each test rollback after testing
 public class CertExamRepositoryTest {
 
     @Autowired
     private CertExamRepository repo;
+
 
     @Test
     public void getCertExamSummary() {
@@ -40,12 +46,11 @@ public class CertExamRepositoryTest {
         assertThat(en).size().isGreaterThan(1);
     }
 
-    //TODO: to use @jdbcTest so that records will be deleted automatcially after test
-    //@Test
+    @Test
     public void insertBath() {
         List<CertExamRecord> records = new ArrayList<>(1);
         CertExamRecord record= new CertExamRecord();
-        record.setDataSource("Pear");
+        record.setDataSource("PearTest2");
         record.setCompany("Com");
         Date today = new Date(new java.util.Date().getTime());
         record.setCreateDate(today);

@@ -35,7 +35,7 @@ public class CertDashboardfApplicationTests {
 	}
 
 /*
-getCertSummary/{startYear}/{endYear}
+TODO: need to disable the Basic authentication to test end2end, that is why I commented the @Test
  */
 	//@Test
 	public void getCertSummary() throws Exception {
