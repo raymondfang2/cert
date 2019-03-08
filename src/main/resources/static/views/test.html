@@ -1,0 +1,116 @@
+<html ng-app="certApp">
+<head>
+    <title>Pivotal Certification Dashboard</title>
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/lib/angular-route.js"></script>
+    <script src="js/lib/Chart.min.js"></script>
+    <script src="js/lib/angular-chart.js"></script>
+    <!--<script src="js/app/app.js"></script>
+    <script src="js/app/summary.js"></script>
+    <script src="js/app/detail.js"></script>
+    <script src="js/app/administration.js"></script>
+    -->
+
+    <link rel="stylesheet" href="css/lib/caddy.css">
+    <link rel="stylesheet" href="css/app/mystyle.css">
+
+</head>
+<body>
+
+<header>
+    <a href="/">
+        <img alt="Pivotal Education" src="views/logo.svg"/>
+    </a>
+</header>
+
+<h2>Pivotal Certification Dashboard</h2>
+
+<!--test of dependent dropdown-->
+<div ng-controller="CountryStateCityCtnl">
+    <div>
+        Country:
+        <select id="country" ng-model="statessource" ng-options="country for (country, states) in countries"
+                ng-change="GetSelectedCountry()">
+            <option value=''>ALL</option>
+        </select>
+    </div>
+    <div style='height: 15px;'>
+        &nbsp;</div>
+    <div>
+        States:<select id="state" ng-disabled="!statessource" ng-model="citiessource" ng-options="state for (state,city) in statessource"
+                       ng-change="GetSelectedState()"><option value=''>Select</option>
+    </select>
+    </div>
+    <div style='height: 15px;'>
+        &nbsp;</div>
+    <div>
+        City:<select id="city" ng-disabled="!citiessource || !statessource" ng-model="city"><option value=''>
+        Select</option>
+        <option ng-repeat="city in citiessource" value='{{city}}'>{{city}}</option>
+    </select>
+    </div>
+    <div style='height: 15px;'>
+        &nbsp;</div>
+    <div>
+        <span>statessource: </span>
+        <label>
+            {{statessource}}</label>
+        <label>
+            {{!statessource}}</label>
+    </div>
+    <div>
+        <span>Selected Country: </span>
+        <label>
+            {{strCountry}}</label>
+        <label>
+            {{statessource}}</label>
+    </div>
+    <div style='height: 15px;'>
+        &nbsp;</div>
+    <div>
+        <span>Selected State: </span>
+        <label>
+            {{strState}}</label>
+    </div>
+    <div style='height: 15px;'>
+        &nbsp;</div>
+    <div>
+        <span>Selected City: </span>
+        <label>
+            {{city}}</label>
+    </div>
+</div>
+
+<script>
+        var myApp = angular.module('certApp', ["chart.js","ngRoute"]);
+
+        myApp.controller('CountryStateCityCtnl',  function CountryStateCityCtnl($scope) {
+            $scope.countries = {
+                'India': {
+                    'Maharashtra': ['Pune', 'Mumbai', 'Nagpur', 'Akola'],
+                    'Madhya Pradesh': ['Indore', 'Bhopal', 'Jabalpur'],
+                    'Rajasthan': ['Jaipur', 'Ajmer', 'Jodhpur']
+                },
+                'USA': {
+                    'Alabama': ['Montgomery', 'Birmingham'],
+                    'California': ['Sacramento', 'Fremont'],
+                    'Illinois': ['Springfield', 'Chicago']
+                },
+                'Australia': {
+                    'New South Wales': ['Sydney'],
+                    'Victoria': ['Melbourne']
+                }
+            };
+            $scope.GetSelectedCountry = function () {
+                //$scope.strCountry = document.getElementById("country").value;
+                var sel = document.getElementById("country");
+                $scope.strCountry = sel.options[sel.selectedIndex].text;
+            };
+            $scope.GetSelectedState = function () {
+                $scope.strState = document.getElementById("state").value;
+            };
+        })
+    </script>
+
+</body>
+</html>

@@ -25,8 +25,26 @@ public class CertExamRecord implements Serializable {
     private int score;
     private String grade;
 
-    //private String language;
+    public CertExamRecord() {}
 
+
+    public CertExamRecord(long ID, String dataSource, Date createDate, Date updateDate, String email, String firstName, String lastName, String company, String siteRegion, String siteCountry, String examCode, String examTitle, Date examDate, int score, String grade) {
+        this.ID = ID;
+        this.dataSource = dataSource;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.company = company;
+        this.siteRegion = siteRegion;
+        this.siteCountry = siteCountry;
+        this.examCode = examCode;
+        this.examTitle = examTitle;
+        this.examDate = examDate;
+        this.score = score;
+        this.grade = grade;
+    }
 
     public long getID() {
         return ID;

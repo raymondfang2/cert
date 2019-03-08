@@ -40,4 +40,10 @@ public class CertExamService {
         return summaryList;
     }
 
+    public List<CertExamRecord> getCertExamRecords(String start, String end) {
+        logger.info("=====>getCertExamRecords-"+start+"--"+end);
+        List<CertExamRecord> examList= certRepo.getCertExamRecords(start, end);
+        return examList;
+    }
+
 }

@@ -47,6 +47,20 @@ public class CertExamRepositoryTest {
     }
 
     @Test
+    public void getCertExamRecords() {
+        List<CertExamRecord> result = repo.getCertExamRecords("2012-01-01","2018-12-31");
+        System.out.println(result.size());
+        assertThat(result).size().isEqualTo(50);
+    }
+
+    @Test
+    public void getCountryList() {
+        List<String> result = repo.getCountryList();
+        System.out.println(result.size());
+        assertThat(result).size().isGreaterThan(10);
+    }
+
+    @Test
     public void insertBath() {
         List<CertExamRecord> records = new ArrayList<>(1);
         CertExamRecord record= new CertExamRecord();

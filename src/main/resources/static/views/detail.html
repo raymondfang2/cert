@@ -1,5 +1,45 @@
+<table class="fixed">
+    <tr>
+        <td>Start: <select ng-model="startYear" ng-options="x for x in years">
+        </select>
+        </td>
+        <td>End: <select ng-model="endYear" ng-options="x for x in years">
+        </select>
+        </td>
+        <td><button id="blueButton" ng-click="searchCertExamRecords()">
+            Search
+        </button>
+        </td>
+        <td><img src="views/download.png" alt="Download" style="width:28px;height:28px;" ng-click="downloadCsv()">
+        </td>
+    </tr>
+</table>
+
 <br>
-<p>
-This page will show the raw data based on the search result
-and will allow user to download as csv for special analysis
-</p>
+
+
+
+<table>
+                <tr>
+                    <th>Source</th>
+                    <th>Candidate Email</th>
+                    <th>Region</th>
+                    <th>Country</th>
+                    <th>Company</th>
+                    <th>Exam Code</th>
+                    <th>Exam Date</th>
+                    <th>Score</th>
+                    <th>Grade</th>
+                </tr>
+                <tr ng-repeat="x in response">
+                    <td>{{ x.dataSource }}</td>
+                    <td>{{ x.email }}</td>
+                    <td>{{ x.siteRegion }}</td>
+                    <td>{{ x.siteCountry }}</td>
+                    <td>{{ x.company }}</td>
+                    <td>{{ x.examCode }}</td>
+                    <td>{{ x.examDate }}</td>
+                    <td>{{ x.score }}</td>
+                    <td>{{ x.grade }}</td>
+                </tr>
+</table>

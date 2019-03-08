@@ -36,6 +36,15 @@ public class CertExamRepository {
             "group by site_region, pivotal_code " +
             "order by site_region, pivotal_code ";
 
+    private final String COUNTRY_LIST =
+            "select distinct site_country from cert_exam_result order by site_country";
+
+    private final String EXAM_DETAIL = "select ID,DATA_SOURCE,CREATE_DATE,UPDATE_DATE,CANDIDATE_EMAIL,CANDIDATE_FIRSTNAME,CANDIDATE_LASTNAME, " +
+            "  CANDIDATE_COMPANY,SITE_REGION,SITE_COUNTRY,EXAM_CODE,EXAM_TITLE,EXAM_DATE,SCORE,GRADE " +
+            " from cert_exam_result where exam_date>=? and exam_date<=? " +
+            "order by exam_date " +
+            "limit 50";
+
     private final String EXAM_RECORD_INSERT = "INSERT INTO cert_exam_result " +
             "(DATA_SOURCE, CREATE_DATE, CANDIDATE_EMAIL, CANDIDATE_FIRSTNAME, CANDIDATE_LASTNAME, CANDIDATE_COMPANY,SITE_REGION,SITE_COUNTRY,EXAM_CODE,EXAM_TITLE,EXAM_DATE, SCORE, GRADE) " +
             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -64,6 +73,59 @@ public class CertExamRepository {
                     rs.getInt("fail"),
                     rs.getInt("refused")
             );
+
+    public List<CertExamRecord> getCertExamRecords(String startDate, String endDate) {
+        return jdbcTemplate.query(EXAM_DETAIL, new Object[]{startDate, endDate},
+                examRecordMapper);
+    }
+
+    private final RowMapper<CertExamRecord> examRecordMapper = (rs, rowNum) ->
+            new CertExamRecord(
+                    rs.getLong("ID"),
+                    rs.getString("DATA_SOURCE"),
+                    rs.getDate("CREATE_DATE"),
+                    rs.getDate("UPDATE_DATE"),
+                    rs.getString("CANDIDATE_EMAIL"),
+                    rs.getString("CANDIDATE_FIRSTNAME"),
+                    rs.getString("CANDIDATE_LASTNAME"),
+                    rs.getString("CANDIDATE_COMPANY"),
+                    rs.getString("SITE_REGION"),
+                    rs.getString("SITE_COUNTRY"),
+                    rs.getString("EXAM_CODE"),
+                    rs.getString("EXAM_TITLE"),
+                    rs.getDate("EXAM_DATE"),
+                    rs.getInt("SCORE"),
+                    rs.getString("GRADE")
+            );
+
+/*
+CertExamRecord( String examCode, String examTitle, Date examDate, int score, String grade) {
+
+
+private String dataSource="Pearson VUE";//TODO: to be refactored (using subclass?), at present only support this one
+    private long ID;
+    private Date createDate = new Date(new java.util.Date().getTime()); //default is today
+    private Date updateDate;
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String company;
+    private String siteRegion;
+    private String siteCountry;
+    private String examCode;
+    private String examTitle;
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy hh:mm a")
+    private Date examDate;
+    private int score;
+    private String grade;
+
+ */
+
+    public List<String> getCountryList() {
+        List<String> data=jdbcTemplate.queryForList(COUNTRY_LIST,String.class);
+        return data;
+    }
 
     //batch insertion - for feed processing
     //TODO: real feed processing should be in stage first then merge

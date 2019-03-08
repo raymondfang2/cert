@@ -8,7 +8,8 @@ myApp.config(function($routeProvider) {
     controller : "summaryController"
   })
   .when("/detail", {
-    templateUrl : "views/detail.html"
+    templateUrl : "views/detail.html",
+    controller : "detailController"
   })
   .when("/administration", {
     templateUrl : "views/administration.html"

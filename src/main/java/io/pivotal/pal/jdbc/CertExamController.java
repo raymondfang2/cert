@@ -42,4 +42,13 @@ public class CertExamController {
         return summaryList;
     }
 
+    @GetMapping("getCertExamRecords/{startYear}/{endYear}")
+    public List<CertExamRecord> getCertExamRecords(@PathVariable String startYear, @PathVariable String endYear) {
+
+        String start = startYear + "-01-01"; //The MySQL default date format
+        String end = endYear + "-12-31";
+        logger.info("=====>getCertExamRecords-"+start+"--"+end);
+        List<CertExamRecord> examList= examService.getCertExamRecords(start, end);
+        return examList;
+    }
 }
