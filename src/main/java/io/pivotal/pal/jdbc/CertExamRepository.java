@@ -42,8 +42,8 @@ public class CertExamRepository {
     private final String EXAM_DETAIL = "select ID,DATA_SOURCE,CREATE_DATE,UPDATE_DATE,CANDIDATE_EMAIL,CANDIDATE_FIRSTNAME,CANDIDATE_LASTNAME, " +
             "  CANDIDATE_COMPANY,SITE_REGION,SITE_COUNTRY,EXAM_CODE,EXAM_TITLE,EXAM_DATE,SCORE,GRADE " +
             " from cert_exam_result where exam_date>=? and exam_date<=? " +
-            "order by exam_date " +
-            "limit 50";
+            "order by exam_date ";
+            //+ "limit 50";
 
     private final String EXAM_RECORD_INSERT = "INSERT INTO cert_exam_result " +
             "(DATA_SOURCE, CREATE_DATE, CANDIDATE_EMAIL, CANDIDATE_FIRSTNAME, CANDIDATE_LASTNAME, CANDIDATE_COMPANY,SITE_REGION,SITE_COUNTRY,EXAM_CODE,EXAM_TITLE,EXAM_DATE, SCORE, GRADE) " +
@@ -76,6 +76,12 @@ public class CertExamRepository {
 
     public List<CertExamRecord> getCertExamRecords(String startDate, String endDate) {
         return jdbcTemplate.query(EXAM_DETAIL, new Object[]{startDate, endDate},
+                examRecordMapper);
+    }
+
+    public List<CertExamRecord> getCertExamRecords(String startDate, String endDate, int limit) {
+        String sql = EXAM_DETAIL + " limit " + limit;
+        return jdbcTemplate.query(sql, new Object[]{startDate, endDate},
                 examRecordMapper);
     }
 

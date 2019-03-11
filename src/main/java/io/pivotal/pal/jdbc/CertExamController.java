@@ -50,7 +50,7 @@ public class CertExamController {
         String start = startYear + "-01-01"; //The MySQL default date format
         String end = endYear + "-12-31";
         logger.info("=====>getCertExamRecords-"+start+"--"+end);
-        List<CertExamRecord> examList= examService.getCertExamRecords(start, end);
+        List<CertExamRecord> examList= examService.getCertExamRecords(start, end, 50);//TODO: get from property file later
         return examList;
     }
 

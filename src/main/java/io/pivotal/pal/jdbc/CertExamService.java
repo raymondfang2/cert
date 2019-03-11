@@ -57,4 +57,10 @@ public class CertExamService {
         return examList;
     }
 
+    public List<CertExamRecord> getCertExamRecords(String start, String end, int limit) {
+        logger.info("=====>getCertExamRecords-"+start+"--"+end);
+        List<CertExamRecord> examList= certRepo.getCertExamRecords(start, end, limit);
+        return examList;
+    }
+
 }
