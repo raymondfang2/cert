@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Writer;
 import java.util.List;
 
 @Service
@@ -21,12 +22,22 @@ public class CertExamService {
         this.csvLoader = csvLoader;
     }
 
-    public int loadExamRecords(String feedSource) throws Exception {
+    public int loadExamRecordsToDB (String feedSource) throws Exception {
         logger.info( "====>Loading initial data to DB- " + feedSource);
         //1. load the CSV
-        csvLoader.loadCsv(feedSource, certRepo);
+        int size = csvLoader.csvToDB(feedSource, certRepo);
         //2. insertBatch to DB
-        return 1;
+        return size;
+    }
+
+    public int generateCsvFile(String startYear, String endYear, Writer writer) throws Exception {
+        //1. load the db
+        List<CertExamRecord> examRecords = certRepo.getCertExamRecords(startYear, endYear);
+
+        //2. send to writer
+        csvLoader.generateCsv(examRecords, writer);
+        logger.info("=====>no of records: "+examRecords.size());
+        return examRecords.size();
     }
 
     public List<CertExamSummary> getCertSummary(String start, String end) {

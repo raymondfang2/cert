@@ -26,7 +26,7 @@ public class AdminController {
     public int loadExamRecords(@PathVariable String feedSource) throws Exception {
         logger.info( "====>Loading initial data to DB- " + feedSource);
         //1. load the CSV
-        certService.loadExamRecords(feedSource);
+        certService.loadExamRecordsToDB(feedSource);
         //2. insertBatch to DB
         return 1;
     }

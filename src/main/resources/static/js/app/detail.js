@@ -27,7 +27,11 @@ myApp.controller('detailController' , function ($scope, $http) {
 
         //3. downloadCsv method
         $scope.downloadCsv = function () {
-            alert("Under constuction - to download CSV!");
+            console.log("Download button pressed!");
+
+            var path = "cert/downloadExamRecord/"+ $scope.startYear + "/" + $scope.endYear;
+            window.location = path;
+
         }
 
         //4. Initial Function - just call the above method

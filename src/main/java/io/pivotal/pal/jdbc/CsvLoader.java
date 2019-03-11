@@ -1,8 +1,7 @@
 package io.pivotal.pal.jdbc;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvParser;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,17 +23,7 @@ import org.springframework.stereotype.Component;
 public class CsvLoader {
     Logger logger = LoggerFactory.getLogger(CsvLoader.class);
 
-    public  void loadCsv(String path, CertExamRepository certRepo) throws Exception {
-        logger.info("reading csv...");
-
-        // load file from resource
-        ClassLoader classLoader = CsvLoader.class.getClassLoader();
-        File file = new File(classLoader.getResource(path).getFile());
-
-        /*
-        First Name,Last Name,Name,Email(lookup),Company(lookup),Region,Country,Code,Title,ExamDate,Score,Grade,Language
-         */
-        // configure the schema we want to read
+    private CsvSchema setupCsvSchema() {
         CsvSchema schema = CsvSchema.builder()
                 .addColumn("firstName")
                 .addColumn("lastName")
@@ -49,6 +39,22 @@ public class CsvLoader {
                 .addColumn("grade")
                 .addColumn("language")
                 .build().withHeader();
+        return schema;
+    }
+
+    //Load a CSV file from classpath into DB
+    public  int csvToDB(String path, CertExamRepository certRepo) throws Exception {
+        logger.info("reading csv...");
+        int size = 0;
+        // load file from resource
+        ClassLoader classLoader = CsvLoader.class.getClassLoader();
+        File file = new File(classLoader.getResource(path).getFile());
+
+        /*
+        First Name,Last Name,Name,Email(lookup),Company(lookup),Region,Country,Code,Title,ExamDate,Score,Grade,Language
+         */
+        // configure the schema we want to read
+        CsvSchema schema = setupCsvSchema();
         CsvMapper mapper = new CsvMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         ObjectReader oReader = mapper.readerFor(CertExamRecord.class).with(schema);
@@ -56,6 +62,7 @@ public class CsvLoader {
         // read from file
         try (Reader reader = new FileReader(file)) {
             MappingIterator<CertExamRecord> mi = oReader.readValues(reader);
+            size = mi.readAll().size();
             //Use Guava Iterator to simplify code - to do batch processing
             Iterator<List<CertExamRecord>> partitionResult = Iterators.partition(mi,500);
             while (partitionResult.hasNext()) {
@@ -75,7 +82,40 @@ public class CsvLoader {
 
             }
         }
+        return size;
     }
 
+    public void generateCsv(List<CertExamRecord> examRecords, Writer writer) throws Exception {
+        CsvSchema schema = setupCsvSchema();
+        CsvMapper mapper = new CsvMapper();
+        mapper.configure(JsonGenerator.Feature.IGNORE_UNKNOWN, true);
+        // mapper.enable(CsvParser.Feature.WRAP_AS_ARRAY);
+        //The following is for one batch
+        ObjectWriter objectWriter = mapper.writer(schema.withLineSeparator("\n"));
+        SequenceWriter seqw = objectWriter.writeValues(writer);
+        seqw.writeAll(examRecords);
+
+        seqw.flush();
+        seqw.close();
+    }
+
+    //Load a data from DB table and generate a CSV
+    public static void main(String[] args) throws Exception {
+
+        List<CertExamRecord> exams = new ArrayList<>();
+        CertExamRecord exam =
+                new CertExamRecord(1,"Pearson VUE", new Date(new java.util.Date().getTime()), null, "r@b.com", "firstName", "lastName", "Pivotal", "APH", "Singapore", "CoreSpring", "CoreSpring 4.5", new Date(new java.util.Date().getTime()), 90, "Pass");
+        CertExamRecord exam2 =
+                new CertExamRecord(2,"Pearson VUE", new Date(new java.util.Date().getTime()), null, "r@b.com", "firstName", "lastName", "Pivotal", "APH", "Singapore", "CoreSpring", "CoreSpring 4.5", null, 90, "Pass");
+        exams.add(exam);
+        exams.add(exam2);
+
+        File file = new File("test.csv");
+        Writer writer = new FileWriter(file);
+
+        CsvLoader l = new CsvLoader();
+        l.generateCsv(exams, writer);
+
+    }
 }
 
