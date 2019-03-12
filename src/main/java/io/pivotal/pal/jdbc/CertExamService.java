@@ -31,6 +31,10 @@ public class CertExamService {
     }
 
     public int generateCsvFile(String startYear, String endYear, Writer writer) throws Exception {
+        //TODO: If the data is too big, for memory foot-print
+        //we can easily select from DB and generate the CSV batch by batch using limit
+        //The similar approach can be used for loading CSV to DB as well
+
         //1. load the db
         List<CertExamRecord> examRecords = certRepo.getCertExamRecords(startYear, endYear);
 

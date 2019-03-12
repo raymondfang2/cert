@@ -30,7 +30,7 @@ myApp.controller('summaryController' , function ($scope, $http) {
                    .then(function successCallback(response){
                         $scope.response = response.data;
                         $scope.getTotal();
-                        $scope.getPieData("Overall");
+                        $scope.getPieData("All courses",null);
                         console.log($scope.response);
                    }, function errorCallback(response){
                         console.log("Unable to perform get request");
@@ -56,18 +56,21 @@ myApp.controller('summaryController' , function ($scope, $http) {
         }
 
         //4. Chart method
-        $scope.getPieData = function (flag) {
+        $scope.getPieData = function (course, row) {
                     $scope.labels = ["Pass", "Fail", "Refused"];
+                    $scope.chartTitle = course;
                     $scope.options = {
                             legend: { display: true },
                             responsive: true
                     }
-                    if (flag==='Overall') {
+                    if (course==='All courses') {
                         $scope.data = [$scope.overallPass, $scope.overallFail, $scope.overallRefused];
                     }
                     else {
-                        $scope.data = [100,100,100]
-                        //TODO: onMouseOver or on click on the row to show different
+                        //$scope.data = [100,100,100]
+                        $scope.data = [row.passCount,row.failCount,row.refusedCount];
+                        console.log(row.pivotalExamCode);
+
                     }
         }
 
@@ -77,12 +80,13 @@ myApp.controller('summaryController' , function ($scope, $http) {
             .then(function successCallback(response){
                 $scope.response = response.data;
                 $scope.getTotal();
-                $scope.getPieData("Overall");
+                $scope.getPieData("All courses",null);
                 //console.log($scope.response);
             }, function errorCallback(response){
                 console.log("Unable to perform get request");
             });
 
-        //6. MouseOver
+        //6. Mouse Click on table row to change the PieData
+
 
 });

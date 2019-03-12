@@ -1,7 +1,9 @@
 ﻿/* for summary page, the overall row*/
+/*
 table tr#Overall td {
   background-color: E5FEFC;
 }
+*/
 /*for the pieChartTitle*/
 th#pieChartTitle {
     text-align: center;
