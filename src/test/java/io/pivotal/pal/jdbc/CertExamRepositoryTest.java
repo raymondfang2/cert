@@ -48,7 +48,7 @@ public class CertExamRepositoryTest {
 
     @Test
     public void getCertExamRecords() {
-        List<CertExamRecord> result = repo.getCertExamRecords("2012-01-01","2018-12-31");
+        List<CertExamRecord> result = repo.getCertExamRecords("2012-01-01","2018-12-31",50);
         System.out.println(result.size());
         assertThat(result).size().isEqualTo(50);
     }

@@ -1,6 +1,6 @@
 
 myApp.controller('summaryController' , function ($scope, $http) {
-        console.log("I've been pressed3!");
+        //console.log("I've been pressed3!");
 
         //1. Data initialisation for drop down
         $scope.years = [];
@@ -74,19 +74,7 @@ myApp.controller('summaryController' , function ($scope, $http) {
                     }
         }
 
-        //5. Initial Function - to be merged with Search method later
-        var path4All = "cert/getCertSummary/"+ $scope.startYear + "/" + $scope.endYear;
-        $http.get(path4All)
-            .then(function successCallback(response){
-                $scope.response = response.data;
-                $scope.getTotal();
-                $scope.getPieData("All courses",null);
-                //console.log($scope.response);
-            }, function errorCallback(response){
-                console.log("Unable to perform get request");
-            });
-
-        //6. Mouse Click on table row to change the PieData
-
+        //5. Initial Function
+        $scope.searchCertSummary();
 
 });
