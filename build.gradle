@@ -19,6 +19,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.7.0'
 	implementation 'com.google.guava:guava:11.0.2'
+    /*
+	implementation 'org.drools:drools-core:7.0.0.Final'
+	implementation 'org.kie:kie-spring:7.0.0.Final'
+	*/
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

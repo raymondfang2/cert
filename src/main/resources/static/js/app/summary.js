@@ -13,7 +13,10 @@ myApp.controller('summaryController' , function ($scope, $http) {
         $scope.regions = ['ALL','Americas','EMEA','Japan','Pacific'];
         $scope.region = 'ALL';
 
-
+        $scope.charts = ["PIE","BAR"];
+        $scope.chart = "PIE";
+        $scope.hidePie = false;
+        $scope.hideBar = true;
 
         //2. Search Button Click method
         $scope.searchCertSummary = function () {
@@ -55,7 +58,7 @@ myApp.controller('summaryController' , function ($scope, $http) {
 
         }
 
-        //4. Chart method
+        //4. Chart data method
         $scope.getPieData = function (course, row) {
                     $scope.labels = ["Pass", "Fail", "Refused"];
                     $scope.chartTitle = course;
@@ -74,7 +77,20 @@ myApp.controller('summaryController' , function ($scope, $http) {
                     }
         }
 
-        //5. Initial Function
+        //5. Chart switch
+        $scope.switchChart = function () {
+             if ($scope.chart == "PIE") {
+                $scope.hidePie = false;
+                $scope.hideBar = true;
+             }
+             else {
+                $scope.hidePie = true;
+                $scope.hideBar = false;
+             }
+        }
+
+
+        //6. Initial Function
         $scope.searchCertSummary();
 
 });

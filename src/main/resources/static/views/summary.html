@@ -14,6 +14,10 @@
             Search
             </button>
         </td>
+        <td>
+            <select ng-model="chart" ng-options="x for x in charts" ng-change="switchChart()">
+            </select></th>
+        </td>
     </tr>
 </table>
 
@@ -61,12 +65,15 @@
 
           <table>
               <tr>
-                <th id="pieChartTitle">{{chartTitle}}</th>
+                  <th id="pieChartTitle">{{chartTitle}} </th>
               </tr>
               <tr><th>
-                <canvas id="pie" class="chart chart-pie"
+                <canvas ng-hide="hidePie" id="pie" class="chart chart-pie"
                       chart-data="data" chart-labels="labels" chart-options="options">
                 </canvas>
+                  <canvas ng-hide="hideBar" id="bar" class="chart chart-bar"
+                          chart-data="data" chart-labels="labels">
+                  </canvas>
               </th></tr>
           </table>
 

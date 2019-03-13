@@ -1,5 +1,6 @@
 package io.pivotal.pal.jdbc;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,12 @@ public class CertExamController {
 
     private CertExamService examService;
 
+
     @Autowired
-    public CertExamController(CertExamService examService) {
+    public CertExamController(CertExamService examService)
+    {
         this.examService = examService;
+
     }
 
     @GetMapping("getCertSummary/{startYear}/{endYear}")
@@ -71,4 +75,6 @@ public class CertExamController {
         examService.generateCsvFile(startYear, endYear,response.getWriter());
 
     }
+
+
 }
