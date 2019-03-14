@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -43,7 +45,7 @@ public class CertExamRepository {
             "  CANDIDATE_COMPANY,SITE_REGION,SITE_COUNTRY,EXAM_CODE,EXAM_TITLE,EXAM_DATE,SCORE,GRADE " +
             " from cert_exam_result where exam_date>=? and exam_date<=? " +
             "order by exam_date ";
-            //+ "limit 50";
+    //+ "limit 50";
 
     private final String EXAM_RECORD_INSERT = "INSERT INTO cert_exam_result " +
             "(DATA_SOURCE, CREATE_DATE, CANDIDATE_EMAIL, CANDIDATE_FIRSTNAME, CANDIDATE_LASTNAME, CANDIDATE_COMPANY,SITE_REGION,SITE_COUNTRY,EXAM_CODE,EXAM_TITLE,EXAM_DATE, SCORE, GRADE) " +
@@ -57,7 +59,7 @@ public class CertExamRepository {
 
     public List<CertExamSummary> getCertExamSummary(String startDate, String endDate) {
         return jdbcTemplate.query(ALL_SUMMARY, new Object[]{startDate, endDate},
-                 mapper);
+                mapper);
     }
 
     public List<CertExamSummary> getCertExamSummaryByRegion(String startDate, String endDate, String region) {
@@ -66,7 +68,7 @@ public class CertExamRepository {
     }
 
     private final RowMapper<CertExamSummary> mapper = (rs, rowNum) ->
-       new CertExamSummary(
+            new CertExamSummary(
                     rs.getString("region"),
                     rs.getString("pivotal_code"),
                     rs.getInt("pass"),
@@ -104,34 +106,28 @@ public class CertExamRepository {
                     rs.getString("GRADE")
             );
 
-/*
-CertExamRecord( String examCode, String examTitle, Date examDate, int score, String grade) {
-
-
-private String dataSource="Pearson VUE";//TODO: to be refactored (using subclass?), at present only support this one
-    private long ID;
-    private Date createDate = new Date(new java.util.Date().getTime()); //default is today
-    private Date updateDate;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String company;
-    private String siteRegion;
-    private String siteCountry;
-    private String examCode;
-    private String examTitle;
-    @JsonFormat
-            (shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy hh:mm a")
-    private Date examDate;
-    private int score;
-    private String grade;
-
- */
 
     public List<String> getCountryList() {
-        List<String> data=jdbcTemplate.queryForList(COUNTRY_LIST,String.class);
+        List<String> data = jdbcTemplate.queryForList(COUNTRY_LIST, String.class);
         return data;
     }
+
+    //TODO: to prevent from SQL Injection, dynamic query should be parsed before sending to server
+    //e.g. not allow certain keywords: DELETE, UPDATE, DROP, only allowed certain table name...
+    public List<HashMap> getDynamicQueryResult(String sql) {
+        return jdbcTemplate.query(sql,
+                hashMapper);
+    }
+
+    private final RowMapper<HashMap> hashMapper = (rs, rowNum) -> {
+        ResultSetMetaData metaData = rs.getMetaData();
+        int colCount = metaData.getColumnCount();
+        HashMap row = new HashMap();
+        for (int i = 1; i <= colCount; i++) {
+            row.put(metaData.getColumnLabel(i), rs.getObject(i));
+        }
+        return  row;
+    };
 
     //batch insertion - for feed processing
     //TODO: real feed processing should be in stage first then merge

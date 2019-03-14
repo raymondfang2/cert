@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.sql.Date;
 
@@ -58,6 +59,14 @@ public class CertExamRepositoryTest {
         List<String> result = repo.getCountryList();
         System.out.println(result.size());
         assertThat(result).size().isGreaterThan(10);
+    }
+
+    @Test
+    public void getDynamicQueryResult() {
+        String sql = "select candidate_email, score from  cert_exam_result  limit 10 ";
+        List<HashMap> result =  repo.getDynamicQueryResult(sql);
+        System.out.println("===>"+result.get(1).get("candidate_email"));
+        assertThat(result).size().isEqualTo(10);
     }
 
     @Test

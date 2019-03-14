@@ -11,6 +11,10 @@ myApp.config(function($routeProvider) {
     templateUrl : "views/detail.html",
     controller : "detailController"
   })
+  .when("/dynamicQuery", {
+      templateUrl : "views/dynamicQuery.html",
+      controller : "dynamicQuery"
+    })
   .when("/administration", {
     templateUrl : "views/administration.html"
   })
@@ -31,10 +35,12 @@ myApp.controller('tabController' , function ($scope,$location, $http) {
        $scope.changeTab = function (evt, pageName) {
             console.log("changeTab start.."+pageName);
             var i, tabcontent, tablinks;
+            /*
             tabcontent = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
             }
+            */
             tablinks = document.getElementsByClassName("tablinks");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");

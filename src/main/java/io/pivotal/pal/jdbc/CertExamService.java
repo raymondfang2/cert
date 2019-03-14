@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Writer;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -65,6 +66,11 @@ public class CertExamService {
         logger.info("=====>getCertExamRecords-"+start+"--"+end);
         List<CertExamRecord> examList= certRepo.getCertExamRecords(start, end, limit);
         return examList;
+    }
+
+    public List<HashMap> getDynamicQueryResult(String sql) {
+        logger.info("=====>getDynamicQueryResult-"+sql);
+        return certRepo.getDynamicQueryResult(sql);
     }
 
 }

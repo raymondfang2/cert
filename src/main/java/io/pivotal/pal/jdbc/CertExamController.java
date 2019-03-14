@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -24,8 +25,7 @@ public class CertExamController {
 
 
     @Autowired
-    public CertExamController(CertExamService examService)
-    {
+    public CertExamController(CertExamService examService) {
         this.examService = examService;
 
     }
@@ -35,8 +35,8 @@ public class CertExamController {
 
         String start = startYear + "-01-01"; //The MySQL default date format
         String end = endYear + "-12-31";
-        logger.info("=====>getCertSummary-"+start+"--"+end);
-        List<CertExamSummary> summaryList= examService.getCertSummary(start, end);
+        logger.info("=====>getCertSummary-" + start + "--" + end);
+        List<CertExamSummary> summaryList = examService.getCertSummary(start, end);
         return summaryList;
     }
 
@@ -44,7 +44,7 @@ public class CertExamController {
     public List<CertExamSummary> getCertSummaryByRegion(@PathVariable String startYear, @PathVariable String endYear, @PathVariable String region) {
         String start = startYear + "-01-01"; //The MySQL default date format
         String end = endYear + "-12-31";
-        List<CertExamSummary> summaryList= examService.getCertSummaryByRegion(start, end, region);
+        List<CertExamSummary> summaryList = examService.getCertSummaryByRegion(start, end, region);
         return summaryList;
     }
 
@@ -53,8 +53,8 @@ public class CertExamController {
 
         String start = startYear + "-01-01"; //The MySQL default date format
         String end = endYear + "-12-31";
-        logger.info("=====>getCertExamRecords-"+start+"--"+end);
-        List<CertExamRecord> examList= examService.getCertExamRecords(start, end, 50);//TODO: get from property file later
+        logger.info("=====>getCertExamRecords-" + start + "--" + end);
+        List<CertExamRecord> examList = examService.getCertExamRecords(start, end, 50);//TODO: get from property file later
         return examList;
     }
 
@@ -72,9 +72,13 @@ public class CertExamController {
                 csvFileName);
         response.setHeader(headerKey, headerValue);
 
-        examService.generateCsvFile(startYear, endYear,response.getWriter());
+        examService.generateCsvFile(startYear, endYear, response.getWriter());
 
     }
 
+    @GetMapping("getDynamicQueryResult/{sql}")
+    public List<HashMap> getDynamicQueryResult(@PathVariable String sql) {
+        return examService.getDynamicQueryResult(sql);
+    }
 
 }
