@@ -76,6 +76,7 @@ public class CertExamController {
 
     }
 
+    //TODO: change to POST - AngularJS to be changed accordingly
     @GetMapping("getDynamicQueryResult/{sql}")
     public List<HashMap> getDynamicQueryResult(@PathVariable String sql) {
         return examService.getDynamicQueryResult(sql);

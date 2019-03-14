@@ -13,7 +13,7 @@ myApp.config(function($routeProvider) {
   })
   .when("/dynamicQuery", {
       templateUrl : "views/dynamicQuery.html",
-      controller : "dynamicQuery"
+      controller : "dynamicQueryController"
     })
   .when("/administration", {
     templateUrl : "views/administration.html"

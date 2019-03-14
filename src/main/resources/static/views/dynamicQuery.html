@@ -1,1 +1,23 @@
-<p>Dynamic Query Construction</p>
+
+
+<textarea id="dSQL" ng-model="sql" required></textarea>
+    <br>
+<button id="blueButton3" ng-click="searchDynamic()">
+    Search
+</button>&nbsp&nbsp&nbsp&nbsp
+<button id="blueButton4" ng-click="publicDynamic()">
+    Publish
+</button>
+
+<hr>
+
+<table>
+    <tr>
+        <th ng-repeat="(key, value) in thdata">{{ key | uppercase}}</th>
+    </tr>
+    <tr ng-repeat="item in response">
+        <td ng-repeat="(key, value) in item">{{ value }}</td>
+    </tr>
+</table>
+
+

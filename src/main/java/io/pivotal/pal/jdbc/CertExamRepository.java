@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Repository
@@ -122,7 +123,7 @@ public class CertExamRepository {
     private final RowMapper<HashMap> hashMapper = (rs, rowNum) -> {
         ResultSetMetaData metaData = rs.getMetaData();
         int colCount = metaData.getColumnCount();
-        HashMap row = new HashMap();
+        HashMap row = new LinkedHashMap(); //This is to protect the insertion order
         for (int i = 1; i <= colCount; i++) {
             row.put(metaData.getColumnLabel(i), rs.getObject(i));
         }
