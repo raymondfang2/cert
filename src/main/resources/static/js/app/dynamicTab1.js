@@ -1,9 +1,8 @@
-myApp.controller('dynamicQueryController' , function ($scope, $http) {
-        console.log("dynamic start...!");
-       //sample query
+myApp.controller('dynamicTabController1' , function ($scope, $http) {
+        console.log("dynamic Tab1 start...!");
+       //TODO: this should be got from the DB query for this tab
         $scope.sql="select site_country, exam_code, "
-        + " count(case when grade='pass' then grade end) as pass, "
-        + " count(grade) as total "
+        + " count(case when grade='pass' then grade end) as pass "
         + " from cert_exam_result "
         + " group by site_country, exam_code "
         + " order by site_country, exam_code ";
@@ -25,21 +24,8 @@ myApp.controller('dynamicQueryController' , function ($scope, $http) {
                       });
         };
 
-        //3. Publish Dynamic
-        $scope.publihDynamic = function () {
-               console.log("Dynamic Publish button pressed!");
+        //3. invoke the query
+        $scope.searchDynamic();
 
-               var path = "cert/addDynamicTab/dTab1/MyReport/"+ $scope.sql;
-
-               $http.get(path)
-                           .then(function successCallback(response){
-                           $scope.recordsInsert = response.data; //response JSON
-                           console.log($scope.recordsInsert);
-                           //TODO: show the Tab, in parent scope?
-                           $scope.$parent.hidedTab1 = false;
-                     }, function errorCallback(response){
-                           console.log("Unable to perform get request");
-                     });
-        };
 
 });

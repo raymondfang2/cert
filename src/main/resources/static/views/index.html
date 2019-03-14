@@ -10,12 +10,13 @@
     <script src="js/app/detail.js"></script>
     <script src="js/app/administration.js"></script>
     <script src="js/app/dynamicQuery.js"></script>
+    <script src="js/app/dynamicTab1.js"></script>
 
     <link rel="stylesheet" href="css/lib/caddy.css">
     <link rel="stylesheet" href="css/app/mystyle.css">
 
 </head>
-<body>
+<body  ng-controller="appController" >
 
 <header>
     <a href="/">
@@ -25,11 +26,12 @@
 
 <h2>Pivotal Certification Dashboard</h2>
 
-<div class="tab" ng-controller="tabController" >
+<div class="tab">
     <button id="summaryTab" class="tablinks" ng-click="changeTab($event, 'summary')" >Summary</button>
     <button class="tablinks" ng-click="changeTab($event, 'detail')" >Detail</button>
     <button class="tablinks" ng-click="changeTab($event, 'dynamicQuery')" >Dynamic Report</button>
     <button class="tablinks" ng-click="changeTab($event, 'administration')">Administration</button>
+    <button id="dTab1" class="tablinks" ng-hide="hidedTab1" ng-click="changeTab($event, 'dynamicTab1')">Dynamic Tab1</button>
 </div>
 <br>
 <div ng-view></div>

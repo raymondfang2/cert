@@ -18,6 +18,10 @@ myApp.config(function($routeProvider) {
   .when("/administration", {
     templateUrl : "views/administration.html"
   })
+  .when("/dynamicTab1", {
+      templateUrl : "views/dynamicTab1.html",
+      controller : "dynamicTabController1"
+    })
   .otherwise({
       templateUrl : "views/summary.html",
       controller : "summaryController"
@@ -26,21 +30,18 @@ myApp.config(function($routeProvider) {
 
 
 //For tab control
-myApp.controller('tabController' , function ($scope,$location, $http) {
+myApp.controller('appController' , function ($scope,$location, $http) {
        console.log("tabController start..");
+
        //Initial the active tab
+       $scope.hidedTab1 = true;
        document.getElementById("summaryTab").className += " active";
 
        //method for changing tab
        $scope.changeTab = function (evt, pageName) {
             console.log("changeTab start.."+pageName);
             var i, tabcontent, tablinks;
-            /*
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            */
+
             tablinks = document.getElementsByClassName("tablinks");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");

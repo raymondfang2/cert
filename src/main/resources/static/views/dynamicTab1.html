@@ -1,0 +1,8 @@
+<table>
+    <tr>
+        <th ng-repeat="(key, value) in thdata">{{ key | uppercase}}</th>
+    </tr>
+    <tr ng-repeat="item in response">
+        <td ng-repeat="(key, value) in item">{{ value }}</td>
+    </tr>
+</table>
