@@ -26,4 +26,20 @@ myApp.controller('dynamicQueryController' , function ($scope, $http) {
                       });
         };
 
+        //3. Publish Dynamic
+        $scope.publihDynamic = function () {
+               console.log("Dynamic Publish button pressed!");
+
+               var path = "cert/addDynamicTab/DTAB1/MyReport/"+ $scope.sql;
+
+               $http.get(path)
+                           .then(function successCallback(response){
+                           $scope.response = response.data; //response JSON
+                           console.log($scope.data);
+                           //TODO: show the Tab
+                     }, function errorCallback(response){
+                           console.log("Unable to perform get request");
+                     });
+        };
+
 });

@@ -22,6 +22,7 @@ public class AdminController {
         this.certService = certService;
     }
 
+    //TODO: CHANGER TO POST - INSERTION
     @GetMapping("setup/{feedSource}") //e.g. PearsonVUE.csv
     public int loadExamRecords(@PathVariable String feedSource) throws Exception {
         logger.info( "====>Loading initial data to DB- " + feedSource);

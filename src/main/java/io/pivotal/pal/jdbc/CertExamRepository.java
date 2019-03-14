@@ -163,4 +163,13 @@ public class CertExamRepository {
     }
 
 
+    private final String INSERT_DYNAMIC_TAB = "insert into dynamic_tab (tab_id, tab_name, dsql, create_date) "
+            + " values (?,?,?, NOW())";
+
+    public int addDynamicTab(String tabID, String tabName, String dSql) {
+        return jdbcTemplate.update(
+                INSERT_DYNAMIC_TAB, tabID, tabName, dSql);
+    }
+
+
 }

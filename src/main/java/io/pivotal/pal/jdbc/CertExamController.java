@@ -76,10 +76,15 @@ public class CertExamController {
 
     }
 
-    //TODO: change to POST - AngularJS to be changed accordingly
+    //TODO: change to Body to send the QUERY FOR LONG STRING - AngularJS to be changed accordingly
     @GetMapping("getDynamicQueryResult/{sql}")
     public List<HashMap> getDynamicQueryResult(@PathVariable String sql) {
         return examService.getDynamicQueryResult(sql);
     }
 
+    //TODO: change to POST (INSERTION) - AngularJS to be changed accordingly
+    @GetMapping("addDynamicTab/{tabID}/{tabName}/{dSql}")
+    public int addDynamicTab(@PathVariable String tabID, @PathVariable String tabName, @PathVariable String dSql) {
+        return examService.addDynamicTab(tabID,tabName,dSql);
+    }
 }

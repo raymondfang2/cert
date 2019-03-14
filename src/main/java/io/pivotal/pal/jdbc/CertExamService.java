@@ -73,4 +73,8 @@ public class CertExamService {
         return certRepo.getDynamicQueryResult(sql);
     }
 
+    public int addDynamicTab(String tabID, String tabName, String dSql) {
+        return certRepo.addDynamicTab(tabID,tabName, dSql);
+    }
+
 }
