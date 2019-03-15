@@ -83,9 +83,9 @@ public class CertExamController {
     }
 
     //TODO: change to POST (INSERTION) - AngularJS to be changed accordingly
-    @GetMapping("addDynamicTab/{tabID}/{tabName}/{dSql}")
-    public int addDynamicTab(@PathVariable String tabID, @PathVariable String tabName, @PathVariable String dSql) {
-        return examService.addDynamicTab(tabID,tabName,dSql);
+    @GetMapping("addDynamicTab/{tabName}/{dSql}")
+    public String addDynamicTab(@PathVariable String tabName, @PathVariable String dSql) {
+        return examService.addDynamicTab(tabName,dSql);
     }
 
     //TODO: change to POST (INSERTION) - AngularJS to be changed accordingly

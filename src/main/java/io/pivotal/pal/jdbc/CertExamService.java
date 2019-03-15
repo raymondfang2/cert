@@ -3,6 +3,7 @@ package io.pivotal.pal.jdbc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.Writer;
@@ -17,6 +18,8 @@ public class CertExamService {
 
     private CertExamRepository certRepo;
     private CsvLoader csvLoader;
+    @Value("${dynamictab.max}")
+    private int maxTabNo;
 
     @Autowired
     public CertExamService(CertExamRepository certRepo, CsvLoader csvLoader) {
@@ -74,9 +77,36 @@ public class CertExamService {
         return certRepo.getDynamicQueryResult(sql);
     }
 
+    /*
+        return newTabID
+     */
+    public String addDynamicTab(String tabName, String dSql) {
+        String newTabID = "-1"; //tabID is String, but from "0" to "4"
+        List<String> tabIDs =  certRepo.getDynamicTabIDs();
+        if (tabIDs.size()==maxTabNo) return newTabID; //-1 reach the max tab, no insertion
+
+        //else, find the right tabID, tabID is ordered from DB
+        for (int i=0; i<tabIDs.size(); i++) {
+            if (tabIDs.get(i).equals(""+i)) continue;
+            else {
+                newTabID = ""+i;
+                break;
+            }
+        }
+
+        if ((newTabID.equals("-1"))&&(tabIDs.size()>0)) {
+            newTabID = ""+tabIDs.size();
+        }
+
+        this.addDynamicTab(newTabID, tabName, dSql);
+        return newTabID;
+    }
+
     public int addDynamicTab(String tabID, String tabName, String dSql) {
         return certRepo.addDynamicTab(tabID,tabName, dSql);
     }
+
+
     public int deleteDynamicTab(String tabID) {
         return certRepo.deleteDynamicTab(tabID);
     }

@@ -2,6 +2,7 @@ myApp.controller('dynamicQueryController' , function ($scope, $http) {
         console.log("dynamic start...!");
        //sample query
         $scope.sql="select candidate_email, exam_code, site_country, exam_date, score, grade from cert_exam_result limit 10 #sample only ";
+        $scope.response = [{}]; //clear the cache data
 
         //2. Search Button Click method
         $scope.searchDynamic = function () {
@@ -24,14 +25,18 @@ myApp.controller('dynamicQueryController' , function ($scope, $http) {
         $scope.publihDynamic = function () {
                console.log("Dynamic Publish button pressed!");
 
-               var path = "cert/addDynamicTab/0/MyReport/"+ $scope.sql;
+               var path = "cert/addDynamicTab/MyReport/"+ $scope.sql;
 
                $http.get(path)
                            .then(function successCallback(response){
-                           $scope.recordsInsert = response.data; //response JSON
-                           console.log($scope.recordsInsert);
-                           //show the Tab, in parent scope?
-                           $scope.$parent.hidedTabs[0] = false;
+                           $scope.newTabID = response.data; //response JSON
+                           console.log($scope.newTabID);
+                           if ($scope.newTabID=="-1") {
+                              alert("Reach the max no of dynamic report, you must delete old one before publih");
+                           }
+                           else {
+                              $scope.$parent.hidedTabs[$scope.newTabID] = false;
+                           }
                      }, function errorCallback(response){
                            console.log("Unable to perform get request");
                      });

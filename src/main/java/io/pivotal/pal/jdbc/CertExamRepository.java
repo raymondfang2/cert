@@ -177,7 +177,7 @@ public class CertExamRepository {
                 DELETE_DYNAMIC_TAB, tabID);
     }
 
-    private final String GET_DYNAMIC_TABIDS = "select tab_id from dynamic_tab";
+    private final String GET_DYNAMIC_TABIDS = "select tab_id from dynamic_tab order by tab_id";
     public List<String> getDynamicTabIDs() {
         return jdbcTemplate.queryForList(GET_DYNAMIC_TABIDS, String.class);
     }
