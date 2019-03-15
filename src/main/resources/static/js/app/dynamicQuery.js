@@ -1,12 +1,7 @@
 myApp.controller('dynamicQueryController' , function ($scope, $http) {
         console.log("dynamic start...!");
        //sample query
-        $scope.sql="select site_country, exam_code, "
-        + " count(case when grade='pass' then grade end) as pass, "
-        + " count(grade) as total "
-        + " from cert_exam_result "
-        + " group by site_country, exam_code "
-        + " order by site_country, exam_code ";
+        $scope.sql="select candidate_email, exam_code, site_country, exam_date, score, grade from cert_exam_result limit 10 #sample only ";
 
         //2. Search Button Click method
         $scope.searchDynamic = function () {
