@@ -1,27 +1,24 @@
-myApp.controller('dynamicTabController1' , function ($scope, $http) {
+myApp.controller('dynamicTabController1' , function ($scope,$location, $http) {
         console.log("dynamic Tab1 start...!");
-       //TODO: this should be got from the DB query for this tab
-        $scope.sql="select site_country, exam_code, "
-        + " count(case when grade='pass' then grade end) as pass "
-        + " from cert_exam_result "
-        + " group by site_country, exam_code "
-        + " order by site_country, exam_code ";
+        console.log($location.path() ); // "/dynamicTab1"...
 
-        //2. Search Button Click method
+        //Get the tab_name, and searchResult
         $scope.searchDynamic = function () {
-               console.log("Dynamic Search button pressed!");
+                       console.log("Dynamic Tab Search !");
 
-               var path = "cert/getDynamicQueryResult/"+ $scope.sql;
+                       var path = "cert/getDynamicTabByRoutePath"+ $location.path();
 
-               $http.get(path)
-                      .then(function successCallback(response){
-                                $scope.response = response.data; //response JSON
-                                //Need to handle zero record case - check size before next
-                                $scope.thdata = response.data[0]; //the first record
-                                console.log($scope.thdata);
-                       }, function errorCallback(response){
-                                console.log("Unable to perform get request");
-                      });
+                       $http.get(path)
+                              .then(function successCallback(response){
+                                        console.log(response.data);
+                                        $scope.response = response.data.searchResult; //response JSON
+                                        $scope.tabName = response.data.tab_name;
+                                        //Need to handle zero record case - check size before next
+                                        $scope.thdata = response.data.searchResult[0]; //the first record
+
+                               }, function errorCallback(response){
+                                        console.log("Unable to perform get request");
+                              });
         };
 
         //3. invoke the query

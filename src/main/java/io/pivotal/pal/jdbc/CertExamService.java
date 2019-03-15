@@ -82,8 +82,22 @@ public class CertExamService {
         return certRepo.getDynamicTabIDs();
     }
 
-    public List<HashMap> getDynamicTabByID(String tabID) {
+    public HashMap getDynamicTabByID(String tabID) {
         return certRepo.getDynamicTabByID(tabID);
+    }
+
+    /*
+        return value: { tab_name: My Report, searchResult: List<HashMap> }
+     */
+    public HashMap getDynamicTabContent(String tabID) {
+        HashMap result = new HashMap();
+        HashMap tabRecord = certRepo.getDynamicTabByID(tabID);
+        result.put("tab_name", tabRecord.get("tab_name") );
+
+        List<HashMap> searchResult = certRepo.getDynamicQueryResult((String) tabRecord.get("dsql"));
+        result.put("searchResult", searchResult);
+
+        return result;
     }
 
 }

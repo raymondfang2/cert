@@ -96,8 +96,21 @@ public class CertExamController {
     }
 
     @GetMapping("getDynamicTabByID/{tabID}")
-    public List<HashMap> getDynamicTabByID(@PathVariable String tabID) {
+    public HashMap getDynamicTabByID(@PathVariable String tabID) {
         return examService.getDynamicTabByID(tabID);
     }
 
+    /*
+        return value: { tab_name: "My Report", searchResult: List<HashMap> }
+     */
+    @GetMapping("getDynamicTabByRoutePath/{routePath}")
+    public HashMap getDynamicTabContentByRoutePath(@PathVariable String routePath) {
+        //routePath - "dynamicTab1"
+        String tabID = routePath.substring(10); //fetch the number part of above string
+        return examService.getDynamicTabContent(tabID);
+    }
+
+    public static void main(String[] argv) {
+        System.out.println("dynamicTab1".substring(10));
+    }
 }

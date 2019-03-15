@@ -177,8 +177,8 @@ public class CertExamRepository {
     }
 
     private final String GET_DYNAMIC_TAB_BY_ID = "select  tab_id, tab_name, dsql, create_date, update_date from dynamic_tab where tab_id=?";
-    public List<HashMap> getDynamicTabByID(String tabID) {
-        return jdbcTemplate.query(GET_DYNAMIC_TAB_BY_ID, new Object[]{tabID},
+    public HashMap getDynamicTabByID(String tabID) {
+        return jdbcTemplate.queryForObject(GET_DYNAMIC_TAB_BY_ID, new Object[]{tabID},
                 hashMapper);
 
     }
