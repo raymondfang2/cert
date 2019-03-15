@@ -29,14 +29,14 @@ myApp.controller('dynamicQueryController' , function ($scope, $http) {
         $scope.publihDynamic = function () {
                console.log("Dynamic Publish button pressed!");
 
-               var path = "cert/addDynamicTab/dTab1/MyReport/"+ $scope.sql;
+               var path = "cert/addDynamicTab/0/MyReport/"+ $scope.sql;
 
                $http.get(path)
                            .then(function successCallback(response){
                            $scope.recordsInsert = response.data; //response JSON
                            console.log($scope.recordsInsert);
-                           //TODO: show the Tab, in parent scope?
-                           $scope.$parent.hidedTab1 = false;
+                           //show the Tab, in parent scope?
+                           $scope.$parent.hidedTabs[0] = false;
                      }, function errorCallback(response){
                            console.log("Unable to perform get request");
                      });

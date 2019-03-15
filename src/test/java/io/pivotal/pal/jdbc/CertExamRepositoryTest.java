@@ -96,11 +96,17 @@ public class CertExamRepositoryTest {
     }
 
     @Test
-    public void addDynamicTab() {
-        int result =  repo.addDynamicTab("DTAB1","My Report","SELECT select site_country, candidate_email, exam_code, score, grade from  cert_exam_result \n" +
+    public void allDynamicTab() {
+        int result =  repo.addDynamicTab("dTabTest","My Report","SELECT select site_country, candidate_email, exam_code, score, grade from  cert_exam_result \n" +
                 "where site_country='Singapore' limit 10");
        assertThat(result).isEqualTo(1);
+
+        List<String> result1 = repo.getDynamicTabIDs();
+        assertThat(result1).size().isGreaterThan(0);
+
+        List<HashMap> result2 = repo.getDynamicTabByID("dTabTest");
+        assertThat(result2).size().isGreaterThan(0);
+
     }
 
-    //addDynamicTab(String tabID, String tabName, String dSql)
 }

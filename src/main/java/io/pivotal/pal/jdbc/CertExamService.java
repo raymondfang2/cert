@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -75,6 +76,14 @@ public class CertExamService {
 
     public int addDynamicTab(String tabID, String tabName, String dSql) {
         return certRepo.addDynamicTab(tabID,tabName, dSql);
+    }
+
+    public List<String> getDynamicTabIDs() {
+        return certRepo.getDynamicTabIDs();
+    }
+
+    public List<HashMap> getDynamicTabByID(String tabID) {
+        return certRepo.getDynamicTabByID(tabID);
     }
 
 }

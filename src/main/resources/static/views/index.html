@@ -31,7 +31,7 @@
     <button class="tablinks" ng-click="changeTab($event, 'detail')" >Detail</button>
     <button class="tablinks" ng-click="changeTab($event, 'dynamicQuery')" >Dynamic Report</button>
     <button class="tablinks" ng-click="changeTab($event, 'administration')">Administration</button>
-    <button id="dTab1" class="tablinks" ng-hide="hidedTab1" ng-click="changeTab($event, 'dynamicTab1')">Dynamic Tab1</button>
+    <button id="dTab0" class="tablinks" ng-hide="hidedTabs[0]" ng-click="changeTab($event, 'dynamicTab1')">Dynamic Tab1</button>
 </div>
 <br>
 <div ng-view></div>

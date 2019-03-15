@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -165,11 +166,21 @@ public class CertExamRepository {
 
     private final String INSERT_DYNAMIC_TAB = "insert into dynamic_tab (tab_id, tab_name, dsql, create_date) "
             + " values (?,?,?, NOW())";
-
     public int addDynamicTab(String tabID, String tabName, String dSql) {
         return jdbcTemplate.update(
                 INSERT_DYNAMIC_TAB, tabID, tabName, dSql);
     }
 
+    private final String GET_DYNAMIC_TABIDS = "select tab_id from dynamic_tab";
+    public List<String> getDynamicTabIDs() {
+        return jdbcTemplate.queryForList(GET_DYNAMIC_TABIDS, String.class);
+    }
+
+    private final String GET_DYNAMIC_TAB_BY_ID = "select  tab_id, tab_name, dsql, create_date, update_date from dynamic_tab where tab_id=?";
+    public List<HashMap> getDynamicTabByID(String tabID) {
+        return jdbcTemplate.query(GET_DYNAMIC_TAB_BY_ID, new Object[]{tabID},
+                hashMapper);
+
+    }
 
 }

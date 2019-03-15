@@ -34,8 +34,25 @@ myApp.controller('appController' , function ($scope,$location, $http) {
        console.log("tabController start..");
 
        //Initial the active tab
-       $scope.hidedTab1 = true;
        document.getElementById("summaryTab").className += " active";
+
+
+       //method for get visible dTabs
+       $scope.getVisibleDTabs = function () {
+               console.log("getVisibeDTabs start..");
+               var path = "cert/getDynamicTabIDs";
+
+               $http.get(path)
+                         .then(function successCallback(response){
+                               $scope.response = response.data;
+                               console.log($scope.response);
+                               angular.forEach($scope.response, function(tabID) {
+                                         $scope.hidedTabs[tabID] = false;
+                               });
+                         }, function errorCallback(response){
+                                       console.log("Unable to perform get request");
+                         });
+       };
 
        //method for changing tab
        $scope.changeTab = function (evt, pageName) {
@@ -50,5 +67,9 @@ myApp.controller('appController' , function ($scope,$location, $http) {
             $location.path( "/"+pageName );
             console.log("before evt start..");
             evt.currentTarget.className += " active";
-       }
+       };
+
+       //get Visible DTabs and make is not hidden
+        $scope.hidedTabs = [true, true, true, true, true]; //default 5 hidden dTabs
+        $scope.getVisibleDTabs();
 })

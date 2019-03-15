@@ -87,4 +87,17 @@ public class CertExamController {
     public int addDynamicTab(@PathVariable String tabID, @PathVariable String tabName, @PathVariable String dSql) {
         return examService.addDynamicTab(tabID,tabName,dSql);
     }
+
+
+
+    @GetMapping("getDynamicTabIDs")
+    public List<String> getDynamicTabIDs() {
+        return examService.getDynamicTabIDs();
+    }
+
+    @GetMapping("getDynamicTabByID/{tabID}")
+    public List<HashMap> getDynamicTabByID(@PathVariable String tabID) {
+        return examService.getDynamicTabByID(tabID);
+    }
+
 }
