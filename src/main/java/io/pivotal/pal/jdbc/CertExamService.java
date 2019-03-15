@@ -77,6 +77,9 @@ public class CertExamService {
     public int addDynamicTab(String tabID, String tabName, String dSql) {
         return certRepo.addDynamicTab(tabID,tabName, dSql);
     }
+    public int deleteDynamicTab(String tabID) {
+        return certRepo.deleteDynamicTab(tabID);
+    }
 
     public List<String> getDynamicTabIDs() {
         return certRepo.getDynamicTabIDs();

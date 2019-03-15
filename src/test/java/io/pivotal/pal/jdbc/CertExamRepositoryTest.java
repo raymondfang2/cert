@@ -107,8 +107,8 @@ public class CertExamRepositoryTest {
         HashMap result2 = repo.getDynamicTabByID("dTabTest");
         assertThat(result2).size().isGreaterThan(0);
 
-        HashMap result3 = repo.getDynamicTabByID("0");
-        System.out.println(result3.get("tab_name"));
+        result = repo.deleteDynamicTab("dTabTest");
+        assertThat(result).isEqualTo(1);
 
     }
 

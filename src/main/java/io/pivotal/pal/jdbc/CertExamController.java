@@ -88,7 +88,11 @@ public class CertExamController {
         return examService.addDynamicTab(tabID,tabName,dSql);
     }
 
-
+    //TODO: change to POST (INSERTION) - AngularJS to be changed accordingly
+    @GetMapping("deleteDynamicTab/{tabID}")
+    public int deleteDynamicTab(@PathVariable String tabID) {
+        return examService.deleteDynamicTab(tabID);
+    }
 
     @GetMapping("getDynamicTabIDs")
     public List<String> getDynamicTabIDs() {

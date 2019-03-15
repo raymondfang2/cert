@@ -79,5 +79,15 @@ body {font-family: Arial;}
   border: 1px solid #ccc;
   border-top: none;
 }
+
+/* Style the close button */
+.topright {
+  float: right;
+  cursor: pointer;
+  font-size: 28px;
+  margin-right: 20px;
+}
+
+.topright:hover {color: red;}
 /*=======================*/
 /* End of Tab============*/

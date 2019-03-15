@@ -1,8 +1,9 @@
-myApp.controller('dynamicTabController' , function ($scope,$location, $http) {
+myApp.controller('dynamicTabController' , function ($scope, $location, $http) {
         console.log("dynamic Tab1 start...!");
         console.log($location.path() ); // "/dynamicTab1"...
-
-        //Get the tab_name, and searchResult
+        var routePath = $location.path();
+        console.log(routePath.substr(11));
+        //Get the tab_name, and searchResult based on the above RoutePath
         $scope.searchDynamic = function () {
                        console.log("Dynamic Tab Search !");
 
@@ -21,7 +22,24 @@ myApp.controller('dynamicTabController' , function ($scope,$location, $http) {
                               });
         };
 
-        //3. invoke the query
+        $scope.deleteDynamicTab = function () {
+                       console.log("Dynamic Tab Deletion !");
+                       var tabID = $location.path().substr(11);
+                       var path = "cert/deleteDynamicTab/"+ tabID;
+
+                       $http.get(path)
+                              .then(function successCallback(response){
+                                   console.log(response.data);
+                              }, function errorCallback(response){
+                                 console.log("Unable to perform get request");
+                              });
+
+                       //Switch to default page and hide this page
+                       $location.path("/");
+                       $scope.$parent.hidedTabs[tabID] = true;
+        };
+
+        // invoke the query by default
         $scope.searchDynamic();
 
 
