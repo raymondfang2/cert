@@ -1,4 +1,4 @@
-myApp.controller('dynamicTabController1' , function ($scope,$location, $http) {
+myApp.controller('dynamicTabController' , function ($scope,$location, $http) {
         console.log("dynamic Tab1 start...!");
         console.log($location.path() ); // "/dynamicTab1"...
 

@@ -19,8 +19,8 @@ myApp.config(function($routeProvider) {
     templateUrl : "views/administration.html"
   })
   .when("/dynamicTab0", {
-      templateUrl : "views/dynamicTab1.html",
-      controller : "dynamicTabController1"
+      templateUrl : "views/dynamicTab.html",
+      controller : "dynamicTabController"
     })
   .otherwise({
       templateUrl : "views/summary.html",
