@@ -8,11 +8,10 @@ myApp.controller('dynamicQueryController' , function ($scope, $http) {
         $scope.searchDynamic = function () {
                console.log("Dynamic Search button pressed!");
 
-               $http({
-                       method: 'GET',
-                       url: 'cert/getDynamicQueryResult',
-                       params: {dsql: $scope.sql}
-                    }).then(function successCallback(response){
+               var path = "cert/getDynamicQueryResult/"+ encodeURI($scope.sql);
+
+               $http.get(path)
+                      .then(function successCallback(response){
                                 $scope.response = response.data; //response JSON
                                 //Need to handle zero record case - check size before next
                                 $scope.thdata = response.data[0]; //the first record
@@ -26,13 +25,9 @@ myApp.controller('dynamicQueryController' , function ($scope, $http) {
         $scope.publihDynamic = function () {
                console.log("Dynamic Publish button pressed!");
 
-               //var path = "cert/addDynamicTab/MyReport/"+ $scope.sql;
+               var path = "cert/addDynamicTab/MyReport/"+ $scope.sql;
 
-               $http({
-                           method: 'GET',
-                           url: 'cert/addDynamicTab',
-                           params: {tabName: 'My Report', dsql: $scope.sql}
-                         })
+               $http.get(path)
                            .then(function successCallback(response){
                            $scope.newTabID = response.data; //response JSON
                            console.log($scope.newTabID);

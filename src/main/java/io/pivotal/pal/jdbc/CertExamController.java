@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -77,14 +74,24 @@ public class CertExamController {
     }
 
     //TODO: change to Body to send the QUERY FOR LONG STRING - AngularJS to be changed accordingly
+    /*
     @GetMapping("getDynamicQueryResult/{sql}")
     public List<HashMap> getDynamicQueryResult(@PathVariable String sql) {
+        logger.info("==>"+sql);
+        return examService.getDynamicQueryResult(sql);
+    }
+    */
+
+    @GetMapping("getDynamicQueryResult")
+    public List<HashMap> getDynamicQueryResult(@RequestParam("dsql") String sql) {
+        logger.info("==>"+sql);
         return examService.getDynamicQueryResult(sql);
     }
 
+
     //TODO: change to POST (INSERTION) - AngularJS to be changed accordingly
-    @GetMapping("addDynamicTab/{tabName}/{dSql}")
-    public String addDynamicTab(@PathVariable String tabName, @PathVariable String dSql) {
+    @GetMapping("addDynamicTab")
+    public String addDynamicTab(@RequestParam("tabName") String tabName, @RequestParam("dsql") String dSql) {
         return examService.addDynamicTab(tabName,dSql);
     }
 
