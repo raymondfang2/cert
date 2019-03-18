@@ -1,5 +1,7 @@
 package io.pivotal.pal.jdbc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -18,6 +20,8 @@ import java.util.List;
 
 @Repository
 public class CertExamRepository {
+    Logger logger = LoggerFactory.getLogger(CertExamRepository.class);
+
     private final JdbcTemplate jdbcTemplate;
 
     private final String ALL_SUMMARY = "select 'ALL' as region, m.pivotal_code, " +
@@ -184,6 +188,7 @@ public class CertExamRepository {
 
     private final String GET_DYNAMIC_TAB_BY_ID = "select  tab_id, tab_name, dsql, create_date, update_date from dynamic_tab where tab_id=?";
     public HashMap getDynamicTabByID(String tabID) {
+        logger.info("===>tabID: "+tabID);
         return jdbcTemplate.queryForObject(GET_DYNAMIC_TAB_BY_ID, new Object[]{tabID},
                 hashMapper);
 

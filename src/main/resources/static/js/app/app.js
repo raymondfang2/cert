@@ -22,6 +22,22 @@ myApp.config(function($routeProvider) {
       templateUrl : "views/dynamicTab.html",
       controller : "dynamicTabController"
     })
+  .when("/dynamicTab1", {
+          templateUrl : "views/dynamicTab.html",
+          controller : "dynamicTabController"
+        })
+  .when("/dynamicTab2", {
+          templateUrl : "views/dynamicTab.html",
+          controller : "dynamicTabController"
+            })
+  .when("/dynamicTab3", {
+                  templateUrl : "views/dynamicTab.html",
+                  controller : "dynamicTabController"
+                })
+  .when("/dynamicTab4", {
+                      templateUrl : "views/dynamicTab.html",
+                      controller : "dynamicTabController"
+                    })
   .otherwise({
       templateUrl : "views/summary.html",
       controller : "summaryController"
