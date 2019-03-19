@@ -56,14 +56,19 @@ myApp.controller('appController' , function ($scope,$location, $http) {
        //method for get visible dTabs
        $scope.getVisibleDTabs = function () {
                console.log("getVisibeDTabs start..");
-               var path = "cert/getDynamicTabIDs";
+               //var path = "cert/getDynamicTabIDs"; //getDynamicTabIDNAMEs
+               var path = "cert/getDynamicTabIDNAMEs"
 
                $http.get(path)
                          .then(function successCallback(response){
                                $scope.response = response.data;
                                console.log($scope.response);
-                               angular.forEach($scope.response, function(tabID) {
-                                         $scope.hidedTabs[tabID] = false;
+                               angular.forEach($scope.response, function(dtab) {
+                                         $scope.hidedTabs[dtab.tab_id] = false;
+                                         $scope.dTabNames[dtab.tab_id] = dtab.tab_name;
+                                         console.log(dtab.tab_id);
+                                         console.log(dtab.tab_name);
+
                                });
                          }, function errorCallback(response){
                                        console.log("Unable to perform get request");
@@ -87,5 +92,6 @@ myApp.controller('appController' , function ($scope,$location, $http) {
 
        //get Visible DTabs and make is not hidden
         $scope.hidedTabs = [true, true, true, true, true]; //default 5 hidden dTabs
+        $scope.dTabNames = [];
         $scope.getVisibleDTabs();
 })

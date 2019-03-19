@@ -106,6 +106,11 @@ public class CertExamController {
         return examService.getDynamicTabIDs();
     }
 
+    @GetMapping("getDynamicTabIDNAMEs")
+    public List<HashMap> getDynamicTabIDNAMEs() {
+        return examService.getDynamicTabIDNAMEs();
+    }
+
     @GetMapping("getDynamicTabByID/{tabID}")
     public HashMap getDynamicTabByID(@PathVariable String tabID) {
         return examService.getDynamicTabByID(tabID);

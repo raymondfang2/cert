@@ -94,7 +94,7 @@ public class CertExamService {
             }
         }
 
-        if ((newTabID.equals("-1"))&&(tabIDs.size()>0)) {
+        if (newTabID.equals("-1")) {
             newTabID = ""+tabIDs.size();
         }
 
@@ -113,6 +113,10 @@ public class CertExamService {
 
     public List<String> getDynamicTabIDs() {
         return certRepo.getDynamicTabIDs();
+    }
+
+    public List<HashMap> getDynamicTabIDNAMEs() {
+        return certRepo.getDynamicTabIDNAMEs();
     }
 
     public HashMap getDynamicTabByID(String tabID) {
