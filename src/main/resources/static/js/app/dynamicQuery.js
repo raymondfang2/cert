@@ -49,7 +49,7 @@ myApp.controller('dynamicQueryController' , function ($scope, $http) {
               if (result.value) {
                 //Call backend to publish using AngularJS
                                    $http({
-                                          method: 'GET',
+                                          method: 'POST',
                                           url: 'cert/addDynamicTab',
                                           params: {tabName: result.value, dsql: $scope.sql}
                                         })
