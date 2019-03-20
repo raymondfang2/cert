@@ -1,4 +1,4 @@
-package io.pivotal.pal.jdbc;
+package io.pivotal.pal.cert;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

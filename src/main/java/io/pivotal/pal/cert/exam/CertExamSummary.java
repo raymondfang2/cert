@@ -1,4 +1,4 @@
-package io.pivotal.pal.jdbc;
+package io.pivotal.pal.cert.exam;
 
 import java.io.Serializable;
 import java.util.Objects;

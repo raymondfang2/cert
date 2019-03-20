@@ -1,4 +1,4 @@
-package io.pivotal.pal.jdbc;
+package io.pivotal.pal.cert.exam;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

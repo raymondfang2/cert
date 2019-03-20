@@ -1,19 +1,16 @@
-package io.pivotal.pal.jdbc;
+package io.pivotal.pal.cert;
 
+import io.pivotal.pal.cert.exam.CertExamController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import static org.assertj.core.api.Assertions.*;
-
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -35,7 +32,7 @@ public class CertDashboardApplicationTests {
 	}
 
 /*
-TODO: need to disable the Basic authentication to test end2end, that is why I commented the @Test
+TODO: need to disable the Basic authentication to test end2end, setup local var in build.gradle, At the moment I commented the @Test
  */
 	//@Test
 	public void getCertSummary() throws Exception {

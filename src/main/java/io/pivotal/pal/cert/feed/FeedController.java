@@ -1,5 +1,6 @@
-package io.pivotal.pal.jdbc;
+package io.pivotal.pal.cert.feed;
 
+import io.pivotal.pal.cert.exam.CertExamService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,17 +9,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/admin")
-public class AdminController {
-    Logger logger = LoggerFactory.getLogger(AdminController.class);
+public class FeedController {
+    Logger logger = LoggerFactory.getLogger(FeedController.class);
 
     private CertExamService certService;
 
     @Autowired
-    public AdminController(CertExamService certService) {
+    public FeedController(CertExamService certService) {
         this.certService = certService;
     }
 
