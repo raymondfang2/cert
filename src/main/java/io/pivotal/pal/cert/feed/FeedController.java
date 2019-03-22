@@ -19,7 +19,7 @@ public class FeedController {
     }
 
 
-    @PostMapping("setup/{feedSource}") //e.g. PearsonVUE.csv
+    @GetMapping("setup/{feedSource}") //e.g. PearsonVUE.csv
     public int loadExamRecords(@PathVariable String feedSource) throws Exception {
         logger.info( "====>Loading initial data to DB- " + feedSource);
         //1. load the CSV

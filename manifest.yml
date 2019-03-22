@@ -5,4 +5,4 @@ applications:
   routes:
   - route: palcert.cfapps.io
   services:
-  - tracker-database
+  - cert-database

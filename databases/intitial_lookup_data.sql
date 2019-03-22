@@ -19,6 +19,6 @@ insert into EXAM_CODE_MAP ( EXAM_CODE,PIVOTAL_CODE) values ('SpringWebDevCertV1'
 insert into EXAM_CODE_MAP ( EXAM_CODE,PIVOTAL_CODE) values ('SpringWebV4.0','Spring Web ');
 insert into EXAM_CODE_MAP ( EXAM_CODE,PIVOTAL_CODE) values ('SpringWebV4.2','Spring Web ');
 
-update exam_code_map set  create_date=now() where id <30
+update exam_code_map set  create_date=now()
 
-update exam_code_map set  data_source='Pearson VUE' where id <30
+update exam_code_map set  data_source='Pearson VUE'

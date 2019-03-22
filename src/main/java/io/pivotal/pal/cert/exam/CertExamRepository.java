@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
@@ -26,7 +27,7 @@ public class CertExamRepository {
             "      count(case when grade='pass' then grade end) pass, " +
             "      count(case when grade='fail' then grade end) fail, " +
             "      count(case when grade='refused' then grade end) refused " +
-            "from cert_exam_result r, exam_code_map m " +
+            "from CERT_EXAM_RESULT r, EXAM_CODE_MAP m " +
             "where r.data_source = m.data_source and r.exam_code = m.exam_code " +
             "and r.exam_date>=?  AND r.exam_date<=? " +
             "group by pivotal_code " +
@@ -36,22 +37,22 @@ public class CertExamRepository {
             "      count(case when grade='pass' then grade end) pass, " +
             "      count(case when grade='fail' then grade end) fail, " +
             "      count(case when grade='refused' then grade end) refused " +
-            "from cert_exam_result r, exam_code_map m " +
+            "from CERT_EXAM_RESULT r, EXAM_CODE_MAP m " +
             "where r.data_source = m.data_source  and r.exam_code = m.exam_code " +
             "and r.exam_date>=? and r.exam_date<=?  and substr(r.site_region,5)=? " +
             "group by site_region, pivotal_code " +
             "order by site_region, pivotal_code ";
 
     private final String COUNTRY_LIST =
-            "select distinct site_country from cert_exam_result order by site_country";
+            "select distinct site_country from CERT_EXAM_RESULT order by site_country";
 
     private final String EXAM_DETAIL = "select ID,DATA_SOURCE,CREATE_DATE,UPDATE_DATE,CANDIDATE_EMAIL,CANDIDATE_FIRSTNAME,CANDIDATE_LASTNAME, " +
             "  CANDIDATE_COMPANY,SITE_REGION,SITE_COUNTRY,EXAM_CODE,EXAM_TITLE,EXAM_DATE,SCORE,GRADE " +
-            " from cert_exam_result where exam_date>=? and exam_date<=? " +
+            " from CERT_EXAM_RESULT where exam_date>=? and exam_date<=? " +
             "order by exam_date ";
     //+ "limit 50";
 
-    private final String EXAM_RECORD_INSERT = "INSERT INTO cert_exam_result " +
+    private final String EXAM_RECORD_INSERT = "INSERT INTO CERT_EXAM_RESULT " +
             "(DATA_SOURCE, CREATE_DATE, CANDIDATE_EMAIL, CANDIDATE_FIRSTNAME, CANDIDATE_LASTNAME, CANDIDATE_COMPANY,SITE_REGION,SITE_COUNTRY,EXAM_CODE,EXAM_TITLE,EXAM_DATE, SCORE, GRADE) " +
             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -135,9 +136,10 @@ public class CertExamRepository {
 
     //batch insertion - for feed processing
     //TODO: real feed processing should be in stage first then merge
+    @Transactional
     public int[] insertBatch(final List<CertExamRecord> examRecords){
 
-
+            logger.info("=====>Start a batch");
             return jdbcTemplate.batchUpdate(EXAM_RECORD_INSERT,
                     new BatchPreparedStatementSetter() {
 
@@ -166,31 +168,31 @@ public class CertExamRepository {
     }
 
 
-    private final String INSERT_DYNAMIC_TAB = "insert into dynamic_tab (tab_id, tab_name, dsql, create_date) "
+    private final String INSERT_DYNAMIC_TAB = "insert into DYNAMIC_TAB (tab_id, tab_name, dsql, create_date) "
             + " values (?,?,?, NOW())";
     public int addDynamicTab(String tabID, String tabName, String dSql) {
         return jdbcTemplate.update(
                 INSERT_DYNAMIC_TAB, tabID, tabName, dSql);
     }
 
-    private final String DELETE_DYNAMIC_TAB = "delete from dynamic_tab where tab_id=?";
+    private final String DELETE_DYNAMIC_TAB = "delete from DYNAMIC_TAB where tab_id=?";
     public int deleteDynamicTab(String tabID) {
         return jdbcTemplate.update(
                 DELETE_DYNAMIC_TAB, tabID);
     }
 
-    private final String GET_DYNAMIC_TABIDS = "select tab_id from dynamic_tab order by tab_id";
+    private final String GET_DYNAMIC_TABIDS = "select tab_id from DYNAMIC_TAB order by tab_id";
     public List<String> getDynamicTabIDs() {
         return jdbcTemplate.queryForList(GET_DYNAMIC_TABIDS, String.class);
     }
 
-    private final String GET_DYNAMIC_TABIDNAMES = "select tab_id, tab_name from dynamic_tab order by tab_id";
+    private final String GET_DYNAMIC_TABIDNAMES = "select tab_id, tab_name from DYNAMIC_TAB order by tab_id";
     public List<HashMap> getDynamicTabIDNAMEs() {
         return jdbcTemplate.query(GET_DYNAMIC_TABIDNAMES,
                 hashMapper);
     }
 
-    private final String GET_DYNAMIC_TAB_BY_ID = "select  tab_id, tab_name, dsql, create_date, update_date from dynamic_tab where tab_id=?";
+    private final String GET_DYNAMIC_TAB_BY_ID = "select  tab_id, tab_name, dsql, create_date, update_date from DYNAMIC_TAB where tab_id=?";
     public HashMap getDynamicTabByID(String tabID) {
         logger.info("===>tabID: "+tabID);
         return jdbcTemplate.queryForObject(GET_DYNAMIC_TAB_BY_ID, new Object[]{tabID},

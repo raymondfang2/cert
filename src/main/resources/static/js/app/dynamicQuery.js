@@ -1,7 +1,7 @@
 myApp.controller('dynamicQueryController' , function ($scope, $http) {
         console.log("dynamic start...!");
        //sample query
-        $scope.sql="select candidate_email, exam_code, site_country, exam_date, score, grade from cert_exam_result limit 10 #sample only ";
+        $scope.sql="select candidate_email, exam_code, site_country, exam_date, score, grade from CERT_EXAM_RESULT limit 10 #sample only ";
         $scope.response = [{}]; //clear the cache data
 
         //2. Search Button Click method

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Writer;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ public class CertExamService {
         return size;
     }
 
+    //Transacton is handling in batch level
     public int generateCsvFile(String startYear, String endYear, Writer writer) throws Exception {
         //TODO: If the data is too big, for memory foot-print
         //we can easily select from DB and generate the CSV batch by batch using limit
@@ -80,6 +82,7 @@ public class CertExamService {
     /*
         return newTabID
      */
+    @Transactional
     public String addDynamicTab(String tabName, String dSql) {
         String newTabID = "-1"; //tabID is String, but from "0" to "4"
         List<String> tabIDs =  certRepo.getDynamicTabIDs();
@@ -102,11 +105,12 @@ public class CertExamService {
         return newTabID;
     }
 
+    @Transactional
     public int addDynamicTab(String tabID, String tabName, String dSql) {
         return certRepo.addDynamicTab(tabID,tabName, dSql);
     }
 
-
+    @Transactional
     public int deleteDynamicTab(String tabID) {
         return certRepo.deleteDynamicTab(tabID);
     }

@@ -45,12 +45,12 @@ public class CsvLoader {
 
     //Load a CSV file from classpath into DB
     public  int csvToDB(String path, CertExamRepository certRepo) throws Exception {
-        logger.info("reading csv...");
+        logger.info("reading csv..."+path);
         int size = 0;
         // load file from resource
         ClassLoader classLoader = CsvLoader.class.getClassLoader();
         File file = new File(classLoader.getResource(path).getFile());
-
+        logger.info("=====>file opened:"+file.getAbsolutePath());
         /*
         First Name,Last Name,Name,Email(lookup),Company(lookup),Region,Country,Code,Title,ExamDate,Score,Grade,Language
          */
@@ -62,13 +62,18 @@ public class CsvLoader {
 
         // read from file
         try (Reader reader = new FileReader(file)) {
+            logger.info("====>in FileReader...");
             MappingIterator<CertExamRecord> mi = oReader.readValues(reader);
-            size = mi.readAll().size();
+            //size = mi.readAll().size(); This will cause the iterator to point to the end.
+            //logger.info("=====>size of file:"+size);
             //Use Guava Iterator to simplify code - to do batch processing
+            int i=0;
             Iterator<List<CertExamRecord>> partitionResult = Iterators.partition(mi,500);
             while (partitionResult.hasNext()) {
+                i++;
                 List<CertExamRecord> subset = partitionResult.next();
                 logger.info("=====>subset size: "+subset.size());
+                size += subset.size();
                 /*
                 CertExamRecord record;
                 for (int i=0; i<subset.size(); i++) {
@@ -80,10 +85,11 @@ public class CsvLoader {
                 }
                 */
                 certRepo.insertBatch(subset);
+                logger.info("======> finish a batch:" + i);
 
             }
         }
-        return size;
+        return size; //At the moment
     }
 
     public void generateCsv(List<CertExamRecord> examRecords, Writer writer) throws Exception {
