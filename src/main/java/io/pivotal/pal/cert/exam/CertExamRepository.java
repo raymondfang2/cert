@@ -134,8 +134,8 @@ public class CertExamRepository {
         return  row;
     };
 
-    //batch insertion - for feed processing
-    //TODO: real feed processing should be in stage first then merge
+    //batch insertion - for admin processing
+    //TODO: real admin processing should be in stage first then merge
     @Transactional
     public int[] insertBatch(final List<CertExamRecord> examRecords){
 

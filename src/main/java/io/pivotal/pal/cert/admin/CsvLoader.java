@@ -1,4 +1,4 @@
-package io.pivotal.pal.cert.feed;
+package io.pivotal.pal.cert.admin;
 
 import java.io.*;
 import java.sql.Date;
