@@ -141,4 +141,8 @@ public class CertExamService {
         return result;
     }
 
+    public String getRoleByEmail(String email) {
+        return certRepo.getRoleByEmail(email);
+    }
+
 }

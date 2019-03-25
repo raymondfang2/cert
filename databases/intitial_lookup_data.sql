@@ -22,3 +22,7 @@ insert into EXAM_CODE_MAP ( EXAM_CODE,PIVOTAL_CODE) values ('SpringWebV4.2','Spr
 update EXAM_CODE_MAP set  create_date=now()
 
 update EXAM_CODE_MAP set  data_source='Pearson VUE'
+
+INSERT INTO USER_ROLE (EMAIL, USER_ROLE) VALUES ('rfang@pivotal.io','ADMIN');
+
+INSERT INTO USER_ROLE (EMAIL, USER_ROLE) VALUES ('raymond.fanglimin@icloud.com','USER');

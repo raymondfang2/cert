@@ -32,14 +32,15 @@ public class SpoofFilter implements Filter {
     //This is for testing whether it is running in PCF
     @Value("${CF_INSTANCE_INDEX:NOT SET}")
     String cfInstanceIndex;
-    String testAdmin = "{\"domain\":\"test.test\",\"email\":\"admin@test.test\"}";
-    String testUser = "{\"domain\":\"test.test\",\"email\":\"user@test.test\"}";
+    String testAdmin = "{\"domain\":\"test.test\",\"email\":\"ADMIN@test.test\"}";
+    String testUser = "{\"domain\":\"test.test\",\"email\":\"USER@test.test\"}";
 
     @Override
     public void doFilter(
             ServletRequest request,
             ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
+        //System.out.println("=============>SpoofFilter");
         logger.info("===>SpoofFilter starting...");
 
         if ("NOT SET".equals(cfInstanceIndex)) { //Only not in PCF --> local environment
@@ -58,6 +59,7 @@ public class SpoofFilter implements Filter {
             chain.doFilter(custReq, response);
         }
         else {
+            logger.info("===>SpoofFilter skipped in PCF enviroment");
             chain.doFilter(request, response);
         }
     }

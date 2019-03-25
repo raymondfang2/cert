@@ -110,4 +110,11 @@ public class CertExamRepositoryTest {
 
     }
 
+    @Test
+    public void getRoleByEmail() {
+        String result = repo.getRoleByEmail("rfang@pivotal.io");
+        System.out.println(result);
+        assertThat(result).isEqualTo("ADMIN");
+    }
+
 }

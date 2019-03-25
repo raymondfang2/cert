@@ -3,6 +3,7 @@ package io.pivotal.pal.cert.exam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -198,6 +199,21 @@ public class CertExamRepository {
         return jdbcTemplate.queryForObject(GET_DYNAMIC_TAB_BY_ID, new Object[]{tabID},
                 hashMapper);
 
+    }
+
+    private final String GET_ROLE_BY_EMAIL = "select USER_ROLE from USER_ROLE where EMAIL=? ";
+    public String getRoleByEmail(String email) {
+        logger.info("===>email: "+email);
+        String role = "";
+        try {
+            role = jdbcTemplate.queryForObject(GET_ROLE_BY_EMAIL, new Object[]{email},
+                    String.class);
+        }
+        catch (EmptyResultDataAccessException e) {
+            logger.warn("=====>user does not have role in DB: "+email);
+            //return empty String
+        }
+        return role;
     }
 
 }
