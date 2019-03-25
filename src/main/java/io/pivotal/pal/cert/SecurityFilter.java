@@ -79,7 +79,7 @@ public class SecurityFilter implements Filter {
         logger.info("=====>path:"+path);
 
         //TODO: change Role and Path here, send the role back in the response header to javascript to processing the tab
-        
+
 
         chain.doFilter(request, response);
 
