@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.pivotal.pal.cert.exam.CertExamService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 /*
@@ -30,6 +31,8 @@ import org.springframework.stereotype.Component;
 public class SecurityFilter implements Filter {
 
     Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
+
+    @Autowired
     private CertExamService examService;
 
     @Override
@@ -37,7 +40,8 @@ public class SecurityFilter implements Filter {
             ServletRequest request,
             ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
-         logger.info("===>SecurityFilter Starting...");
+        logger.info("===>SecurityFilter Starting...");
+        //logger.info("===>"+examService);
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession();

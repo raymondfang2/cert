@@ -23,6 +23,14 @@ update EXAM_CODE_MAP set  create_date=now()
 
 update EXAM_CODE_MAP set  data_source='Pearson VUE'
 
+
+#the following is for role control only
 INSERT INTO USER_ROLE (EMAIL, USER_ROLE) VALUES ('rfang@pivotal.io','ADMIN');
 
 INSERT INTO USER_ROLE (EMAIL, USER_ROLE) VALUES ('raymond.fanglimin@icloud.com','USER');
+
+INSERT INTO USER_ROLE (EMAIL, USER_ROLE) VALUES ('sechan@pivotal.io','ADMIN');
+INSERT INTO USER_ROLE (EMAIL, USER_ROLE) VALUES ('cecurtis@pivotal.io','ADMIN');
+INSERT INTO USER_ROLE (EMAIL, USER_ROLE) VALUES ('lachua@pivotal.io','ADMIN');
+INSERT INTO USER_ROLE (EMAIL, USER_ROLE) VALUES ('pmcfadden@pivotal.io','ADMIN');
+
