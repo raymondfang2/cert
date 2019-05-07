@@ -6,6 +6,10 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
+/*Deprecated - only for "Pearson VUE"
+for simplicity, we use HashMap or LinkedHashMap(ordered) consistently
+*/
+
 public class CertExamRecord implements Serializable {
     private long ID;
     private String dataSource="Pearson VUE";//TODO: to be refactored (using subclass?), at present only support this one

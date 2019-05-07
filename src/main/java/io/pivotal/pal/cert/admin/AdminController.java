@@ -6,7 +6,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
 
 @RestController
 @RequestMapping("/admin")
@@ -33,17 +37,11 @@ public class AdminController {
     @PostMapping("uploadFile")
     public void submit(@RequestParam("file") MultipartFile file) throws Exception {
         logger.info( "====>fileUploading "+file.getOriginalFilename()+file.getSize());
-
-
+        List<String> examCsv = new ArrayList<String>();
         Scanner scan = new Scanner(file.getInputStream());
-        int i=0;
         while(scan.hasNextLine()){
-            i++;
-            String line = scan.nextLine();
-            logger.info("--->"+line);
+            examCsv.add(scan.nextLine());
         }
-        logger.info("======>"+i+"<======");
-        //modelMap.addAttribute("file", file);
 
 
     }
