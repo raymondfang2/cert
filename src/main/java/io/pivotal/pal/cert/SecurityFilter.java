@@ -70,7 +70,7 @@ public class SecurityFilter implements Filter {
             }
 
             if ((role==null)||(role.length()==0))  {
-                res.sendError(403);
+                res.sendError(403,"Permission Denied!");
                 return; //No role defined
             }
             else {
@@ -82,6 +82,7 @@ public class SecurityFilter implements Filter {
         String path = req.getServletPath();
         logger.info("=====>path:"+path);
 
+        //TODO: check USER role is not able to accesss /admin/*
         //TODO: change Role and Path here, send the role back in the response header to javascript to processing the tab
 
 

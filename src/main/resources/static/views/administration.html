@@ -1,6 +1,38 @@
 <br>
 
-<p>
-    This page will let administrator to configure and monitor the feeds from different exam center.
-</p>
-<img src="views/underConstruction.jpeg" alt="Under Construction" style="width:500px;height:350px;">
+<!-- Use the plain html
+<form method="POST" action="/admin/uploadFile" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>Select a file to upload:</td>
+        </tr>
+        <tr>
+            <td><input type="file" name="file" /></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Submit" /></td>
+        </tr>
+    </table>
+</form>
+-->
+
+<form name="myForm">
+    <fieldset>
+        <p>Upload on form submit</p>
+        <br>
+        <input type="file" ngf-select ng-model="csvFile" name="file"
+              required>
+         <br>
+        <button
+                ng-click="uploadFile(csvFile)">Submit</button>
+        <span class="progress" ng-show="csvFile.progress >= 0">
+        <div style="width:{{csvFile.progress}}%"
+             ng-bind="csvFile.progress + '%'"></div>
+      </span>
+        <span ng-show="csvFile.result">Upload Successful</span>
+        <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+    </fieldset>
+    <br>
+</form>
+
+

@@ -1,4 +1,4 @@
-var myApp = angular.module('certApp', ["chart.js","ngRoute"]);
+var myApp = angular.module('certApp', ["chart.js","ngRoute","ngFileUpload"]);
 
 //Each Tab will be a html with a controller
 myApp.config(function($routeProvider) {
@@ -16,7 +16,8 @@ myApp.config(function($routeProvider) {
       controller : "dynamicQueryController"
     })
   .when("/administration", {
-    templateUrl : "views/administration.html"
+    templateUrl : "views/administration.html",
+    controller : "adminController"
   })
   .when("/dynamicTab0", {
       templateUrl : "views/dynamicTab.html",

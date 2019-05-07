@@ -31,9 +31,7 @@ public class CertDashboardApplicationTests {
 		assertThat(cc).isNotNull();
 	}
 
-/*
-TODO: need to disable the Basic authentication to test end2end, setup local var in build.gradle, At the moment I commented the @Test
- */
+
 	//@Test
 	public void getCertSummary() throws Exception {
 		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cert/getCertSummary/2012/2018",
