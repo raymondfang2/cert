@@ -1,6 +1,9 @@
-package io.pivotal.pal.cert.exam;
+package io.pivotal.pal.cert.user;
 
 
+import io.pivotal.pal.cert.exam.CertExamRecord;
+import io.pivotal.pal.cert.exam.CertExamService;
+import io.pivotal.pal.cert.exam.CertExamSummary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package io.pivotal.pal.cert;
 
-import io.pivotal.pal.cert.exam.CertExamController;
+import io.pivotal.pal.cert.user.CertExamController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

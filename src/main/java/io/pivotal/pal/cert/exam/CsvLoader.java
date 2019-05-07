@@ -1,4 +1,4 @@
-package io.pivotal.pal.cert.admin;
+package io.pivotal.pal.cert.exam;
 
 import java.io.*;
 import java.sql.Date;
@@ -10,8 +10,6 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import io.pivotal.pal.cert.exam.CertExamRecord;
-import io.pivotal.pal.cert.exam.CertExamRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

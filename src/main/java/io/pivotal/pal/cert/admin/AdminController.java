@@ -37,11 +37,18 @@ public class AdminController {
     @PostMapping("uploadFile")
     public void submit(@RequestParam("file") MultipartFile file) throws Exception {
         logger.info( "====>fileUploading "+file.getOriginalFilename()+file.getSize());
+        //0. delete previous record
+        //1. convert to HashMap List
+        //2. batch insertion
+        //3. merge
+
+        //Step 1 fetch data
         List<String> examCsv = new ArrayList<String>();
         Scanner scan = new Scanner(file.getInputStream());
         while(scan.hasNextLine()){
             examCsv.add(scan.nextLine());
         }
+
 
 
     }
