@@ -1,4 +1,15 @@
-package io.pivotal.pal.cert.admin;
+package io.pivotal.pal.cert.csvutil;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.google.common.collect.Iterators;
+import io.pivotal.pal.cert.admin.CsvLoader;
+import io.pivotal.pal.cert.exam.CertExamRecord;
+import io.pivotal.pal.cert.exam.CertExamRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.sql.Date;
@@ -6,25 +17,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import io.pivotal.pal.cert.exam.CertExamRecord;
-import io.pivotal.pal.cert.exam.CertExamRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import static com.fasterxml.jackson.dataformat.csv.CsvSchema.ColumnType.NUMBER;
 
-import com.google.common.collect.Iterators; //batch processing
-import org.springframework.stereotype.Component;
 /*
-This class is deprecated, only used for loading "Pearson VUE" exam data one time
+To convert Csv to List of HashMap and vice verser
+Since our csv is like following,
+'field1','field2','filed3'
+we use seperator "','" 3 chars in the double quote
+Not using JackSon CSV Mapper, use String split directly to handle leading and ending extra "'"
  */
-@Component
-public class CsvLoader {
-    Logger logger = LoggerFactory.getLogger(CsvLoader.class);
+public class CsvConverter {
+    Logger logger = LoggerFactory.getLogger(CsvConverter.class);
 
     private CsvSchema setupCsvSchema() {
         CsvSchema schema = CsvSchema.builder()
@@ -127,4 +130,3 @@ public class CsvLoader {
 
     }
 }
-

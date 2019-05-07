@@ -9,6 +9,17 @@ th#pieChartTitle {
     text-align: center;
 }
 
+/*for uploadFile*/
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #CCC;
+}
+.progress div {
+    font-size: smaller;
+    background: orange;
+    width: 0;
+}
 /* For the search filter*/
 table.fixed td:nth-of-type(1) {width:250px;}/*Setting the width of column 1.*/
 table.fixed td:nth-of-type(2) {width:250px;}/*Setting the width of column 2.*/

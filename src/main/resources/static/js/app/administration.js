@@ -19,3 +19,4 @@ myApp.controller('adminController', ['$scope', 'Upload', '$timeout', function ($
     });
     }
 }]);
+
