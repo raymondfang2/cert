@@ -136,7 +136,7 @@ public class CertExamRepository {
     };
 
     //batch insertion - for admin processing
-    //TODO: real admin processing should be in stage first then merge
+    //Deprecated, this is for insertion for "Pearson VUE" only
     @Transactional
     public int[] insertBatch(final List<CertExamRecord> examRecords){
 
@@ -165,6 +165,49 @@ public class CertExamRepository {
                             return examRecords.size();
                         }
                     });
+
+    }
+
+    /*
+    This is general purpose batchInsertion, dynamic tableName, columns based on HashMap keyset
+    Requirement for this version --> all the table columns are String - this is purposely designed for staging table
+    Usually, DB is able to convert String to the right type if the format is correct
+    */
+    //TODO: to be tested, EXAM_CENTER not from source
+    public int[] insertBatch(String tableName,  List<HashMap<String, String>> examRecords){
+
+        logger.info("=====>Start a batch");
+        //preparation for insert statement
+        StringBuffer statement = new StringBuffer("INSERT INTO ").append(tableName).append(" (");
+        StringBuffer valuePlaceholder = new StringBuffer(" VALUES (");
+        HashMap<String, String> first = examRecords.get(0);
+        first.forEach((k,v)->{
+            statement.append(k).append(",");
+            valuePlaceholder.append("?,");
+        });
+        //remove last extra "," - 1 characters
+        statement.setLength(statement.length()-1);
+        valuePlaceholder.setLength(valuePlaceholder.length()-1);
+        //whole statement
+        statement.append(")").append(valuePlaceholder).append(")");
+
+        //insertion, set values
+        return jdbcTemplate.batchUpdate(statement.toString(),
+                new BatchPreparedStatementSetter() {
+
+                    public void setValues(PreparedStatement ps, int i) throws SQLException {
+                        //This is LinkMap so that order is preserved
+                        HashMap<String, String> record = examRecords.get(i);
+                        String[] values = (String[])record.values().toArray();
+                        for (int j=1; j<=record.size(); j++) {
+                            ps.setString(j, values[j]);
+                        }
+                    }
+                    @Override
+                    public int getBatchSize() {
+                        return examRecords.size();
+                    }
+                });
 
     }
 
