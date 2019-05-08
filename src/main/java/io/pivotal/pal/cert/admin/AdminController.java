@@ -46,8 +46,8 @@ public class AdminController {
         }
         //Step 2, insert into Stage
         logger.info("====> start to load into stage DB, csvSize"+ examCsv.size());
-        certService.uploadCSV(examCsv);
-        Thread.sleep(10000);
+        certService.uploadCSV("PSI",examCsv);
+
         logger.info("====> Upload done!");
         return "true";
     }

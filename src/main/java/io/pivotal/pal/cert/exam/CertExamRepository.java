@@ -166,6 +166,7 @@ public class CertExamRepository {
 
     }
 
+
     /*
     This is general purpose batchInsertion, dynamic tableName, columns based on HashMap keyset
     Requirement for this version --> all the table columns are String - this is purposely designed for staging table
@@ -210,6 +211,15 @@ public class CertExamRepository {
 
     }
 
+    private final String UPDATE_STAGE_EXAMCENTER = "UPDATE CERT_EXAM_STAGE SET EXAM_CENTER = ?";
+    public int updateStageExamCenter(String examCenter) {
+        return jdbcTemplate.update(UPDATE_STAGE_EXAMCENTER,examCenter);
+    }
+
+    private final String TRUNCATE_STAGE_TABLE = "TRUNCATE TABLE CERT_EXAM_STAGE";
+    public int truncateStageTable() {
+        return jdbcTemplate.update(TRUNCATE_STAGE_TABLE);
+    }
 
     private final String INSERT_DYNAMIC_TAB = "insert into DYNAMIC_TAB (tab_id, tab_name, dsql, create_date) "
             + " values (?,?,?, NOW())";

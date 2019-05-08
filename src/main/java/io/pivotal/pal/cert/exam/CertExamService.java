@@ -148,15 +148,14 @@ public class CertExamService {
     }
 
     @Transactional
-    public int uploadCSV(List<String> csv) {
+    public int uploadCSV(String examCenter, List<String> csv) {
         //1. delete the previous batch
-
-        //2. insert into stage
-
-
+        certRepo.truncateStageTable();
+        //2. insert into stage, process null etc properly in  CSVConverter, set the exam_center with update,
         int[] no = certRepo.insertBatch("CERT_EXAM_STAGE",csvConverter.csvSplit(csv));
-
+        certRepo.updateStageExamCenter("PSI"); //at present, only one exam_center
         //3. merge to main table
+
         return no[0];
     }
 }

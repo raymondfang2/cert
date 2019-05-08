@@ -76,7 +76,10 @@ public class CsvConverter {
             String[] fields = line.split(seperator);
             LinkedHashMap<String,String> record = new LinkedHashMap();
             for (int j=0; j<fields.length; j++) {
-                record.put(CSVHeader[j],fields[j]);
+                if ((fields[j].trim().length()==0)||(fields[j].trim().equalsIgnoreCase("null")))
+                    record.put(CSVHeader[j],null); //handle null case
+                else
+                    record.put(CSVHeader[j],fields[j]);
             }
             result.add(record);
         }
