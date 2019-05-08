@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.sql.Date;
 
@@ -69,6 +70,7 @@ public class CertExamRepositoryTest {
 
     @Test
     public void insertBath() {
+        //Test 1
         List<CertExamRecord> records = new ArrayList<>(1);
         CertExamRecord record= new CertExamRecord();
         record.setDataSource("PearTest2");
@@ -89,6 +91,18 @@ public class CertExamRepositoryTest {
         records.add(record);
         int[] result = repo.insertBatch(records);
         assertThat(result[0]==1);
+
+        //Test 2
+        List<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
+
+        LinkedHashMap<String, String> single = new LinkedHashMap<>();
+        single.put("EXAM_CENTER","EXAM_CENTER");
+        single.put("FIRST_NAME","FIRST_NAME");
+        single.put("LAST_NAME","LAST_NAME");
+        data.add(single);
+        result = repo.insertBatch("CERT_EXAM_STAGE",data);
+        assertThat(result[0]==1);
+
 
 
     }

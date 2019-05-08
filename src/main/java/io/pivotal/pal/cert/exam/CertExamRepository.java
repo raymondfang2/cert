@@ -14,9 +14,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class CertExamRepository {
@@ -198,9 +196,10 @@ public class CertExamRepository {
                     public void setValues(PreparedStatement ps, int i) throws SQLException {
                         //This is LinkMap so that order is preserved
                         HashMap<String, String> record = examRecords.get(i);
-                        String[] values = (String[])record.values().toArray();
-                        for (int j=1; j<=record.size(); j++) {
-                            ps.setString(j, values[j]);
+                        List<String> keys = new ArrayList<String>(record.keySet());
+
+                        for (int j=0; j<record.size(); j++) {
+                            ps.setString(j+1, record.get(keys.get(j)));
                         }
                     }
                     @Override
