@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ public class CertExamRepository {
     Logger logger = LoggerFactory.getLogger(CertExamRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcCall simpleJdbcCall;
 
     private final String ALL_SUMMARY = "select 'ALL' as region, m.pivotal_code, " +
             "      count(case when grade='pass' then grade end) pass, " +
@@ -59,6 +61,7 @@ public class CertExamRepository {
     @Autowired
     public CertExamRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.simpleJdbcCall = new SimpleJdbcCall(dataSource);
     }
 
     public List<CertExamSummary> getCertExamSummary(String startDate, String endDate) {
@@ -219,6 +222,11 @@ public class CertExamRepository {
     private final String TRUNCATE_STAGE_TABLE = "TRUNCATE TABLE CERT_EXAM_STAGE";
     public int truncateStageTable() {
         return jdbcTemplate.update(TRUNCATE_STAGE_TABLE);
+    }
+
+    private final String MERGE_STAGE_2_MAIN = "MERGE_STAGE_2_MAIN";
+    public void mergeStage2Main() {
+        simpleJdbcCall.withProcedureName(MERGE_STAGE_2_MAIN).execute();
     }
 
     private final String INSERT_DYNAMIC_TAB = "insert into DYNAMIC_TAB (tab_id, tab_name, dsql, create_date) "

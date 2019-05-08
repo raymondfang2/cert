@@ -155,7 +155,8 @@ public class CertExamService {
         int[] no = certRepo.insertBatch("CERT_EXAM_STAGE",csvConverter.csvSplit(csv));
         certRepo.updateStageExamCenter("PSI"); //at present, only one exam_center
         //3. merge to main table
+        certRepo.mergeStage2Main();
 
-        return no[0];
+        return no[0]; //return the no of records uploaded
     }
 }
