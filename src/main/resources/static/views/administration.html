@@ -18,19 +18,32 @@
 
 <form name="myForm">
     <fieldset>
-        <p>Upload on form submit</p>
-        <br>
-        <input type="file" ngf-select ng-model="csvFile" name="file"
+      <table>
+        <tr><td>
+            <p>Upload on form submit</p>
+        </td></tr>
+        <tr><td>
+          <input type="file" ngf-select ng-model="csvFile" name="file"
               required>
-         <br>
-        <button
-                ng-click="uploadFile(csvFile)">Submit</button>
-        <span class="progress" ng-show="csvFile.progress >= 0">
-        <div style="width:{{csvFile.progress}}%"
-             ng-bind="csvFile.progress + '%'"></div>
-      </span>
-        <span ng-show="csvFile.result">Upload Successful</span>
-        <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+        </td></tr>
+        <tr><td>
+            <button id="blueButtonA"
+                    ng-click="uploadFile(csvFile)">Submit</button>
+            &nbsp;&nbsp;
+            <span ng-hide="progressHide">
+                <img src="views/progress.jpg" alt="Download" style="width:28px;height:28px;" ng-click="downloadCsv()">
+            </span>
+                <!--
+            <span class="progress" ng-show="csvFile.progress >= 0">
+                <div style="width:{{csvFile.progress}}%"
+                 ng-bind="csvFile.progress + '%'"></div>
+            </span>
+            -->
+
+            <span ng-show="csvFile.result">Upload Successful</span>
+            <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+        </td></tr>
+      </table>
     </fieldset>
     <br>
 </form>
