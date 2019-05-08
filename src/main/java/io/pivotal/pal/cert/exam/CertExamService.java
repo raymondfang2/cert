@@ -18,13 +18,16 @@ public class CertExamService {
 
     private CertExamRepository certRepo;
     private CsvLoader csvLoader;
+    private CsvConverter csvConverter;
+
     @Value("${dynamictab.max}")
     private int maxTabNo;
 
     @Autowired
-    public CertExamService(CertExamRepository certRepo, CsvLoader csvLoader) {
+    public CertExamService(CertExamRepository certRepo, CsvLoader csvLoader, CsvConverter csvConverter) {
         this.certRepo = certRepo;
         this.csvLoader = csvLoader;
+        this.csvConverter = csvConverter;
     }
 
     public int loadExamRecordsToDB (String feedSource) throws Exception {
@@ -35,7 +38,7 @@ public class CertExamService {
         return size;
     }
 
-    //Transacton is handling in batch level
+    //
     public int generateCsvFile(String startYear, String endYear, Writer writer) throws Exception {
         //TODO: If the data is too big, for memory foot-print
         //we can easily select from DB and generate the CSV batch by batch using limit
@@ -144,4 +147,16 @@ public class CertExamService {
         return certRepo.getRoleByEmail(email);
     }
 
+    @Transactional
+    public int uploadCSV(List<String> csv) {
+        //1. delete the previous batch
+
+        //2. insert into stage
+
+
+        int[] no = certRepo.insertBatch("CERT_EXAM_STAGE",csvConverter.csvSplit(csv));
+
+        //3. merge to main table
+        return no[0];
+    }
 }

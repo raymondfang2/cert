@@ -15,6 +15,7 @@ th#pieChartTitle {
     width: 100px;
     border: 3px groove #CCC;
 }
+
 .progress div {
     font-size: smaller;
     background: orange;
