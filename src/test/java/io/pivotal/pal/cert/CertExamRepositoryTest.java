@@ -34,8 +34,11 @@ public class CertExamRepositoryTest {
 
     @Test
     public void getCertExamSummary() {
-        List<CertExamSummary> en = repo.getCertExamSummary("2012-01-01","2018-12-31");
-        System.out.println(en.size());
+        List<CertExamSummary> en = repo.getCertExamSummary("2012-01-01","2018-12-31 24:00:00");
+        System.out.println("=====>"+en.size());
+        for (CertExamSummary es: en) {
+            System.out.println("=====>"+es.getPivotalExamCode()+":"+es.getPassCount()+":"+es.getTotal());
+        }
         assertThat(en).size().isGreaterThan(1);
      }
 

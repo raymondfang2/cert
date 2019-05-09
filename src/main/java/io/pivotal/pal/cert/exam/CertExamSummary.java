@@ -8,7 +8,7 @@ public class CertExamSummary implements Serializable {
     private String pivotalExamCode;
     private int passCount;
     private int failCount;
-    private int refusedCount;
+    private int unknownCount;
     //private int total;
 
     public CertExamSummary(String region, String pivotalExamCode, int passCount, int failCount, int refusedCount) {
@@ -16,11 +16,19 @@ public class CertExamSummary implements Serializable {
         this.pivotalExamCode = pivotalExamCode;
         this.passCount = passCount;
         this.failCount = failCount;
-        this.refusedCount = refusedCount;
+        this.unknownCount = refusedCount;
+    }
+
+    public int getUnknownCount() {
+        return unknownCount;
+    }
+
+    public void setUnknownCount(int unknownCount) {
+        this.unknownCount = unknownCount;
     }
 
     public int getTotal() {
-        return getPassCount()+getFailCount()+getRefusedCount();
+        return getPassCount()+getFailCount()+getUnknownCount();
     }
 
     public String getRegion() {
@@ -55,13 +63,6 @@ public class CertExamSummary implements Serializable {
         this.failCount = failCount;
     }
 
-    public int getRefusedCount() {
-        return refusedCount;
-    }
-
-    public void setRefusedCount(int refusedCount) {
-        this.refusedCount = refusedCount;
-    }
 
     @Override
     public boolean equals(Object o) {

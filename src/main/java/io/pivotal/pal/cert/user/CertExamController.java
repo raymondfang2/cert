@@ -31,7 +31,7 @@ public class CertExamController {
     public List<CertExamSummary> getCertSummary(@PathVariable String startYear, @PathVariable String endYear) {
 
         String start = startYear + "-01-01"; //The MySQL default date format
-        String end = endYear + "-12-31";
+        String end = endYear + "-12-31 24:00:00";
         logger.info("=====>getCertSummary-" + start + "--" + end);
         List<CertExamSummary> summaryList = examService.getCertSummary(start, end);
         return summaryList;

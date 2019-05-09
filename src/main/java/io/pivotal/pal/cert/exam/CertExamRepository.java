@@ -24,29 +24,28 @@ public class CertExamRepository {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcCall simpleJdbcCall;
 
-    private final String ALL_SUMMARY = "select 'ALL' as region, m.pivotal_code, " +
-            "      count(case when grade='pass' then grade end) pass, " +
-            "      count(case when grade='fail' then grade end) fail, " +
-            "      count(case when grade='refused' then grade end) refused " +
-            "from CERT_EXAM_RESULT r, EXAM_CODE_MAP m " +
-            "where r.data_source = m.data_source and r.exam_code = m.exam_code " +
-            "and r.exam_date>=?  AND r.exam_date<=? " +
-            "group by pivotal_code " +
-            "order by pivotal_code ";
+    private final String ALL_SUMMARY = "select 'ALL' as region, exam_name, " +
+            "      count(case when exam_result='Passed' then 1 end) pass, " +
+            "      count(case when exam_result='Failed' then 1 end) fail, " +
+            "      count(case when exam_result is null or exam_result='Unknown' then 1 end) unknown " +
+            "from CERT_EXAM_VW " +
+            "where exam_date>=?  AND exam_date<=? " +
+            "group by exam_name " +
+            "order by exam_name ";
 
-    private final String REGION_SUMMARY = "select substr(r.site_region,5) as region, m.pivotal_code, " +
-            "      count(case when grade='pass' then grade end) pass, " +
-            "      count(case when grade='fail' then grade end) fail, " +
-            "      count(case when grade='refused' then grade end) refused " +
-            "from CERT_EXAM_RESULT r, EXAM_CODE_MAP m " +
-            "where r.data_source = m.data_source  and r.exam_code = m.exam_code " +
-            "and r.exam_date>=? and r.exam_date<=?  and substr(r.site_region,5)=? " +
-            "group by site_region, pivotal_code " +
-            "order by site_region, pivotal_code ";
+    private final String REGION_SUMMARY = "select 'ALL' as region, exam_name, " +
+            "      count(case when exam_result='Passed' then exam_result end) pass, " +
+            "      count(case when exam_result='Failed' then exam_result end) fail, " +
+            "      count(case when exam_result not in ('Passed','Failed') then exam_result end) unknown " +
+            "from CERT_EXAM_VW " +
+            "where exam_date>=?  AND exam_date<=? and region=?" +
+            "group by exam_name " +
+            "order by exam_name ";
 
-    private final String EXAM_DETAIL = "select ID,DATA_SOURCE,CREATE_DATE,UPDATE_DATE,CANDIDATE_EMAIL,CANDIDATE_FIRSTNAME,CANDIDATE_LASTNAME, " +
-            "  CANDIDATE_COMPANY,SITE_REGION,SITE_COUNTRY,EXAM_CODE,EXAM_TITLE,EXAM_DATE,SCORE,GRADE " +
-            " from CERT_EXAM_RESULT where exam_date>=? and exam_date<=? " +
+
+    private final String EXAM_DETAIL = "select EXAM_CENTER,CANDIDATE_EMAIL,FIRST_NAME,LAST_NAME, " +
+            "  COMPANY_NAME,REGION,COUNTRY,EXAM_CODE,EXAM_NAME,EXAM_DATE,EXAM_PERCENTAGE,EXAM_RESULT " +
+            " from CERT_EXAM_VW where exam_date>=? and exam_date<=? " +
             "order by exam_date ";
     //+ "limit 50";
 
@@ -74,10 +73,10 @@ public class CertExamRepository {
     private final RowMapper<CertExamSummary> mapper = (rs, rowNum) ->
             new CertExamSummary(
                     rs.getString("region"),
-                    rs.getString("pivotal_code"),
+                    rs.getString("exam_name"),
                     rs.getInt("pass"),
                     rs.getInt("fail"),
-                    rs.getInt("refused")
+                    rs.getInt("unknown")
             );
 
     public List<CertExamRecord> getCertExamRecords(String startDate, String endDate) {
@@ -91,23 +90,26 @@ public class CertExamRepository {
                 examRecordMapper);
     }
 
+    /*
+      select EXAM_CENTER,CANDIDATE_EMAIL,FIRST_NAME,LAST_NAME,
+             COMPANY_NAME,REGION,COUNTRY,EXAM_CODE,EXAM_NAME,EXAM_DATE,EXAM_PERCENTAGE,EXAM_RESULT
+
+
+     */
     private final RowMapper<CertExamRecord> examRecordMapper = (rs, rowNum) ->
             new CertExamRecord(
-                    rs.getLong("ID"),
-                    rs.getString("DATA_SOURCE"),
-                    rs.getDate("CREATE_DATE"),
-                    rs.getDate("UPDATE_DATE"),
+                    rs.getString("EXAM_CENTER"),
                     rs.getString("CANDIDATE_EMAIL"),
-                    rs.getString("CANDIDATE_FIRSTNAME"),
-                    rs.getString("CANDIDATE_LASTNAME"),
-                    rs.getString("CANDIDATE_COMPANY"),
-                    rs.getString("SITE_REGION"),
-                    rs.getString("SITE_COUNTRY"),
+                    rs.getString("FIRST_NAME"),
+                    rs.getString("LAST_NAME"),
+                    rs.getString("COMPANY_NAME"),
+                    rs.getString("REGION"),
+                    rs.getString("COUNTRY"),
                     rs.getString("EXAM_CODE"),
-                    rs.getString("EXAM_TITLE"),
+                    rs.getString("EXAM_NAME"),
                     rs.getDate("EXAM_DATE"),
-                    rs.getInt("SCORE"),
-                    rs.getString("GRADE")
+                    rs.getInt("EXAM_PERCENTAGE"),
+                    rs.getString("EXAM_RESULT")
             );
 
 

@@ -35,7 +35,7 @@
                 <th>Exam</th>
                 <th>Pass</th>
                 <th>Fail</th>
-                <th>Refused</th>
+                <th>Unknown</th>
                 <th>Total</th>
                 <th>Pass Rate</th>
             </tr>
@@ -44,7 +44,7 @@
                 <td>{{ x.pivotalExamCode }}</td>
                 <td>{{ x.passCount }}</td>
                 <td>{{ x.failCount }}</td>
-                <td>{{ x.refusedCount }}</td>
+                <td>{{ x.unknownCount }}</td>
                 <td>{{ x.total }}</td>
                 <td>{{ x.passCount*100/x.total | number : 2}}%</td>
             </tr>
@@ -53,9 +53,9 @@
                 <td>All courses</td>
                 <td>{{ overallPass }}</td>
                 <td>{{ overallFail }}</td>
-                <td>{{ overallRefused}}</td>
-                <td>{{ overallPass + overallFail + overallRefused }}</td>
-                <td>{{ overallPass*100/(overallPass + overallFail + overallRefused) | number : 2}}%</td>
+                <td>{{ overallUnknown}}</td>
+                <td>{{ overallPass + overallFail + overallUnknown }}</td>
+                <td>{{ overallPass*100/(overallPass + overallFail + overallUnknown) | number : 2}}%</td>
             </tr>
         </table>
         </div>

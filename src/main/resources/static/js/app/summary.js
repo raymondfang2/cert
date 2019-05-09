@@ -10,7 +10,7 @@ myApp.controller('summaryController' , function ($scope, $http) {
         for(var i = $scope.startYear; i <= current_year; i++){
             $scope.years.push(i);
         }
-        $scope.regions = ['ALL','Americas','EMEA','Japan','Pacific'];
+        $scope.regions = ['ALL','America','APAC','EMEA'];
         $scope.region = 'ALL';
 
         $scope.charts = ["PIE","BAR"];
@@ -46,13 +46,13 @@ myApp.controller('summaryController' , function ($scope, $http) {
                     //console.log("getTotal");
                     $scope.overallPass = 0;
                     $scope.overallFail = 0;
-                    $scope.overallRefused = 0;
+                    $scope.overallUnknown = 0;
 
                     console.log($scope.response);
                     $scope.response.forEach((element) => {
                         $scope.overallPass += element.passCount;
                         $scope.overallFail += element.failCount;
-                        $scope.overallRefused += element.refusedCount;
+                        $scope.overallUnknown += element.unknownCount;
                     });
 
 
@@ -60,18 +60,18 @@ myApp.controller('summaryController' , function ($scope, $http) {
 
         //4. Chart data method
         $scope.getPieData = function (course, row) {
-                    $scope.labels = ["Pass", "Fail", "Refused"];
+                    $scope.labels = ["Pass", "Fail", "Unknown"];
                     $scope.chartTitle = course;
                     $scope.options = {
                             legend: { display: true },
                             responsive: true
                     }
                     if (course==='All courses') {
-                        $scope.data = [$scope.overallPass, $scope.overallFail, $scope.overallRefused];
+                        $scope.data = [$scope.overallPass, $scope.overallFail, $scope.overallUnknown];
                     }
                     else {
                         //$scope.data = [100,100,100]
-                        $scope.data = [row.passCount,row.failCount,row.refusedCount];
+                        $scope.data = [row.passCount,row.failCount,row.unknownCount];
                         console.log(row.pivotalExamCode);
 
                     }

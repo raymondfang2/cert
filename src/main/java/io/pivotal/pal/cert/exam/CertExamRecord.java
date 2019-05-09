@@ -6,9 +6,6 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
-/*Deprecated - only for "Pearson VUE"
-for simplicity, we use HashMap or LinkedHashMap(ordered) consistently
-*/
 
 public class CertExamRecord implements Serializable {
     private long ID;
@@ -37,6 +34,21 @@ public class CertExamRecord implements Serializable {
         this.dataSource = dataSource;
         this.createDate = createDate;
         this.updateDate = updateDate;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.company = company;
+        this.siteRegion = siteRegion;
+        this.siteCountry = siteCountry;
+        this.examCode = examCode;
+        this.examTitle = examTitle;
+        this.examDate = examDate;
+        this.score = score;
+        this.grade = grade;
+    }
+
+    public CertExamRecord(String dataSource, String email, String firstName, String lastName, String company, String siteRegion, String siteCountry, String examCode, String examTitle, Date examDate, int score, String grade) {
+        this.dataSource = dataSource;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
