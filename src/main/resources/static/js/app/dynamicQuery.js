@@ -12,7 +12,7 @@ myApp.controller('dynamicQueryController' , function ($scope, $http) {
 
                $http({
                        method: 'GET',
-                       url: 'cert/getDynamicQueryResult',
+                       url: 'admin/getDynamicQueryResult',
                        params: {dsql: $scope.sql}
                     }).then(function successCallback(response){
                                 $scope.response = response.data; //response JSON
@@ -50,7 +50,7 @@ myApp.controller('dynamicQueryController' , function ($scope, $http) {
                 //Call backend to publish using AngularJS
                                    $http({
                                           method: 'POST',
-                                          url: 'cert/addDynamicTab',
+                                          url: 'admin/addDynamicTab',
                                           params: {tabName: result.value, dsql: $scope.sql}
                                         })
                                           .then(function successCallback(response){

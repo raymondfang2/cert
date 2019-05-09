@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -52,5 +53,21 @@ public class AdminController {
         return "true";
     }
 
+    @GetMapping("getDynamicQueryResult")
+    public List<HashMap> getDynamicQueryResult(@RequestParam("dsql") String sql) {
+        logger.info("==>"+sql);
+        return certService.getDynamicQueryResult(sql);
+    }
+
+
+    @PostMapping("addDynamicTab")
+    public String addDynamicTab(@RequestParam("tabName") String tabName, @RequestParam("dsql") String dSql) {
+        return certService.addDynamicTab(tabName,dSql);
+    }
+
+    @DeleteMapping("deleteDynamicTab/{tabID}")
+    public int deleteDynamicTab(@PathVariable String tabID) {
+        return certService.deleteDynamicTab(tabID);
+    }
 
 }

@@ -25,7 +25,7 @@ myApp.controller('dynamicTabController' , function ($scope, $location, $http) {
         $scope.deleteDynamicTab = function () {
                        console.log("Dynamic Tab Deletion !");
                        var tabID = $location.path().substr(11);
-                       var path = "cert/deleteDynamicTab/"+ tabID;
+                       var path = "admin/deleteDynamicTab/"+ tabID;
 
                        $http.delete(path)
                               .then(function successCallback(response){
