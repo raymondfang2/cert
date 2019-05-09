@@ -53,12 +53,6 @@ public class CertExamRepositoryTest {
         assertThat(result).size().isEqualTo(50);
     }
 
-    @Test
-    public void getCountryList() {
-        List<String> result = repo.getCountryList();
-        System.out.println(result.size());
-        assertThat(result).size().isGreaterThan(10);
-    }
 
     @Test
     public void getDynamicQueryResult() {

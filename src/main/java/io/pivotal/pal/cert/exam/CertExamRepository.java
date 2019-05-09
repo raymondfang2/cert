@@ -44,9 +44,6 @@ public class CertExamRepository {
             "group by site_region, pivotal_code " +
             "order by site_region, pivotal_code ";
 
-    private final String COUNTRY_LIST =
-            "select distinct site_country from CERT_EXAM_RESULT order by site_country";
-
     private final String EXAM_DETAIL = "select ID,DATA_SOURCE,CREATE_DATE,UPDATE_DATE,CANDIDATE_EMAIL,CANDIDATE_FIRSTNAME,CANDIDATE_LASTNAME, " +
             "  CANDIDATE_COMPANY,SITE_REGION,SITE_COUNTRY,EXAM_CODE,EXAM_TITLE,EXAM_DATE,SCORE,GRADE " +
             " from CERT_EXAM_RESULT where exam_date>=? and exam_date<=? " +
@@ -114,10 +111,6 @@ public class CertExamRepository {
             );
 
 
-    public List<String> getCountryList() {
-        List<String> data = jdbcTemplate.queryForList(COUNTRY_LIST, String.class);
-        return data;
-    }
 
     //TODO: to prevent from SQL Injection, dynamic query should be parsed before sending to server
     //e.g. not allow certain keywords: DELETE, UPDATE, DROP, only allowed certain table name...
