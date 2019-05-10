@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -17,6 +19,10 @@ import static org.assertj.core.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SqlGroup({
+		@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:beforeTestRun.sql"),
+		@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:afterTestRun.sql")
+})
 public class CertDashboardApplicationTests {
 
 	@LocalServerPort
@@ -37,14 +43,14 @@ public class CertDashboardApplicationTests {
 
 	@Test
 	public void getCertSummary() throws Exception {
-		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cert/getCertSummary/2012/2018?role=ADMIN",
+		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cert/getCertSummary/2019/2019?role=ADMIN",
 				Object[].class)).hasAtLeastOneElementOfType(Object.class);
 
 	}
 
 	@Test
 	public void getCertSummaryByRegion() throws Exception {
-		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cert/getCertSummaryByRegion/2012/2018/EMEA?role=ADMIN",
+		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cert/getCertSummaryByRegion/2019/2019/APAC?role=ADMIN",
 				Object[].class)).hasAtLeastOneElementOfType(Object.class);;
 
 	}
