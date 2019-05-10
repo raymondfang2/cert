@@ -33,8 +33,8 @@
 <div class="tab">
     <button id="summaryTab" class="tablinks" ng-click="changeTab($event, 'summary')" >Summary</button>
     <button class="tablinks" ng-click="changeTab($event, 'detail')" >Detail</button>
-    <button class="tablinks" ng-click="changeTab($event, 'dynamicQuery')" >Dynamic Report</button>
-    <button class="tablinks" ng-click="changeTab($event, 'administration')">Administration</button>
+    <button class="tablinks" ng-hide="userRole=='USER'" ng-click="changeTab($event, 'dynamicQuery')" >Dynamic Report</button>
+    <button class="tablinks" ng-hide="userRole=='USER'" ng-click="changeTab($event, 'administration')">Administration</button>
     <button id="dTab0" class="tablinks" ng-hide="hidedTabs[0]" ng-click="changeTab($event, 'dynamicTab0')">{{dTabNames[0]}}</button>
     <button id="dTab1" class="tablinks" ng-hide="hidedTabs[1]" ng-click="changeTab($event, 'dynamicTab1')">{{dTabNames[1]}}</button>
     <button id="dTab2" class="tablinks" ng-hide="hidedTabs[2]" ng-click="changeTab($event, 'dynamicTab2')">{{dTabNames[2]}}</button>
