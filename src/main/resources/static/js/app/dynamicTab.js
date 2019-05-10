@@ -18,7 +18,7 @@ myApp.controller('dynamicTabController' , function ($scope, $location, $http) {
                                         $scope.thdata = response.data.searchResult[0]; //the first record
 
                                }, function errorCallback(response){
-                                        console.log("Unable to perform get request");
+                                        console.log("Unable to perform get request!");
                               });
         };
 
@@ -30,13 +30,19 @@ myApp.controller('dynamicTabController' , function ($scope, $location, $http) {
                        $http.delete(path)
                               .then(function successCallback(response){
                                    console.log(response.data);
+                                   //Switch to default page and hide this page
+                                   $location.path("/");
+                                   $scope.$parent.hidedTabs[tabID] = true;
                               }, function errorCallback(response){
                                  console.log("Unable to perform get request");
+                                 Swal.fire({
+                                     type: 'warning',
+                                     //title: 'Oops...',
+                                     text: "Http Response Code: "+response.status,
+                                 })
                               });
 
-                       //Switch to default page and hide this page
-                       $location.path("/");
-                       $scope.$parent.hidedTabs[tabID] = true;
+
         };
 
         // invoke the query by default

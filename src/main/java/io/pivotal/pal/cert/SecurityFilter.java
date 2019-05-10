@@ -82,9 +82,18 @@ public class SecurityFilter implements Filter {
         String path = req.getServletPath();
         logger.info("=====>path:"+path);
 
-        //TODO: check USER role is not able to accesss /admin/*
-        //TODO: change Role and Path here, send the role back in the response header to javascript to processing the tab
+        //check USER role is not able to accesss /admin/*
+        if (("USER".equals(role))
+           &&(path.startsWith("/admin"))) {
+            res.sendError(403, "Permission Denied!");
+            return;
+        }
 
+        //provide a special URL for fetch the role -> this is used by the dynamicTab.js to hide admin tabs ...
+        if (path.equals("/getRole")) {
+            res.getOutputStream().write(role.getBytes());
+            return;
+        }
 
         chain.doFilter(request, response);
 

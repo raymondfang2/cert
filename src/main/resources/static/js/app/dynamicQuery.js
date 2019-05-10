@@ -21,6 +21,11 @@ myApp.controller('dynamicQueryController' , function ($scope, $http) {
                                 console.log($scope.thdata);
                        }, function errorCallback(response){
                                 console.log("Unable to perform get request");
+                                Swal.fire({
+                                     type: 'warning',
+                                     //title: 'Oops...',
+                                     text: "Http Response Code: "+response.status,
+                                })
                       });
         };
 
@@ -71,6 +76,11 @@ myApp.controller('dynamicQueryController' , function ($scope, $http) {
                                           }
                                     }, function errorCallback(response){
                                           console.log("Unable to perform get request");
+                                          Swal.fire({
+                                               type: 'warning',
+                                               //title: 'Oops...',
+                                               text: "Http Response Code: "+response.status,
+                                          })
                                     });
 
               }

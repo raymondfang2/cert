@@ -53,7 +53,6 @@ myApp.controller('appController' , function ($scope,$location, $http) {
        //Initial the active tab
        document.getElementById("summaryTab").className += " active";
 
-
        //method for get visible dTabs
        $scope.getVisibleDTabs = function () {
                console.log("getVisibeDTabs start..");
