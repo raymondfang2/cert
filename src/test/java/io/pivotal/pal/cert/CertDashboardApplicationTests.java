@@ -10,6 +10,9 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+
+import java.util.HashMap;
+
 import static org.assertj.core.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
@@ -43,6 +46,15 @@ public class CertDashboardApplicationTests {
 	public void getCertSummaryByRegion() throws Exception {
 		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cert/getCertSummaryByRegion/2012/2018/EMEA?role=ADMIN",
 				Object[].class)).hasAtLeastOneElementOfType(Object.class);;
+
+	}
+
+	@Test
+	public void getRole() throws Exception {
+		HashMap<String,String> returnValue = this.restTemplate.getForObject("http://localhost:" + port + "/cert/getRole?role=ADMIN",
+				HashMap.class);
+		assertThat(returnValue.size()).isEqualTo(1);
+		System.out.println("===>"+returnValue);
 
 	}
 

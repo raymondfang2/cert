@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +28,8 @@ public class CertExamController {
         this.examService = examService;
 
     }
+
+
 
     @GetMapping("getCertSummary/{startYear}/{endYear}")
     public List<CertExamSummary> getCertSummary(@PathVariable String startYear, @PathVariable String endYear) {
@@ -99,6 +103,15 @@ public class CertExamController {
     @GetMapping("getDynamicTabIDNAMEs")
     public List<HashMap> getDynamicTabIDNAMEs() {
         return examService.getDynamicTabIDNAMEs();
+    }
+
+    @GetMapping("getRole")
+    public HashMap<String, String> getRole(HttpSession session) {
+        String role = (String) session.getAttribute("PALCERT-ROLE");
+        logger.info("=====>"+role);
+        HashMap<String, String> result =  new HashMap<String, String>();
+        result.put("ROLE", role);
+        return result;
     }
 
     @GetMapping("getDynamicTabByID/{tabID}")

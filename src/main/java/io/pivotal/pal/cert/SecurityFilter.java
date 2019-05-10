@@ -89,11 +89,6 @@ public class SecurityFilter implements Filter {
             return;
         }
 
-        //provide a special URL for fetch the role -> this is used by the dynamicTab.js to hide admin tabs ...
-        if (path.equals("/getRole")) {
-            res.getOutputStream().write(role.getBytes());
-            return;
-        }
 
         chain.doFilter(request, response);
 

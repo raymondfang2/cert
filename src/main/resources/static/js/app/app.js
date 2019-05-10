@@ -75,6 +75,20 @@ myApp.controller('appController' , function ($scope,$location, $http) {
                          });
        };
 
+       //method for getting role
+       $scope.getUserRole = function () {
+                      console.log("getRole start..");
+                      var path2 = "cert/getRole"
+
+                      $http.get(path2)
+                                .then(function successCallback(response){
+                                      $scope.userRole = response.data.ROLE;
+                                      console.log(response.data.ROLE);
+                                }, function errorCallback(response){
+                                      console.log("Unable to perform getRole request ");
+                                });
+       };
+
        //method for changing tab
        $scope.changeTab = function (evt, pageName) {
             console.log("changeTab start.."+pageName);
@@ -94,4 +108,5 @@ myApp.controller('appController' , function ($scope,$location, $http) {
         $scope.hidedTabs = [true, true, true, true, true]; //default 5 hidden dTabs
         $scope.dTabNames = [];
         $scope.getVisibleDTabs();
+        $scope.getUserRole();
 })
