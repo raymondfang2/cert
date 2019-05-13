@@ -35,7 +35,7 @@ public class CertExamController {
     public List<CertExamSummary> getCertSummary(@PathVariable String startYear, @PathVariable String endYear) {
 
         String start = startYear + "-01-01"; //The MySQL default date format
-        String end = endYear + "-12-31 24:00:00";
+        String end = endYear + "-12-31 23:59:59";
         logger.info("=====>getCertSummary-" + start + "--" + end);
         List<CertExamSummary> summaryList = examService.getCertSummary(start, end);
         return summaryList;
@@ -44,7 +44,7 @@ public class CertExamController {
     @GetMapping("getCertSummaryByRegion/{startYear}/{endYear}/{region}")
     public List<CertExamSummary> getCertSummaryByRegion(@PathVariable String startYear, @PathVariable String endYear, @PathVariable String region) {
         String start = startYear + "-01-01"; //The MySQL default date format
-        String end = endYear + "-12-31";
+        String end = endYear + "-12-31 23:59:59";
         List<CertExamSummary> summaryList = examService.getCertSummaryByRegion(start, end, region);
         return summaryList;
     }
@@ -53,7 +53,7 @@ public class CertExamController {
     public List<CertExamRecord> getCertExamRecords(@PathVariable String startYear, @PathVariable String endYear) {
 
         String start = startYear + "-01-01"; //The MySQL default date format
-        String end = endYear + "-12-31";
+        String end = endYear + "-12-31 23:59:59";
         logger.info("=====>getCertExamRecords-" + start + "--" + end);
         List<CertExamRecord> examList = examService.getCertExamRecords(start, end, 50);//TODO: get from property file later
         return examList;
@@ -64,7 +64,7 @@ public class CertExamController {
         String csvFileName = "examRecord.csv";
 
         startYear = startYear + "-01-01"; //The MySQL default date format
-        endYear = endYear + "-12-31";
+        endYear = endYear + "-12-31 23:59:59";
 
         response.setContentType("text/csv");
 
