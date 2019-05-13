@@ -3,6 +3,6 @@ applications:
 - name: palcert
   path: build/libs/cert-0.0.1-SNAPSHOT.jar
   routes:
-  - route: palcert.cfapps.io
+  - route: palcert-review.education.pivotal.io
   services:
   - cert-database
