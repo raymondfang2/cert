@@ -33,7 +33,7 @@ myApp.controller('summaryController' , function ($scope, $http) {
                    .then(function successCallback(response){
                         $scope.response = response.data;
                         $scope.getTotal();
-                        $scope.getPieData("All courses",null);
+                        $scope.getPieData("All Exams",null);
                         console.log($scope.response);
                    }, function errorCallback(response){
                         console.log("Unable to perform get request");
@@ -66,7 +66,7 @@ myApp.controller('summaryController' , function ($scope, $http) {
                             legend: { display: true },
                             responsive: true
                     }
-                    if (course==='All courses') {
+                    if (course==='All Exams') {
                         $scope.data = [$scope.overallPass, $scope.overallFail, $scope.overallUnknown];
                     }
                     else {
