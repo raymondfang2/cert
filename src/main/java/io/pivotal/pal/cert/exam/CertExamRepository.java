@@ -17,6 +17,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
 
+
 @Repository
 public class CertExamRepository {
     Logger logger = LoggerFactory.getLogger(CertExamRepository.class);

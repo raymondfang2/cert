@@ -64,4 +64,14 @@ public class CertDashboardApplicationTests {
 
 	}
 
+	@Test
+	public void loadExamRecordFromTA() throws Exception {
+
+		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/admin/loadDataFromTA?role=ADMIN",
+				Integer.class)).isEqualTo(1);
+
+	}
+
+
+
 }

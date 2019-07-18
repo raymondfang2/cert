@@ -4,12 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestOperations;
 
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CertExamService {
@@ -19,15 +22,36 @@ public class CertExamService {
     private CertExamRepository certRepo;
     private CsvLoader csvLoader;
     private CsvConverter csvConverter;
+    private RestOperations restOperations;
 
     @Value("${dynamictab.max}")
     private int maxTabNo;
+    @Value("${trueability.readOnly}")
+    private String trueability_readOnly;
+    @Value("${trueability.api}")
+    private String trueability_api;
 
     @Autowired
-    public CertExamService(CertExamRepository certRepo, CsvLoader csvLoader, CsvConverter csvConverter) {
+    public CertExamService(CertExamRepository certRepo, CsvLoader csvLoader, CsvConverter csvConverter, RestOperations restOperations)
+    {
         this.certRepo = certRepo;
         this.csvLoader = csvLoader;
         this.csvConverter = csvConverter;
+        this.restOperations = restOperations;
+    }
+
+    //Load data from TrueAbility
+    public int loadExamRecordFromTrueAbility(int page) throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("accept","application/json");
+        headers.set("X-API-KEY",trueability_readOnly);
+
+        final HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+        ResponseEntity<Map> response = restOperations.exchange(trueability_api+"?page="+page, HttpMethod.GET, entity, Map.class);
+        logger.info("=====>"+response.getBody().toString());
+
+        return response.getBody().size();
     }
 
     public int loadExamRecordsToDB (String feedSource) throws Exception {

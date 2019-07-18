@@ -26,11 +26,20 @@ public class AdminController {
     }
 
 
-    @GetMapping("setup/{feedSource}") //e.g. PearsonVUE.csv
+    @GetMapping("setup/{feedSource}") //e.g. PearsonVUE.csv --deprecated
     public int loadExamRecords(@PathVariable String feedSource) throws Exception {
         logger.info( "====>Loading initial data to DB- " + feedSource);
         //1. load the CSV
         certService.loadExamRecordsToDB(feedSource);
+        //2. insertBatch to DB
+        return 1;
+    }
+
+    @GetMapping("loadDataFromTA") //Load Data From True ability
+    public int loadExamRecordsFromTA() throws Exception {
+        logger.info( "====>Loading data TrueAbility " );
+
+        int number = certService.loadExamRecordFromTrueAbility(1);
         //2. insertBatch to DB
         return 1;
     }
