@@ -1,5 +1,7 @@
 package io.pivotal.pal.cert.exam;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +50,16 @@ public class CertExamService {
 
         final HttpEntity<String> entity = new HttpEntity<String>(headers);
 
-        ResponseEntity<Map> response = restOperations.exchange(trueability_api+"?page="+page, HttpMethod.GET, entity, Map.class);
-        logger.info("=====>"+response.getBody().toString());
-
-        return response.getBody().size();
+        ResponseEntity<String> response = restOperations.exchange(trueability_api+"?page="+page, HttpMethod.GET, entity, String.class);
+        String data = response.getBody();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(data);
+        JsonNode results = root.path("results");
+        //logger.info("=====>"+results.toString());
+        for (JsonNode result : results) {
+            logger.info("======>" + result.path("ability_screen").path("name").textValue());
+        }
+        return 1;
     }
 
     public int loadExamRecordsToDB (String feedSource) throws Exception {

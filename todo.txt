@@ -1,0 +1,44 @@
+
+    =============
+    EXAM_CENTER VARCHAR(50),                             -- 'TrueAbility'
+    FIRST_NAME VARCHAR(50),                                 --
+	LAST_NAME VARCHAR(50),                                  --
+	IE_CANDIDATE_ID VARCHAR(50),					     -- user_transcript.user_id
+	CANDIDATE_EMAIL VARCHAR(250),                    -- user_email
+	COMPANY_NAME VARCHAR(250),                       --
+	TITLE VARCHAR(50),                                             --
+	FULL_NAME VARCHAR(250),                                -- user_full_name
+	HOME_ADDRESS_1 VARCHAR(250),                   --
+	HOME_ADDRESS_2 VARCHAR(250),                   --
+	CITY VARCHAR(50),                                               -- address.city
+	STATE_PROVINCE VARCHAR(50),                       -- address.state
+	ZIP VARCHAR(50),                                                 -- address.zipcode
+	COUNTRY_CODE VARCHAR(50),                         -- address.country_code
+	PHONE VARCHAR(50),                                          --
+	SPONSOR_NAME VARCHAR(50),                        --
+	EXAM_NAME VARCHAR(250),                              -- ability_screen.name  ??diff from PSI is there anything link both exam together
+	EXAM_LMS_ID VARCHAR(50),
+	EXAM_CODE VARCHAR(50),                                -- ability_screen.id  ??diff from PSI
+	EXAM_DURATION VARCHAR(50),                        -- duration_in_minutes ?
+	TRANSACTION_DATE DATETIME,                        --
+	ADMIN_DATE DATETIME,                                      --
+	EXAM_START_DATE_TIME DATETIME,
+	EXAM_COMP_DATE_TIME DATETIME,                -- completed_at
+	DELIVERY_COUNTRY VARCHAR(50),                  -- ? same as country_code?
+	EXAM_STATUS VARCHAR(50),                              --
+	ATTEMP_NO VARCHAR(50),                                  -- attempt
+	EXAM_SCORE VARCHAR(50),                               -- user_transcript.final_score
+	EXAM_PERCENTAGE VARCHAR(50),                   --
+	EXAM_RESULT VARCHAR(50),                              -- user_transcript.status
+	CONFIRMATION_CODE VARCHAR(50),                --
+	PROMO_CODE VARCHAR(50),
+	PAYMENT_METHOD VARCHAR(50),
+	TAXES VARCHAR(50),
+	EXAM_FEE VARCHAR(50),
+	PAYMENT_AMOUNT VARCHAR(50),
+	PO_BILLING_TYPE VARCHAR(50),
+	ECREDIT_CODE VARCHAR(50),
+	RESERVATION_GUID VARCHAR(250),                 -- assessment_reservation_uuid
+	AGREE_CHECK_DATE_TIME DATETIME,           --
+
+    PRIMARY KEY (RESERVATION_GUID)

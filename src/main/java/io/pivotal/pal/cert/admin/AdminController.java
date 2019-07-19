@@ -39,7 +39,7 @@ public class AdminController {
     public int loadExamRecordsFromTA() throws Exception {
         logger.info( "====>Loading data TrueAbility " );
 
-        int number = certService.loadExamRecordFromTrueAbility(1);
+        int number = certService.loadExamRecordFromTrueAbility(15);
         //2. insertBatch to DB
         return 1;
     }
