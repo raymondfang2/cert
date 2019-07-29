@@ -171,7 +171,7 @@ public class CertExamRepository {
     Requirement for this version --> all the table columns are String - this is purposely designed for staging table
     Usually, DB is able to convert String to the right type if the format is correct
     */
-    //TODO: to be tested, EXAM_CENTER not from source
+    //EXAM_CENTER not from source
     public int[] insertBatch(String tableName,  List<HashMap<String, String>> examRecords){
 
         logger.info("=====>Start a batch");

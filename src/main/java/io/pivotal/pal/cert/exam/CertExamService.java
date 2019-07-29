@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestOperations;
 
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,23 +44,37 @@ public class CertExamService {
     }
 
     //Load data from TrueAbility
-    public int loadExamRecordFromTrueAbility(int page) throws Exception {
+    @Transactional
+    public int loadExamRecordFromTrueAbility(int currentPage) throws Exception {
+
         HttpHeaders headers = new HttpHeaders();
         headers.set("accept","application/json");
         headers.set("X-API-KEY",trueability_readOnly);
 
         final HttpEntity<String> entity = new HttpEntity<String>(headers);
 
-        ResponseEntity<String> response = restOperations.exchange(trueability_api+"?page="+page, HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> response = restOperations.exchange(trueability_api+"?page="+currentPage, HttpMethod.GET, entity, String.class);
         String data = response.getBody();
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(data);
         JsonNode results = root.path("results");
-        //logger.info("=====>"+results.toString());
+
+        List<HashMap<String, String>> trueAbilityData = new ArrayList<HashMap<String, String>>();
         for (JsonNode result : results) {
-            logger.info("======>" + result.path("ability_screen").path("name").textValue());
+            HashMap record = new HashMap();
+            record.put("CANDIDATE_EMAIL",result.path("user_email").textValue() );
+            record.put("EXAM_NAME",result.path("ability_screen").path("name").textValue() );
+            record.put("EXAM_STATUS",result.path("user_transcript").path("status").textValue() );
+            record.put("VENEDOR_RESERVATION_GUID",result.path("vendor_reservation_id").textValue() );
+            trueAbilityData.add(record);
         }
-        return 1;
+
+        certRepo.insertBatch("TRUE_ABILITY_RESULT_STAGE",trueAbilityData);
+
+        int nextPage = root.path("meta").path("next_page").intValue();
+        logger.info("======>nextPage:"+nextPage);
+
+        return nextPage;
     }
 
     public int loadExamRecordsToDB (String feedSource) throws Exception {
