@@ -43,6 +43,17 @@ public class CertExamService {
         this.restOperations = restOperations;
     }
 
+    @Transactional
+    public int loadExamRecordFromTrueAbility() throws Exception {
+        int totalPage = 0;
+        int page = 1;
+        while (page!=0) {
+           page = loadExamRecordFromTrueAbility(page);
+           totalPage += page;
+        }
+        return totalPage;
+    }
+
     //Load data from TrueAbility
     @Transactional
     public int loadExamRecordFromTrueAbility(int currentPage) throws Exception {
@@ -65,7 +76,10 @@ public class CertExamService {
             record.put("CANDIDATE_EMAIL",result.path("user_email").textValue() );
             record.put("EXAM_NAME",result.path("ability_screen").path("name").textValue() );
             record.put("EXAM_STATUS",result.path("user_transcript").path("status").textValue() );
-            record.put("VENEDOR_RESERVATION_GUID",result.path("vendor_reservation_id").textValue() );
+            record.put("VENDOR_RESERVATION_GUID",result.path("vendor_reservation_id").textValue() );
+            record.put("VENDOR",result.path("vendor").textValue() );
+            record.put("VENDOR_COMPLETION_STATUS",result.path("vendor_completion_status").textValue() );
+            record.put("COMPLETED_AT",result.path("completed_at").textValue() );
             trueAbilityData.add(record);
         }
 

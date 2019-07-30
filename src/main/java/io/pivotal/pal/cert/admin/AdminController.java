@@ -39,9 +39,9 @@ public class AdminController {
     public int loadExamRecordsFromTA() throws Exception {
         logger.info( "====>Loading data TrueAbility " );
 
-        int number = certService.loadExamRecordFromTrueAbility(17);
+        int totalPage = certService.loadExamRecordFromTrueAbility();
         //2. insertBatch to DB
-        return 1;
+        return totalPage;
     }
 
     @PostMapping("uploadFile")
