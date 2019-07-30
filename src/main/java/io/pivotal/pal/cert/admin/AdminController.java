@@ -35,11 +35,11 @@ public class AdminController {
         return 1;
     }
 
-    @GetMapping("loadDataFromTA") //Load Data From True ability
+    @GetMapping("loadDataFromTrueAbility") //Load Data From True ability
     public int loadExamRecordsFromTA() throws Exception {
         logger.info( "====>Loading data TrueAbility " );
 
-        int totalPage = certService.loadExamRecordFromTrueAbility();
+        int totalPage = certService.loadDataFromTrueAbility();
         //2. insertBatch to DB
         return totalPage;
     }
@@ -59,6 +59,10 @@ public class AdminController {
         certService.uploadCSV("PSI",examCsv);
 
         logger.info("====> Upload done!");
+
+        //Step 3, loadDataFromTA using restFul and merge with above
+        certService.loadDataFromTrueAbility();
+
         return "true";
     }
 

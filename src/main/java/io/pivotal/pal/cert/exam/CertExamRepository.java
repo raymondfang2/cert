@@ -220,9 +220,21 @@ public class CertExamRepository {
         return jdbcTemplate.update(TRUNCATE_STAGE_TABLE);
     }
 
+    private final String TRUNCATE_TA_STAGE_TABLE = "TRUNCATE TABLE TRUE_ABILITY_RESULT_STAGE";
+    public int truncateTAStageTable() {
+        return jdbcTemplate.update(TRUNCATE_TA_STAGE_TABLE);
+    }
+
     private final String MERGE_STAGE_2_MAIN = "MERGE_STAGE_2_MAIN";
     public void mergeStage2Main() {
         simpleJdbcCall.withProcedureName(MERGE_STAGE_2_MAIN).execute();
+    }
+
+    private final String MERGE_TA_STAGE_2_MAIN = "UPDATE CERT_EXAM " +
+            "INNER JOIN TRUE_ABILITY_RESULT_STAGE ON (CERT_EXAM.RESERVATION_GUID = TRUE_ABILITY_RESULT_STAGE.VENDOR_RESERVATION_GUID) " +
+            "SET CERT_EXAM.EXAM_RESULT = TRUE_ABILITY_RESULT_STAGE.EXAM_STATUS";
+    public void mergeTAStage2Main() {
+        jdbcTemplate.update(MERGE_TA_STAGE_2_MAIN);
     }
 
     private final String INSERT_DYNAMIC_TAB = "insert into DYNAMIC_TAB (tab_id, tab_name, dsql, create_date) "

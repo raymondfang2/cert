@@ -44,11 +44,11 @@ public class CertExamService {
     }
 
     @Transactional
-    public int loadExamRecordFromTrueAbility() throws Exception {
+    public int loadExamRecordFromTrueAbilityToStage() throws Exception {
         int totalPage = 0;
         int page = 1;
         while (page!=0) {
-           page = loadExamRecordFromTrueAbility(page);
+           page = loadExamRecordFromTrueAbilityToStage(page);
            totalPage += page;
         }
         return totalPage;
@@ -56,7 +56,7 @@ public class CertExamService {
 
     //Load data from TrueAbility
     @Transactional
-    public int loadExamRecordFromTrueAbility(int currentPage) throws Exception {
+    public int loadExamRecordFromTrueAbilityToStage(int currentPage) throws Exception {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("accept","application/json");
@@ -220,4 +220,17 @@ public class CertExamService {
 
         return no[0]; //return the no of records uploaded
     }
+
+    @Transactional
+    public int loadDataFromTrueAbility() throws Exception {
+        //1. delete the previous batch
+        certRepo.truncateTAStageTable();
+        //2. load TA data for TA stage
+        int totalPages = loadExamRecordFromTrueAbilityToStage();
+        //3. merge to main table with the PSI data uploaded with CSV --> ref to above method
+        certRepo.mergeTAStage2Main();
+
+        return totalPages;
+    }
+
 }

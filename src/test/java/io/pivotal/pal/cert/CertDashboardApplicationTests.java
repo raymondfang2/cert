@@ -65,9 +65,9 @@ public class CertDashboardApplicationTests {
 	}
 
 	@Test
-	public void loadExamRecordFromTA() throws Exception {
+	public void loadDataFromTrueAbility() throws Exception {
 
-		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/admin/loadDataFromTA?role=ADMIN",
+		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/admin/loadDataFromTrueAbility?role=ADMIN",
 				Integer.class)).isGreaterThan(0);
 
 	}
