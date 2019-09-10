@@ -43,9 +43,3 @@
 
     PRIMARY KEY (RESERVATION_GUID)
 
-
-    TODO: table TRUE_ABILITY_RESULT_STAGE  only in local, not in review and prod
-
-    change table and add the following: complete to load everything in a loop
-    vendor_completion_status
-    completed_at
