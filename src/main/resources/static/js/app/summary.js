@@ -3,13 +3,9 @@ myApp.controller('summaryController' , function ($scope, $http) {
         //console.log("I've been pressed3!");
 
         //1. Data initialisation for drop down
-        $scope.years = [];
-        $scope.startYear = 2010;
-        var current_year = new Date().getFullYear();
-        $scope.endYear = current_year;
-        for(var i = $scope.startYear; i <= current_year; i++){
-            $scope.years.push(i);
-        }
+        $scope.startDate = '2019-01-01';
+        var today = new Date();
+        $scope.endDate = today.getFullYear() + "-" + (today.getMonth()+1)+ "-" + today.getDate();
         $scope.regions = ['ALL','America','APAC','EMEA'];
         $scope.region = 'ALL';
 
@@ -18,16 +14,19 @@ myApp.controller('summaryController' , function ($scope, $http) {
         $scope.hidePie = false;
         $scope.hideBar = true;
 
+
         //2. Search Button Click method
         $scope.searchCertSummary = function () {
               console.log("I've been pressed1!");
+              console.log($scope.startDate);
+              console.log($scope.endDate);
 
               var path = "cert/getCertSummaryByRegion/";
               if ($scope.region==='ALL') {
-                path = "cert/getCertSummary/"+ $scope.startYear + "/" + $scope.endYear;
+                path = "cert/getCertSummary/"+ $scope.startDate + "/" + $scope.endDate;
               }
               else {
-                path = path + $scope.startYear + "/" + $scope.endYear+ "/" +$scope.region;
+                path = path + $scope.startDate + "/" + $scope.endDate+ "/" +$scope.region;
               }
               $http.get(path)
                    .then(function successCallback(response){

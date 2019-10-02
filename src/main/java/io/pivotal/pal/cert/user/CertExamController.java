@@ -31,20 +31,20 @@ public class CertExamController {
 
 
 
-    @GetMapping("getCertSummary/{startYear}/{endYear}")
-    public List<CertExamSummary> getCertSummary(@PathVariable String startYear, @PathVariable String endYear) {
+    @GetMapping("getCertSummary/{startDate}/{endDate}")
+    public List<CertExamSummary> getCertSummary(@PathVariable String startDate, @PathVariable String endDate) {
 
-        String start = startYear + "-01-01"; //The MySQL default date format
-        String end = endYear + "-12-31 23:59:59";
+        String start = startDate; //The MySQL default date format
+        String end = endDate + " 23:59:59";
         logger.info("=====>getCertSummary-" + start + "--" + end);
         List<CertExamSummary> summaryList = examService.getCertSummary(start, end);
         return summaryList;
     }
 
-    @GetMapping("getCertSummaryByRegion/{startYear}/{endYear}/{region}")
-    public List<CertExamSummary> getCertSummaryByRegion(@PathVariable String startYear, @PathVariable String endYear, @PathVariable String region) {
-        String start = startYear + "-01-01"; //The MySQL default date format
-        String end = endYear + "-12-31 23:59:59";
+    @GetMapping("getCertSummaryByRegion/{startDate}/{endDate}/{region}")
+    public List<CertExamSummary> getCertSummaryByRegion(@PathVariable String startDate, @PathVariable String endDate, @PathVariable String region) {
+        String start = startDate; //The MySQL default date format
+        String end = endDate + " 23:59:59";
         List<CertExamSummary> summaryList = examService.getCertSummaryByRegion(start, end, region);
         return summaryList;
     }

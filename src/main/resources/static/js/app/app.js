@@ -1,4 +1,4 @@
-var myApp = angular.module('certApp', ["chart.js","ngRoute","ngFileUpload"]);
+var myApp = angular.module('certApp', ["chart.js","ngRoute","ngFileUpload","720kb.datepicker"]);
 
 //Each Tab will be a html with a controller
 myApp.config(function($routeProvider) {

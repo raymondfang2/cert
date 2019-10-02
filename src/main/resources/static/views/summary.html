@@ -1,11 +1,14 @@
 
 <table class="fixed">
-    <tr>
-        <td>Start: <select ng-model="startYear" ng-options="x for x in years">
-                    </select>
+    <tr><td width="200">Start:</td>
+        <td><datepicker date-format="yyyy-MM-dd">
+                     <input ng-model="startDate" type="text"/>
+                </datepicker>
         </td>
-        <td>End: <select ng-model="endYear" ng-options="x for x in years">
-                </select>
+        <td width="200">End:</td>
+        <td><datepicker date-format="yyyy-MM-dd">
+                     <input ng-model="endDate" type="text"/>
+                </datepicker>
         </td>
         <td>Region: <select ng-model="region" ng-options="x for x in regions">
                     </select>
