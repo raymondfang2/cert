@@ -12,10 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestOperations;
 
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CertExamService {
@@ -233,20 +230,73 @@ public class CertExamService {
         return totalPages;
     }
 
+    //Regions
+    private final String AMER="AMERICA";
+    private final String EMEA="EMEA";
+    private final String APAC="APAC";
+    private final String UNKNOWN="UNKNOWN REGION";
+    private final String ALL="ALL";
+    //Column names in report
+    private final String EXAM_NAME="EXAM_NAME";
+    private final String CERTIFIED="CERTIFIED";
+    private final String DELIVERED="DELIVERED";
+    private final String PASS_RATE="PASS_RATE";
     public List<String> generateSummaryReport(String start, String end) {
         //
         logger.info("=====>generateSummaryReport-" + start + "--" + end);
-        List<HashMap> amer = certRepo.getCertSummaryReport(start, end, "AMERICA");
-        logger.info("======>");
-        logger.info(amer.toString());
-        logger.info("======>");
-        //List<HashMap> amer = certRepo.getCertSummaryReport(start, end, "AMERICA");
-        //List<CertExamSummary> emea = examService.getCertSummaryByRegion(start, end, "EMEA");
-        //List<CertExamSummary> apj = examService.getCertSummaryByRegion(start, end, "APAC");
-        //List<CertExamSummary> unknowns = examService.getCertSummaryByRegion(start, end, "UNKNOWN REGION");
-        //List<CertExamSummary> allRegions = examService.getCertSummary(start, end);
-        List<String> result = csvConverter.csvGenerate(amer);
+        List<HashMap> amer = certRepo.getCertSummaryReport(start, end, AMER);
+        List<HashMap> emea = certRepo.getCertSummaryReport(start, end, EMEA);
+        List<HashMap> apj = certRepo.getCertSummaryReport(start, end, APAC);
+        List<HashMap> unknown = certRepo.getCertSummaryReport(start, end, UNKNOWN);
+        List<HashMap> allRegions = certRepo.getCertSummaryReport(start, end, ALL);
+
+        List<HashMap> resultList = new ArrayList<HashMap>();
+        //merge the regions into all ==> do pivot
+        HashMap allRegionsRecord;
+        for(int i=0; i<allRegions.size(); i++) {
+            LinkedHashMap resultRecord = new LinkedHashMap(); //To keep the insert order
+            allRegionsRecord = allRegions.get(i);
+
+            String current_exam_name = (String) allRegionsRecord.get(EXAM_NAME);
+            pivotRegionSummary(resultRecord,current_exam_name,amer,AMER);
+            pivotRegionSummary(resultRecord,current_exam_name,emea,EMEA);
+            pivotRegionSummary(resultRecord,current_exam_name,apj,APAC);
+            pivotRegionSummary(resultRecord,current_exam_name,unknown,UNKNOWN);
+
+
+            //ADD BACK the All REGION record at last (the very left side csv)
+            resultRecord.put(ALL+"-"+CERTIFIED, allRegionsRecord.get(CERTIFIED));
+            resultRecord.put(ALL+"-"+DELIVERED, allRegionsRecord.get(DELIVERED));
+            resultRecord.put(ALL+"-"+PASS_RATE, allRegionsRecord.get(PASS_RATE));
+
+            resultList.add(resultRecord);
+
+        }
+
+
+        List<String> result = csvConverter.csvGenerate(resultList);
         return result;
+    }
+
+    private void  pivotRegionSummary(HashMap resultRecord, String current_exam_name, List<HashMap> regionList, String regionName ) {
+        String certified = "0";
+        String delivered = "0";
+        String pass_rate = "N/A";
+        for (HashMap regionRecord: regionList) {
+            if (regionRecord.get(EXAM_NAME).equals(current_exam_name)) {
+                //find the same exam in this region
+                certified = regionRecord.get(CERTIFIED).toString();
+                delivered = (String)regionRecord.get(DELIVERED).toString();
+                pass_rate = (String)regionRecord.get(PASS_RATE).toString();
+                break;
+            }
+        }
+
+        resultRecord.put(EXAM_NAME, current_exam_name);
+        resultRecord.put(regionName+"-"+CERTIFIED, certified);
+        resultRecord.put(regionName+"-"+DELIVERED, delivered);
+        resultRecord.put(regionName+"-"+PASS_RATE, pass_rate);
+
     }
 
 }

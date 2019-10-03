@@ -59,7 +59,7 @@ public class CertExamRepository {
             ") a " +
             "ORDER BY EXAM_NAME";
 
-    private final String REGION_SUMMARY_REPORT = "select EXAM_NAME, CERTIFIED, DELIVERED, round(CERTIFIED/DELIVERED*100,1) as PASS_RATE from ( " +
+    private final String REGION_SUMMARY_REPORT = "select EXAM_NAME, CERTIFIED, DELIVERED, ifnull(round(CERTIFIED/DELIVERED*100,1),'N/A') as PASS_RATE from ( " +
             "select   EXAM_NAME, " +
             "count(case when EXAM_RESULT='Passed' then 1 end) CERTIFIED, " +
             "count(1) DELIVERED " +

@@ -133,14 +133,6 @@ public class CsvConverter {
             System.out.println("===>"+record.toString());
         }
 
-        /*
-        List<String> back2CSV = con.csvGenerate(result);
-        System.out.println("----------------------");
-        for (String line: back2CSV) {
-            System.out.println("===>"+line.toString());
-        }
-        */
-
 
      }
 
