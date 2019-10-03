@@ -43,6 +43,39 @@ public class CertExamRepository {
             "group by exam_name " +
             "order by exam_name ";
 
+    private final String ALL_SUMMARY_REPORT = "select EXAM_NAME, CERTIFIED, DELIVERED, round(CERTIFIED/DELIVERED*100,1) as PASS_RATE from ( " +
+            "select   EXAM_NAME, " +
+            "count(case when EXAM_RESULT='Passed' then 1 end) CERTIFIED, " +
+            "count(1) DELIVERED " +
+            "from CERT_EXAM_VW " +
+            "where exam_date>=?  AND exam_date<=? " +
+            "group by EXAM_NAME " +
+            "UNION ALL " +
+            "select   'TOTAL_ALL_EXAMS' AS EXAM_NAME," +
+            "count(case when EXAM_RESULT='Passed' then 1 end) CERTIFIED, " +
+            "count(1) DELIVERED " +
+            "from CERT_EXAM_VW " +
+            "where exam_date>=?  AND exam_date<=? " +
+            ") a " +
+            "ORDER BY EXAM_NAME";
+
+    private final String REGION_SUMMARY_REPORT = "select EXAM_NAME, CERTIFIED, DELIVERED, round(CERTIFIED/DELIVERED*100,1) as PASS_RATE from ( " +
+            "select   EXAM_NAME, " +
+            "count(case when EXAM_RESULT='Passed' then 1 end) CERTIFIED, " +
+            "count(1) DELIVERED " +
+            "from CERT_EXAM_VW " +
+            "where exam_date>=?  AND exam_date<=? " +
+            "and REGION = ?  " +
+            "group by EXAM_NAME " +
+            "UNION ALL " +
+            "select   'TOTAL_ALL_EXAMS' AS EXAM_NAME, " +
+            "count(case when EXAM_RESULT='Passed' then 1 end) CERTIFIED, " +
+            "count(1) DELIVERED " +
+            "from CERT_EXAM_VW " +
+            "where exam_date>=?  AND exam_date<=? " +
+            "and REGION = ?  " +
+            ") a " +
+            "ORDER BY EXAM_NAME";
 
     private final String EXAM_DETAIL = "select EXAM_CENTER,CANDIDATE_EMAIL,FIRST_NAME,LAST_NAME, " +
             "  COMPANY_NAME,REGION,COUNTRY,EXAM_CODE,EXAM_NAME,EXAM_DATE,EXAM_PERCENTAGE,EXAM_RESULT " +
@@ -131,6 +164,27 @@ public class CertExamRepository {
         }
         return  row;
     };
+
+
+    public List<HashMap> getCertSummaryReport(String startDate, String endDate, String region) {
+        String dsql = "";
+        if ("ALL".equals(region)) {
+            dsql = ALL_SUMMARY_REPORT.replaceFirst("\\?","'"+startDate+"'").
+                    replaceFirst("\\?","'"+endDate+"'").
+                    replaceFirst("\\?","'"+startDate+"'").  //In Total calculation
+                    replaceFirst("\\?","'"+endDate+"'");
+        } else {
+            dsql = REGION_SUMMARY_REPORT.replaceFirst("\\?","'"+startDate+"'").
+                    replaceFirst("\\?","'"+endDate+"'").
+                    replaceFirst("\\?","'"+region+"'").
+                    replaceFirst("\\?","'"+startDate+"'").  //In Total calculation
+                    replaceFirst("\\?","'"+endDate+"'").
+                    replaceFirst("\\?","'"+region+"'");
+        }
+
+        return getDynamicQueryResult(dsql);
+    }
+
 
     //batch insertion - for admin processing
     //Deprecated, this is for insertion for "Pearson VUE" only

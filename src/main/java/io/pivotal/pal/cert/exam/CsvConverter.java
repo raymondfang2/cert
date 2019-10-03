@@ -92,10 +92,10 @@ public class CsvConverter {
     /*
         return csvList contains the head which is fetched from DB meta data -> HashMap key
      */
-    public List<String> csvGenerate(List<HashMap<String, String>> kvRecords) {
+    public List<String> csvGenerate(List<HashMap> kvRecords) {
         List<String> result = new ArrayList<>();
         //Header preparation
-        HashMap<String, String> first = kvRecords.get(0);
+        HashMap first = kvRecords.get(0);
         StringBuffer header = new StringBuffer();
         if(trimLeadEndChar) header.append("'"); //starting
         first.forEach((k,v)->{header.append(k).append(seperator);});
@@ -104,10 +104,10 @@ public class CsvConverter {
         if(trimLeadEndChar) header.append("'"); //ending
         result.add(header.toString());
         //the result of lines
-        for (HashMap<String, String> record: kvRecords) {
+        for (HashMap record: kvRecords) {
             StringBuffer line = new StringBuffer();
             if(trimLeadEndChar) line.append("'"); //starting
-            first.forEach((k,v)->{line.append(v).append(seperator);});
+            record.forEach((k,v)->{line.append(v).append(seperator);});
             line.setLength(line.length()-seperator.length());
             if(trimLeadEndChar) line.append("'"); //ending
             result.add(line.toString());
@@ -133,11 +133,13 @@ public class CsvConverter {
             System.out.println("===>"+record.toString());
         }
 
+        /*
         List<String> back2CSV = con.csvGenerate(result);
         System.out.println("----------------------");
         for (String line: back2CSV) {
             System.out.println("===>"+line.toString());
         }
+        */
 
 
      }

@@ -139,4 +139,9 @@ public class CertExamRepositoryTest {
     }
 
 
+    @Test
+    public void getCertSummaryReport() {
+        List<HashMap> result = repo.getCertSummaryReport("2019-01-01","2019-12-12 23:59:59","EMEA");
+        System.out.println(result.toString());
+    }
 }

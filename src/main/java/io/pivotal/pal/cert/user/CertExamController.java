@@ -85,13 +85,6 @@ public class CertExamController {
         String start = startDate; //The MySQL default date format
         String end = endDate + " 23:59:59";
 
-        //1. AMER Regions
-        logger.info("=====>getCertSummary-" + start + "--" + end);
-        List<CertExamSummary> amer = examService.getCertSummaryByRegion(start, end, "AMERICA");
-        List<CertExamSummary> emea = examService.getCertSummaryByRegion(start, end, "EMEA");
-        List<CertExamSummary> apj = examService.getCertSummaryByRegion(start, end, "APAC");
-        List<CertExamSummary> unknowns = examService.getCertSummaryByRegion(start, end, "UNKNOWN REGION");
-        List<CertExamSummary> allRegions = examService.getCertSummary(start, end);
 
         response.setContentType("text/csv");
 
@@ -100,9 +93,17 @@ public class CertExamController {
                 csvFileName);
         response.setHeader(headerKey, headerValue);
 
-        //TODO: test only
+        //1. Generate Csv records
+        logger.info("=====>getCertSummary-" + start + "--" + end);
+        List<String> csvResult = examService.generateSummaryReport(start, end);
+        logger.info("======>"+csvResult);
+
+        //2. write to response
         PrintWriter writer = response.getWriter();
-        writer.write("a,b,c");
+        for(String record: csvResult) {
+            System.out.println("===>"+record);
+            writer.write(record+"\n");
+        }
         writer.flush();
         writer.close();
 

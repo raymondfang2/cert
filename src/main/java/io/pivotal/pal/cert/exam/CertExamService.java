@@ -233,4 +233,20 @@ public class CertExamService {
         return totalPages;
     }
 
+    public List<String> generateSummaryReport(String start, String end) {
+        //
+        logger.info("=====>generateSummaryReport-" + start + "--" + end);
+        List<HashMap> amer = certRepo.getCertSummaryReport(start, end, "AMERICA");
+        logger.info("======>");
+        logger.info(amer.toString());
+        logger.info("======>");
+        //List<HashMap> amer = certRepo.getCertSummaryReport(start, end, "AMERICA");
+        //List<CertExamSummary> emea = examService.getCertSummaryByRegion(start, end, "EMEA");
+        //List<CertExamSummary> apj = examService.getCertSummaryByRegion(start, end, "APAC");
+        //List<CertExamSummary> unknowns = examService.getCertSummaryByRegion(start, end, "UNKNOWN REGION");
+        //List<CertExamSummary> allRegions = examService.getCertSummary(start, end);
+        List<String> result = csvConverter.csvGenerate(amer);
+        return result;
+    }
+
 }
