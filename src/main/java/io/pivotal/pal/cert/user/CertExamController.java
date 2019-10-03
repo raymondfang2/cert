@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,6 +78,35 @@ public class CertExamController {
 
     }
 
+    @RequestMapping(value = "/downloadCertSummary/{startDate}/{endDate}")
+    public void downloadSummarytCSV(@PathVariable String startDate, @PathVariable String endDate, HttpServletResponse response) throws Exception {
+        String csvFileName = "certSummary-"+startDate+"-"+endDate+".csv";
+
+        String start = startDate; //The MySQL default date format
+        String end = endDate + " 23:59:59";
+
+        //1. AMER Regions
+        logger.info("=====>getCertSummary-" + start + "--" + end);
+        List<CertExamSummary> amer = examService.getCertSummaryByRegion(start, end, "AMERICA");
+        List<CertExamSummary> emea = examService.getCertSummaryByRegion(start, end, "EMEA");
+        List<CertExamSummary> apj = examService.getCertSummaryByRegion(start, end, "APAC");
+        List<CertExamSummary> unknowns = examService.getCertSummaryByRegion(start, end, "UNKNOWN REGION");
+        List<CertExamSummary> allRegions = examService.getCertSummary(start, end);
+
+        response.setContentType("text/csv");
+
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"",
+                csvFileName);
+        response.setHeader(headerKey, headerValue);
+
+        //TODO: test only
+        PrintWriter writer = response.getWriter();
+        writer.write("a,b,c");
+        writer.flush();
+        writer.close();
+
+    }
 
     @GetMapping("getDynamicQueryResult")
     public List<HashMap> getDynamicQueryResult(@RequestParam("dsql") String sql) {

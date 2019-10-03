@@ -24,6 +24,7 @@ This class is deprecated, only used for loading "Pearson VUE" exam data one time
 public class CsvLoader {
     Logger logger = LoggerFactory.getLogger(CsvLoader.class);
 
+    //This is the schema for detail -->CertExamRecord
     private CsvSchema setupCsvSchema() {
         CsvSchema schema = CsvSchema.builder()
                 .addColumn("firstName")

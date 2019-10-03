@@ -34,7 +34,7 @@ public class CertExamRepository {
             "group by exam_name " +
             "order by exam_name ";
 
-    private final String REGION_SUMMARY = "select 'ALL' as region, exam_name, " +
+    private final String REGION_SUMMARY = "select region, exam_name, " +
             "      count(case when exam_result='Passed' then exam_result end) pass, " +
             "      count(case when exam_result='Failed' then exam_result end) fail, " +
             "      count(case when exam_result not in ('Passed','Failed') then exam_result end) unknown " +

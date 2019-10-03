@@ -88,8 +88,15 @@ myApp.controller('summaryController' , function ($scope, $http) {
              }
         }
 
+        //6. downloadSummaryCsv()
+        $scope.downloadSummaryCsv = function () {
+            console.log("Download button pressed!");
 
-        //6. Initial Function
+            var path = "cert/downloadCertSummary/"+ $scope.startDate + "/" + $scope.endDate;
+            window.location = path;
+        }
+
+        //7. Initial Function
         $scope.searchCertSummary();
 
 });
