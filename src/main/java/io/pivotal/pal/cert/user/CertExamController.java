@@ -80,7 +80,7 @@ public class CertExamController {
 
     @RequestMapping(value = "/downloadCertSummary/{startDate}/{endDate}")
     public void downloadSummarytCSV(@PathVariable String startDate, @PathVariable String endDate, HttpServletResponse response) throws Exception {
-        String csvFileName = "certSummary-"+startDate+"~"+endDate+".csv";
+        String csvFileName = "certSummary-"+startDate+"_"+endDate+".csv";
 
         String start = startDate; //The MySQL default date format
         String end = endDate + " 23:59:59";
