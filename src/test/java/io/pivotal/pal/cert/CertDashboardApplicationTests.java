@@ -43,14 +43,14 @@ public class CertDashboardApplicationTests {
 
 	@Test
 	public void getCertSummary() throws Exception {
-		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cert/getCertSummary/2019/2019?role=ADMIN",
+		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cert/getCertSummary/2019-01-01/2019-10-30?role=ADMIN",
 				Object[].class)).hasAtLeastOneElementOfType(Object.class);
 
 	}
 
 	@Test
 	public void getCertSummaryByRegion() throws Exception {
-		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cert/getCertSummaryByRegion/2019/2019/APAC?role=ADMIN",
+		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cert/getCertSummaryByRegion/2019-01-01/2019-10-30/APAC?role=ADMIN",
 				Object[].class)).hasAtLeastOneElementOfType(Object.class);;
 
 	}
